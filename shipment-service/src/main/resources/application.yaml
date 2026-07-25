@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: movement-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/movementdb
+    username: movement
+    password: movement
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
