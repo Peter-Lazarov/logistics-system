@@ -1,7 +1,6 @@
-package com.sunny.times.movement.shipments.persistence.entity;
+package com.sunny.times.shipments.persistence.entity;
 
 import jakarta.persistence.*;
-
 import java.util.UUID;
 
 @Entity
@@ -12,10 +11,13 @@ public class ShipmentItemEntity {
     @GeneratedValue
     private UUID id;
 
+    @Column(nullable = false)
     private String sku;
 
+    @Column(nullable = false)
     private int quantity;
 
+    @Column(nullable = false)
     private double weight;
 
     public ShipmentItemEntity() {
@@ -34,31 +36,12 @@ public class ShipmentItemEntity {
         this.weight = weight;
     }
 
-    public UUID getId() {
-        return id;
-    }
+    public UUID getId() { return id; }
+    public String getSku() { return sku; }
+    public int getQuantity() { return quantity; }
+    public double getWeight() { return weight; }
 
-    public String getSku() {
-        return sku;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
+    public void setSku(String sku) { this.sku = sku; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public void setWeight(double weight) { this.weight = weight; }
 }

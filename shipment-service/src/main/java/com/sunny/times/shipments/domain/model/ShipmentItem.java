@@ -1,4 +1,4 @@
-package com.sunny.times.movement.shipments.domain.model;
+package com.sunny.times.shipments.domain.model;
 
 import java.util.UUID;
 
@@ -21,20 +21,8 @@ public class ShipmentItem {
         this.weight = weight;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
+    public UUID getId() { return id; }
+    public String getSku() { return sku; }
+    public int getQuantity() { return quantity; }
+    public double getWeight() { return weight; }
 }
-

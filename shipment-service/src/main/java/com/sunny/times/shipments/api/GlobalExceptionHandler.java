@@ -1,4 +1,4 @@
-package com.sunny.times.movement.shipments.api;
+package com.sunny.times.shipments.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

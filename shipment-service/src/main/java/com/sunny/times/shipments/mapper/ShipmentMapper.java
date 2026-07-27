@@ -1,9 +1,9 @@
-package com.sunny.times.movement.shipments.mapper;
+package com.sunny.times.shipments.mapper;
 
-import com.sunny.times.movement.shipments.api.dto.CreateShipmentRequest;
-import com.sunny.times.movement.shipments.api.dto.ShipmentResponse;
-import com.sunny.times.movement.shipments.domain.model.Shipment;
-import com.sunny.times.movement.shipments.persistence.entity.ShipmentEntity;
+import com.sunny.times.shipments.api.dto.CreateShipmentRequest;
+import com.sunny.times.shipments.api.dto.ShipmentResponse;
+import com.sunny.times.shipments.domain.model.Shipment;
+import com.sunny.times.shipments.persistence.entity.ShipmentEntity;
 
 public interface ShipmentMapper {
     Shipment toDomain(CreateShipmentRequest request);

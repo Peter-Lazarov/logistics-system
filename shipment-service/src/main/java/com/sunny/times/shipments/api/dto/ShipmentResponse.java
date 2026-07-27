@@ -1,7 +1,4 @@
-package com.sunny.times.movement.shipments.api.dto;
-
-import com.sunny.times.movement.shipments.domain.model.ShipmentItem;
-import com.sunny.times.movement.shipments.domain.model.ShipmentStatus;
+package com.sunny.times.shipments.api.dto;
 
 import java.time.Instant;
 import java.util.List;
@@ -11,24 +8,24 @@ public class ShipmentResponse {
 
     private final UUID id;
     private final UUID orderId;
-    private final ShipmentStatus status;
+    private final ShipmentStatusDto status;
     private final UUID originWarehouseId;
     private final UUID destinationWarehouseId;
     private final UUID routeId;
     private final Instant createdAt;
     private final Instant updatedAt;
-    private final List<ShipmentItem> items;
+    private final List<ShipmentItemDto> items;
 
     public ShipmentResponse(
             UUID id,
             UUID orderId,
-            ShipmentStatus status,
+            ShipmentStatusDto status,
             UUID originWarehouseId,
             UUID destinationWarehouseId,
             UUID routeId,
             Instant createdAt,
             Instant updatedAt,
-            List<ShipmentItem> items
+            List<ShipmentItemDto> items
     ) {
         this.id = id;
         this.orderId = orderId;
@@ -49,7 +46,7 @@ public class ShipmentResponse {
         return orderId;
     }
 
-    public ShipmentStatus getStatus() {
+    public ShipmentStatusDto getStatus() {
         return status;
     }
 
@@ -73,7 +70,7 @@ public class ShipmentResponse {
         return updatedAt;
     }
 
-    public List<ShipmentItem> getItems() {
+    public List<ShipmentItemDto> getItems() {
         return items;
     }
 }

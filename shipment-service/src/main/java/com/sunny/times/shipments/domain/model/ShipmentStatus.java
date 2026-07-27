@@ -1,4 +1,4 @@
-package com.sunny.times.movement.shipments.domain.model;
+package com.sunny.times.shipments.domain.model;
 
 public enum ShipmentStatus {
     CREATED,

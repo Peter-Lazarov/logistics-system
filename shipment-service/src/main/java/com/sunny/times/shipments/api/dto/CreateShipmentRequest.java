@@ -1,7 +1,6 @@
-package com.sunny.times.movement.shipments.api.dto;
+package com.sunny.times.shipments.api.dto;
 
-import com.sunny.times.movement.shipments.domain.model.ShipmentItem;
-import com.sunny.times.movement.shipments.domain.model.ShipmentStatus;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -15,7 +14,7 @@ public class CreateShipmentRequest {
     private UUID orderId;
 
     @NotNull
-    private ShipmentStatus status;
+    private ShipmentStatusDto status;
 
     @NotNull
     private UUID originWarehouseId;
@@ -32,22 +31,24 @@ public class CreateShipmentRequest {
     @NotNull
     private Instant updatedAt;
 
+    @NotNull
+    @Valid
     @Size(min = 1)
-    private List<ShipmentItem> items;
+    private List<ShipmentItemDto> items;
 
     public CreateShipmentRequest() {
-        // празен конструктор за JSON десериализация
+
     }
 
     public CreateShipmentRequest(
             UUID orderId,
-            ShipmentStatus status,
+            ShipmentStatusDto status,
             UUID originWarehouseId,
             UUID destinationWarehouseId,
             UUID routeId,
             Instant createdAt,
             Instant updatedAt,
-            List<ShipmentItem> items
+            List<ShipmentItemDto> items
     ) {
         this.orderId = orderId;
         this.status = status;
@@ -63,7 +64,7 @@ public class CreateShipmentRequest {
         return orderId;
     }
 
-    public ShipmentStatus getStatus() {
+    public ShipmentStatusDto getStatus() {
         return status;
     }
 
@@ -87,7 +88,7 @@ public class CreateShipmentRequest {
         return updatedAt;
     }
 
-    public List<ShipmentItem> getItems() {
+    public List<ShipmentItemDto> getItems() {
         return items;
     }
 }

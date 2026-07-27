@@ -1,6 +1,6 @@
-package com.sunny.times.movement.shipments.persistence.entity;
+package com.sunny.times.shipments.persistence.entity;
 
-import com.sunny.times.movement.shipments.domain.model.ShipmentStatus;
+import com.sunny.times.shipments.domain.model.ShipmentStatus;
 import jakarta.persistence.*;
 
 import java.time.Instant;

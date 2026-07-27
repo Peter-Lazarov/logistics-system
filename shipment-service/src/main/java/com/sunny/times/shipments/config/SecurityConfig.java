@@ -1,4 +1,4 @@
-package com.sunny.times.movement.shipments.config;
+package com.sunny.times.shipments.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

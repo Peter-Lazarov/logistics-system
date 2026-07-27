@@ -1,11 +1,12 @@
-package com.sunny.times.movement.shipments.mapper;
+package com.sunny.times.shipments.mapper;
 
-import com.sunny.times.movement.shipments.domain.model.ShipmentItem;
-import com.sunny.times.movement.shipments.persistence.entity.ShipmentItemEntity;
+import com.sunny.times.shipments.api.dto.ShipmentItemDto;
+import com.sunny.times.shipments.domain.model.ShipmentItem;
+import com.sunny.times.shipments.persistence.entity.ShipmentItemEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ShipmentItemMapperImpl implements ShipmentItemMapper {
+public class  ShipmentItemMapperImpl implements ShipmentItemMapper {
 
     @Override
     public ShipmentItemEntity toEntity(ShipmentItem item) {
@@ -26,4 +27,14 @@ public class ShipmentItemMapperImpl implements ShipmentItemMapper {
                 entity.getWeight()
         );
     }
+
+    @Override
+    public ShipmentItemDto toResponse(ShipmentItem item) {
+        return new ShipmentItemDto(
+                item.getSku(),
+                item.getQuantity(),
+                item.getWeight()
+        );
+    }
 }
+

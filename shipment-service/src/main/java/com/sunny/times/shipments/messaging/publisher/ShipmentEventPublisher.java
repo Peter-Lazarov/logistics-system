@@ -1,4 +1,7 @@
-package com.sunny.times.movement.shipments.messaging.publisher;
+package com.sunny.times.shipments.messaging.publisher;
 
-public class ShipmentEventPublisher {
+import com.sunny.times.shipments.messaging.event.ShipmentCreatedEvent;
+
+public interface ShipmentEventPublisher {
+    void publishShipmentCreated(ShipmentCreatedEvent event);
 }

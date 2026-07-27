@@ -1,4 +1,4 @@
-package com.sunny.times.movement.shipments.domain.model;
+package com.sunny.times.shipments.domain.model;
 
 import java.time.Instant;
 import java.util.List;
@@ -38,39 +38,13 @@ public class Shipment {
         this.items = items;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public UUID getOrderId() {
-        return orderId;
-    }
-
-    public ShipmentStatus getStatus() {
-        return status;
-    }
-
-    public UUID getOriginWarehouseId() {
-        return originWarehouseId;
-    }
-
-    public UUID getDestinationWarehouseId() {
-        return destinationWarehouseId;
-    }
-
-    public UUID getRouteId() {
-        return routeId;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public List<ShipmentItem> getItems() {
-        return items;
-    }
+    public UUID getId() { return id; }
+    public UUID getOrderId() { return orderId; }
+    public ShipmentStatus getStatus() { return status; }
+    public UUID getOriginWarehouseId() { return originWarehouseId; }
+    public UUID getDestinationWarehouseId() { return destinationWarehouseId; }
+    public UUID getRouteId() { return routeId; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
+    public List<ShipmentItem> getItems() { return items; }
 }

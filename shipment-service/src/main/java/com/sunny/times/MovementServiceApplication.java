@@ -1,4 +1,4 @@
-package com.sunny.times.movement;
+package com.sunny.times;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +11,4 @@ public class MovementServiceApplication {
 		SpringApplication.run(MovementServiceApplication.class, args);
 		System.out.println("Here 1");
 	}
-
 }
-

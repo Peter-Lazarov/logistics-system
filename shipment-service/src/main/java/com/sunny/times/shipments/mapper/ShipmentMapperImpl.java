@@ -1,17 +1,19 @@
-package com.sunny.times.movement.shipments.mapper;
+package com.sunny.times.shipments.mapper;
 
-import com.sunny.times.movement.shipments.api.dto.CreateShipmentRequest;
-import com.sunny.times.movement.shipments.api.dto.ShipmentResponse;
-import com.sunny.times.movement.shipments.domain.model.Shipment;
-import com.sunny.times.movement.shipments.domain.model.ShipmentItem;
-import com.sunny.times.movement.shipments.persistence.entity.ShipmentEntity;
+import com.sunny.times.shipments.api.dto.CreateShipmentRequest;
+import com.sunny.times.shipments.api.dto.ShipmentItemDto;
+import com.sunny.times.shipments.api.dto.ShipmentResponse;
+import com.sunny.times.shipments.api.dto.ShipmentStatusDto;
+import com.sunny.times.shipments.domain.model.Shipment;
+import com.sunny.times.shipments.domain.model.ShipmentItem;
+import com.sunny.times.shipments.domain.model.ShipmentStatus;
+import com.sunny.times.shipments.persistence.entity.ShipmentEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
- 
+
 @Component
-public class ShipmentMapperImpl implements ShipmentMapper {
+public class   ShipmentMapperImpl implements ShipmentMapper {
 
     private final ShipmentItemMapper itemMapper;
 
@@ -33,7 +35,7 @@ public class ShipmentMapperImpl implements ShipmentMapper {
         return new Shipment(
                 null,
                 request.getOrderId(),
-                request.getStatus(),
+                mapStatus(request.getStatus()),
                 request.getOriginWarehouseId(),
                 request.getDestinationWarehouseId(),
                 request.getRouteId(),
@@ -81,16 +83,28 @@ public class ShipmentMapperImpl implements ShipmentMapper {
 
     @Override
     public ShipmentResponse toResponse(Shipment domain) {
+        List<ShipmentItemDto> items = domain.getItems().stream()
+                .map(itemMapper::toResponse)
+                .toList();
+
         return new ShipmentResponse(
                 domain.getId(),
                 domain.getOrderId(),
-                domain.getStatus(),
+                mapStatusDto(domain.getStatus()),
                 domain.getOriginWarehouseId(),
                 domain.getDestinationWarehouseId(),
                 domain.getRouteId(),
                 domain.getCreatedAt(),
                 domain.getUpdatedAt(),
-                domain.getItems()
+                items
         );
+    }
+
+    private ShipmentStatus mapStatus(ShipmentStatusDto dto) {
+        return ShipmentStatus.valueOf(dto.name());
+    }
+
+    private ShipmentStatusDto mapStatusDto(ShipmentStatus status) {
+        return ShipmentStatusDto.valueOf(status.name());
     }
 }
