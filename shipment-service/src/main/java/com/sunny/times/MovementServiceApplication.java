@@ -9,6 +9,5 @@ public class MovementServiceApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(MovementServiceApplication.class, args);
-		System.out.println("Here 1");
 	}
 }
