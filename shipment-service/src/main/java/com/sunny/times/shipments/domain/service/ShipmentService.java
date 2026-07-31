@@ -50,5 +50,6 @@ public class ShipmentService {
         Shipment domain = shipmentMapper.toDomain(entity);
         return shipmentMapper.toResponse(domain);
     }
+
 }
 

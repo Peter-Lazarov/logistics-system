@@ -3,18 +3,19 @@ package com.sunny.times.tracking.messaging.event;
 import java.time.Instant;
 import java.util.UUID;
 
-public class ShipmentCreatedEvent {
+public class ShipmentInTransitEvent {
+
     private UUID shipmentId;
     private UUID orderId;
-    private Instant createdAt;
+    private Instant timestamp;
 
-    public ShipmentCreatedEvent() {
-
+    public ShipmentInTransitEvent() {
     }
-    public ShipmentCreatedEvent(UUID shipmentId, UUID orderId, Instant createdAt) {
+
+    public ShipmentInTransitEvent(UUID shipmentId, UUID orderId, Instant timestamp) {
         this.shipmentId = shipmentId;
         this.orderId = orderId;
-        this.createdAt = createdAt;
+        this.timestamp = timestamp;
     }
 
     public UUID getShipmentId() {
@@ -25,7 +26,7 @@ public class ShipmentCreatedEvent {
         return orderId;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
+    public Instant getTimestamp() {
+        return timestamp;
     }
 }

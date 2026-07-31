@@ -1,4 +1,4 @@
-package com.sunny.times.tracking.domain.model;
+package com.sunny.times.tracking.persistence.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Document(collection = "tracking_events")
-public class TrackingEvent {
+public class TrackingEventEntity {
 
     @Id
     private String id;
@@ -16,13 +16,15 @@ public class TrackingEvent {
     private UUID orderId;
     private String eventType;
     private Instant timestamp;
+    private String reason;   // <-- добавено поле
 
-    public TrackingEvent(String id, UUID shipmentId, UUID orderId, String eventType, Instant timestamp) {
+    public TrackingEventEntity(String id, UUID shipmentId, UUID orderId, String eventType, Instant timestamp, String reason) {
         this.id = id;
         this.shipmentId = shipmentId;
         this.orderId = orderId;
         this.eventType = eventType;
         this.timestamp = timestamp;
+        this.reason = reason;
     }
 
     public String getId() {
@@ -45,4 +47,7 @@ public class TrackingEvent {
         return timestamp;
     }
 
+    public String getReason() {
+        return reason;
+    }
 }
