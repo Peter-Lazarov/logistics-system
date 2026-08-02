@@ -2,6 +2,7 @@ package com.sunny.times.shipments.api;
 
 import com.sunny.times.shipments.api.dto.CreateShipmentRequest;
 import com.sunny.times.shipments.api.dto.ShipmentResponse;
+import com.sunny.times.shipments.api.dto.UpdateShipmentStatusRequest;
 import com.sunny.times.shipments.domain.service.ShipmentService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -27,4 +28,13 @@ public class ShipmentController {
     public ShipmentResponse getShipment(@PathVariable UUID id) {
         return shipmentService.getShipment(id);
     }
+
+    @PutMapping("/{id}/status")
+    public ShipmentResponse updateStatus(
+            @PathVariable UUID id,
+            @Valid @RequestBody UpdateShipmentStatusRequest request
+    ) {
+        return shipmentService.updateShipmentStatus(id, request.status());
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.sunny.times.shipments.config;
 
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,5 +28,10 @@ public class RabbitConfig {
         return BindingBuilder.bind(shipmentsCreatedQueue)
                 .to(shipmentsExchange)
                 .with(ROUTING_KEY);
+    }
+
+    @Bean
+    public MessageConverter jsonMessageConverter() {
+        return new JacksonJsonMessageConverter();
     }
 }

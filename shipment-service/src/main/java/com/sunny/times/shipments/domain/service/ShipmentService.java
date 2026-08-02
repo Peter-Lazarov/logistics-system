@@ -2,14 +2,20 @@ package com.sunny.times.shipments.domain.service;
 
 import com.sunny.times.shipments.api.dto.CreateShipmentRequest;
 import com.sunny.times.shipments.api.dto.ShipmentResponse;
+import com.sunny.times.shipments.api.dto.ShipmentStatusDto;
+import com.sunny.times.shipments.domain.exception.ShipmentNotFoundException;
 import com.sunny.times.shipments.domain.model.Shipment;
+import com.sunny.times.shipments.domain.model.ShipmentStatus;
 import com.sunny.times.shipments.mapper.ShipmentMapper;
 import com.sunny.times.shipments.messaging.event.ShipmentCreatedEvent;
+import com.sunny.times.shipments.messaging.event.ShipmentDeliveredEvent;
+import com.sunny.times.shipments.messaging.event.ShipmentInTransitEvent;
 import com.sunny.times.shipments.messaging.publisher.ShipmentEventPublisher;
 import com.sunny.times.shipments.persistence.entity.ShipmentEntity;
 import com.sunny.times.shipments.persistence.repository.ShipmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -50,6 +56,20 @@ public class ShipmentService {
         Shipment domain = shipmentMapper.toDomain(entity);
         return shipmentMapper.toResponse(domain);
     }
+
+    public ShipmentResponse updateShipmentStatus(UUID id, ShipmentStatusDto newStatus) {
+        ShipmentEntity entity = shipmentRepository.findById(id)
+                .orElseThrow(() -> new ShipmentNotFoundException(id));
+
+        entity.setStatus(ShipmentStatus.valueOf(newStatus.name()));
+        entity.setUpdatedAt(Instant.now());
+
+        ShipmentEntity saved = shipmentRepository.save(entity);
+        Shipment domain = shipmentMapper.toDomain(saved);
+
+        return shipmentMapper.toResponse(domain);
+    }
+
 
 }
 
