@@ -1,8 +1,10 @@
 services:
-  postgres:
-    image: postgres:15
+    postgres:
+        image: postgres:15
+    postgres_auth:
+        image: postgres:15
 
-  mongodb:
-    image: mongo:6
-  rabbitmq:
-    image: rabbitmq:3-management
+    mongodb:
+        image: mongo:6
+    rabbitmq:
+        image: rabbitmq:3-management
