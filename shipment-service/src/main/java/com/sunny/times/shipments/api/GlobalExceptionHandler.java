@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
                 Instant.now()
         );
 
-        log.error("Unexpected error", exception); //there is no error in log.
+        log.error("Unexpected error", exception);
 
         return ResponseEntity.status(500).body(problem);
     }
