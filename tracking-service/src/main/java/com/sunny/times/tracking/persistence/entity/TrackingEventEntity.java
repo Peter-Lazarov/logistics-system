@@ -1,6 +1,7 @@
 package com.sunny.times.tracking.persistence.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -16,7 +17,7 @@ public class TrackingEventEntity {
     private UUID orderId;
     private String eventType;
     private Instant timestamp;
-    private String reason;   // <-- добавено поле
+    private String reason;
 
     public TrackingEventEntity(String id, UUID shipmentId, UUID orderId, String eventType, Instant timestamp, String reason) {
         this.id = id;

@@ -1,6 +1,9 @@
 package com.sunny.times.tracking.config;
 
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -9,92 +12,81 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    public static final String EXCHANGE = "shipments.exchange";
-    public static final String QUEUE = "shipments.created.queue";
-    public static final String ROUTING_KEY = "shipment.created";
-    public static final String ROUTING_KEY_IN_TRANSIT = "shipment.in_transit";
-    public static final String ROUTING_KEY_ARRIVED = "shipment.arrived";
-    public static final String ROUTING_KEY_OUT_FOR_DELIVERY = "shipment.out_for_delivery";
-    public static final String ROUTING_KEY_DELIVERED = "shipment.delivered";
-    public static final String ROUTING_KEY_FAILED = "shipment.failed";
-
     @Bean
     public TopicExchange shipmentsExchange() {
-        return new TopicExchange(EXCHANGE);
+        return new TopicExchange("shipments.exchange");
     }
 
     @Bean
-    public Queue shipmentsCreatedQueue() {
-        return new Queue(QUEUE, true);
+    public Queue createdQueue() {
+        return new Queue("shipment.created", true);
     }
 
     @Bean
-    public Binding shipmentsCreatedBinding(Queue shipmentsCreatedQueue, TopicExchange shipmentsExchange) {
-        return BindingBuilder.bind(shipmentsCreatedQueue)
+    public Binding createdBinding(Queue createdQueue, TopicExchange shipmentsExchange) {
+        return BindingBuilder.bind(createdQueue)
                 .to(shipmentsExchange)
-                .with(ROUTING_KEY);
+                .with("shipment.created");
     }
 
     @Bean
-    public Queue shipmentsInTransitQueue() {
-        return new Queue("shipments.in_transit.queue", true);
+    public Queue inTransitQueue() {
+        return new Queue("shipment.in_transit", true);
     }
 
     @Bean
-    public Binding shipmentsInTransitBinding(Queue shipmentsInTransitQueue, TopicExchange shipmentsExchange) {
-        return BindingBuilder.bind(shipmentsInTransitQueue)
+    public Binding inTransitBinding(Queue inTransitQueue, TopicExchange shipmentsExchange) {
+        return BindingBuilder.bind(inTransitQueue)
                 .to(shipmentsExchange)
-                .with(ROUTING_KEY_IN_TRANSIT);
-    }
-
-
-    @Bean
-    public Queue shipmentsArrivedQueue() {
-        return new Queue("shipments.arrived.queue", true);
+                .with("shipment.in_transit");
     }
 
     @Bean
-    public Binding shipmentsArrivedBinding(Queue shipmentsArrivedQueue, TopicExchange shipmentsExchange) {
-        return BindingBuilder.bind(shipmentsArrivedQueue)
+    public Queue arrivedQueue() {
+        return new Queue("shipment.arrived", true);
+    }
+
+    @Bean
+    public Binding arrivedBinding(Queue arrivedQueue, TopicExchange shipmentsExchange) {
+        return BindingBuilder.bind(arrivedQueue)
                 .to(shipmentsExchange)
-                .with(ROUTING_KEY_ARRIVED);
-    }
-
-
-    @Bean
-    public Queue shipmentsOutForDeliveryQueue() {
-        return new Queue("shipments.out_for_delivery.queue", true);
+                .with("shipment.arrived");
     }
 
     @Bean
-    public Binding shipmentsOutForDeliveryBinding(Queue shipmentsOutForDeliveryQueue, TopicExchange shipmentsExchange) {
-        return BindingBuilder.bind(shipmentsOutForDeliveryQueue)
+    public Queue outForDeliveryQueue() {
+        return new Queue("shipment.out_for_delivery", true);
+    }
+
+    @Bean
+    public Binding outForDeliveryBinding(Queue outForDeliveryQueue, TopicExchange shipmentsExchange) {
+        return BindingBuilder.bind(outForDeliveryQueue)
                 .to(shipmentsExchange)
-                .with(ROUTING_KEY_OUT_FOR_DELIVERY);
+                .with("shipment.out_for_delivery");
     }
 
     @Bean
-    public Queue shipmentsDeliveredQueue() {
-        return new Queue("shipments.delivered.queue", true);
+    public Queue deliveredQueue() {
+        return new Queue("shipment.delivered", true);
     }
 
     @Bean
-    public Binding shipmentsDeliveredBinding(Queue shipmentsDeliveredQueue, TopicExchange shipmentsExchange) {
-        return BindingBuilder.bind(shipmentsDeliveredQueue)
+    public Binding deliveredBinding(Queue deliveredQueue, TopicExchange shipmentsExchange) {
+        return BindingBuilder.bind(deliveredQueue)
                 .to(shipmentsExchange)
-                .with(ROUTING_KEY_DELIVERED);
+                .with("shipment.delivered");
     }
 
     @Bean
-    public Queue shipmentsFailedQueue() {
-        return new Queue("shipments.failed.queue", true);
+    public Queue failedQueue() {
+        return new Queue("shipment.failed", true);
     }
 
     @Bean
-    public Binding shipmentsFailedBinding(Queue shipmentsFailedQueue, TopicExchange shipmentsExchange) {
-        return BindingBuilder.bind(shipmentsFailedQueue)
+    public Binding failedBinding(Queue failedQueue, TopicExchange shipmentsExchange) {
+        return BindingBuilder.bind(failedQueue)
                 .to(shipmentsExchange)
-                .with(ROUTING_KEY_FAILED);
+                .with("shipment.failed");
     }
 
     @Bean

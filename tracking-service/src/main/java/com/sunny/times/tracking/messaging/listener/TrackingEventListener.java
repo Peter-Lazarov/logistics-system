@@ -1,4 +1,4 @@
-package com.sunny.times.tracking.messaging.consumer;
+package com.sunny.times.tracking.messaging.listener;
 
 import com.sunny.times.tracking.domain.service.TrackingEventService;
 import com.sunny.times.tracking.messaging.event.*;
@@ -6,16 +6,16 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ShipmentEventConsumer {
+public class TrackingEventListener {
 
     private final TrackingEventService trackingEventService;
 
-    public ShipmentEventConsumer(TrackingEventService trackingEventService) {
+    public TrackingEventListener(TrackingEventService trackingEventService) {
         this.trackingEventService = trackingEventService;
     }
 
-    @RabbitListener(queues = "shipments.created.queue")
-    public void handleShipmentCreated(ShipmentCreatedEvent event) {
+    @RabbitListener(queues = "shipment.created")
+    public void handleCreated(ShipmentCreatedEvent event) {
         trackingEventService.addCreatedEvent(
                 event.getShipmentId(),
                 event.getOrderId(),
@@ -23,8 +23,8 @@ public class ShipmentEventConsumer {
         );
     }
 
-    @RabbitListener(queues = "shipments.in_transit.queue")
-    public void handleShipmentInTransit(ShipmentInTransitEvent event) {
+    @RabbitListener(queues = "shipment.in_transit")
+    public void handleInTransit(ShipmentInTransitEvent event) {
         trackingEventService.addInTransitEvent(
                 event.getShipmentId(),
                 event.getOrderId(),
@@ -32,17 +32,8 @@ public class ShipmentEventConsumer {
         );
     }
 
-    @RabbitListener(queues = "shipments.arrived.queue")
-    public void handleShipmentArrived(ShipmentArrivedEvent event) {
-        trackingEventService.addArrivedEvent(
-                event.getShipmentId(),
-                event.getOrderId(),
-                event.getTimestamp()
-        );
-    }
-
-    @RabbitListener(queues = "shipments.out_for_delivery.queue")
-    public void handleShipmentOutForDelivery(ShipmentOutForDeliveryEvent event) {
+    @RabbitListener(queues = "shipment.out_for_delivery")
+    public void handleOutForDelivery(ShipmentOutForDeliveryEvent event) {
         trackingEventService.addOutForDeliveryEvent(
                 event.getShipmentId(),
                 event.getOrderId(),
@@ -50,8 +41,8 @@ public class ShipmentEventConsumer {
         );
     }
 
-    @RabbitListener(queues = "shipments.delivered.queue")
-    public void handleShipmentDelivered(ShipmentDeliveredEvent event) {
+    @RabbitListener(queues = "shipment.delivered")
+    public void handleDelivered(ShipmentDeliveredEvent event) {
         trackingEventService.addDeliveredEvent(
                 event.getShipmentId(),
                 event.getOrderId(),
@@ -59,8 +50,8 @@ public class ShipmentEventConsumer {
         );
     }
 
-    @RabbitListener(queues = "shipments.failed.queue")
-    public void handleShipmentFailed(ShipmentFailedEvent event) {
+    @RabbitListener(queues = "shipment.failed")
+    public void handleFailed(ShipmentFailedEvent event) {
         trackingEventService.addFailedEvent(
                 event.getShipmentId(),
                 event.getOrderId(),
@@ -68,5 +59,4 @@ public class ShipmentEventConsumer {
                 event.getReason()
         );
     }
-
 }

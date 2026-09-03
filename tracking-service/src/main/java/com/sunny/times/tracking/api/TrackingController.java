@@ -3,11 +3,9 @@ package com.sunny.times.tracking.api;
 import com.sunny.times.tracking.api.dto.TrackingEventResponse;
 import com.sunny.times.tracking.api.dto.TrackingTimelineResponse;
 import com.sunny.times.tracking.api.mapper.TrackingEventMapper;
-import com.sunny.times.tracking.persistence.entity.TrackingEventEntity;
-import com.sunny.times.tracking.persistence.repository.TrackingEventRepository;
+import com.sunny.times.tracking.domain.service.TrackingEventService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,23 +13,29 @@ import java.util.UUID;
 @RequestMapping("/tracking/events")
 public class TrackingController {
 
-    private final TrackingEventRepository trackingEventRepository;
+    private final TrackingEventService trackingEventService;
+    private final TrackingEventMapper mapper;
 
-    public TrackingController(TrackingEventRepository trackingEventRepository){
-        this.trackingEventRepository = trackingEventRepository;
+    public TrackingController(TrackingEventService trackingEventService,
+                              TrackingEventMapper mapper) {
+        this.trackingEventService = trackingEventService;
+        this.mapper = mapper;
     }
 
-    @GetMapping("/{shipmentId}")
-    public TrackingTimelineResponse getTracking(@PathVariable UUID shipmentId) {
+    @GetMapping("/{shipmentId}/latest")
+    public TrackingEventResponse getLatest(@PathVariable UUID shipmentId) {
+        var latest = trackingEventService.getLatestEvent(shipmentId);
+        return latest != null ? mapper.toResponse(latest) : null;
+    }
 
-        List<TrackingEventEntity> events = trackingEventRepository.findByShipmentId(shipmentId);
+    @GetMapping("/{shipmentId}/timeline")
+    public TrackingTimelineResponse getTimeline(@PathVariable UUID shipmentId) {
 
-        events.sort(Comparator.comparing(TrackingEventEntity::getTimestamp));
-
-        List<TrackingEventResponse> responses = events.stream()
-                .map(TrackingEventMapper::toResponse)
+        var events = trackingEventService.getTimeline(shipmentId)
+                .stream()
+                .map(mapper::toResponse)
                 .toList();
 
-        return new TrackingTimelineResponse(shipmentId, responses);
+        return new TrackingTimelineResponse(shipmentId, events);
     }
 }

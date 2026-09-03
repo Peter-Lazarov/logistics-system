@@ -1,32 +1,38 @@
+
 package com.sunny.times.shipments.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
 @Component
 public class JwtUtil {
 
-    private final String SECRET = "super-secret-key-change-me";
+    private final SecretKey ACCESS_KEY;
 
-    public String generateToken(String username) {
-        return Jwts.builder()
-                .setSubject(username)
-                .claim("roles", List.of("USER"))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
-                .signWith(SignatureAlgorithm.HS256, SECRET)
-                .compact();
+    public JwtUtil(@Value("${jwt.access-secret}") String accessSecret) {
+        this.ACCESS_KEY = Keys.hmacShaKeyFor(accessSecret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private Claims extractClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(ACCESS_KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public boolean isTokenValid(String token) {
-        return !extractClaims(token).getExpiration().before(new Date());
+        return extractClaims(token).getExpiration().after(new Date());
     }
 
     public String extractUsername(String token) {
@@ -41,10 +47,5 @@ public class JwtUtil {
                 .toList();
     }
 
-    private Claims extractClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET)
-                .parseClaimsJws(token)
-                .getBody();
-    }
+
 }

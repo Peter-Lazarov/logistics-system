@@ -12,7 +12,6 @@ public class RabbitShipmentEventPublisher implements ShipmentEventPublisher {
     private final RabbitTemplate rabbitTemplate;
 
     private static final String EXCHANGE = "shipments.exchange";
-    private static final String ROUTING_KEY = "shipment.created";
 
     public RabbitShipmentEventPublisher(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
@@ -20,7 +19,7 @@ public class RabbitShipmentEventPublisher implements ShipmentEventPublisher {
 
     @Override
     public void publishShipmentCreated(ShipmentCreatedEvent event) {
-        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, event);
+        rabbitTemplate.convertAndSend(EXCHANGE, "shipment.created", event);
     }
 
     @Override

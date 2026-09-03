@@ -2,18 +2,29 @@ package com.sunny.times.tracking.domain.service;
 
 import com.sunny.times.tracking.persistence.entity.TrackingEventEntity;
 import com.sunny.times.tracking.persistence.repository.TrackingEventRepository;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.domain.Sort;
+
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class TrackingEventService {
 
     private final TrackingEventRepository trackingEventRepository;
+    private final MongoTemplate mongoTemplate;
 
-    public TrackingEventService(TrackingEventRepository trackingEventRepository) {
+    public TrackingEventService(TrackingEventRepository trackingEventRepository,
+                                MongoTemplate mongoTemplate) {
         this.trackingEventRepository = trackingEventRepository;
+        this.mongoTemplate = mongoTemplate;
     }
 
     public TrackingEventEntity addCreatedEvent(UUID shipmentId, UUID orderId, Instant createdAt) {
@@ -87,4 +98,22 @@ public class TrackingEventService {
         );
         return trackingEventRepository.save(event);
     }
+
+    public TrackingEventEntity getLatestEvent(UUID shipmentId) {
+        return trackingEventRepository
+                .findFirstByShipmentIdOrderByTimestampDesc(shipmentId)
+                .orElse(null);
+    }
+
+    public List<TrackingEventEntity> getTimeline(UUID shipmentId) {
+
+        Aggregation agg = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("shipmentId").is(shipmentId)),
+                Aggregation.sort(Sort.by(Sort.Direction.ASC, "timestamp"))
+        );
+
+        return mongoTemplate.aggregate(agg, "tracking_events", TrackingEventEntity.class)
+                .getMappedResults();
+    }
+
 }

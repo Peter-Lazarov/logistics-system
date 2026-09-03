@@ -1,12 +1,12 @@
-package com.sunny.times.tracking.api.dto;
+package com.sunny.times.contracts.tracking;
 
 import java.util.List;
 import java.util.UUID;
 
 public class TrackingTimelineResponse {
 
-    private final UUID shipmentId;
-    private final List<TrackingEventResponse> events;
+    private UUID shipmentId;
+    private List<TrackingEventResponse> events;
 
     public TrackingTimelineResponse(UUID shipmentId, List<TrackingEventResponse> events) {
         this.shipmentId = shipmentId;

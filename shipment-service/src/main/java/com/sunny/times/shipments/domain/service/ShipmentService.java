@@ -61,6 +61,30 @@ public class ShipmentService {
         ShipmentEntity entity = shipmentRepository.findById(id)
                 .orElseThrow(() -> new ShipmentNotFoundException(id));
 
+        ShipmentStatus status = ShipmentStatus.valueOf(newStatus.name());
+
+        switch (status) {
+            case IN_TRANSIT -> eventPublisher.publishShipmentInTransit(
+                    new ShipmentInTransitEvent(
+                            id,
+                            entity.getOrderId(),
+                            Instant.now()
+                    )
+            );
+
+            case DELIVERED -> eventPublisher.publishShipmentDelivered(
+                    new ShipmentDeliveredEvent(
+                            id,
+                            entity.getOrderId(),
+                            Instant.now()
+                    )
+            );
+
+            default -> {
+                // no event for other statuses yet
+            }
+        }
+
         entity.setStatus(ShipmentStatus.valueOf(newStatus.name()));
         entity.setUpdatedAt(Instant.now());
 
@@ -69,7 +93,6 @@ public class ShipmentService {
 
         return shipmentMapper.toResponse(domain);
     }
-
 
 }
 
