@@ -2,12 +2,11 @@ package com.sunny.times.shipments.domain.model;
 
 public enum ShipmentStatus {
     CREATED,
-    READY_FOR_PICKUP,
+    ASSIGNED,
+    LOADED,
     IN_TRANSIT,
-    ARRIVED_AT_WAREHOUSE,
-    OUT_FOR_DELIVERY,
+    DELAYED,
+    ARRIVED,
     DELIVERED,
-    FAILED_DELIVERY,
     CANCELLED
 }
-

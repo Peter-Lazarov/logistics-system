@@ -1,19 +1,15 @@
 package com.sunny.times.shipments.mapper;
 
-import com.sunny.times.shipments.api.dto.CreateShipmentRequest;
-import com.sunny.times.shipments.api.dto.ShipmentItemDto;
-import com.sunny.times.shipments.api.dto.ShipmentResponse;
-import com.sunny.times.shipments.api.dto.ShipmentStatusDto;
 import com.sunny.times.shipments.domain.model.Shipment;
 import com.sunny.times.shipments.domain.model.ShipmentItem;
-import com.sunny.times.shipments.domain.model.ShipmentStatus;
 import com.sunny.times.shipments.persistence.entity.ShipmentEntity;
+import com.sunny.times.shipments.persistence.entity.ShipmentItemEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class   ShipmentMapperImpl implements ShipmentMapper {
+public class ShipmentMapperImpl implements ShipmentMapper {
 
     private final ShipmentItemMapper itemMapper;
 
@@ -22,89 +18,65 @@ public class   ShipmentMapperImpl implements ShipmentMapper {
     }
 
     @Override
-    public Shipment toDomain(CreateShipmentRequest request) {
-        List<ShipmentItem> items = request.getItems().stream()
-                .map(i -> new ShipmentItem(
-                        null,
-                        i.getSku(),
-                        i.getQuantity(),
-                        i.getWeight()
-                ))
-                .toList();
+    public Shipment toDomain(ShipmentEntity e) {
+        if (e == null) return null;
 
-        return new Shipment(
-                null,
-                request.getOrderId(),
-                mapStatus(request.getStatus()),
-                request.getOriginWarehouseId(),
-                request.getDestinationWarehouseId(),
-                request.getRouteId(),
-                request.getCreatedAt(),
-                request.getUpdatedAt(),
-                items
-        );
-    }
-
-    @Override
-    public ShipmentEntity toEntity(Shipment domain) {
-        return new ShipmentEntity(
-                domain.getId(),
-                domain.getOrderId(),
-                domain.getStatus(),
-                domain.getOriginWarehouseId(),
-                domain.getDestinationWarehouseId(),
-                domain.getRouteId(),
-                domain.getCreatedAt(),
-                domain.getUpdatedAt(),
-                domain.getItems().stream()
-                        .map(itemMapper::toEntity)
-                        .toList()
-        );
-    }
-
-    @Override
-    public Shipment toDomain(ShipmentEntity entity) {
-        List<ShipmentItem> items = entity.getItems().stream()
+        List<ShipmentItem> items = e.getItems() == null
+                ? List.of()
+                : e.getItems().stream()
                 .map(itemMapper::toDomain)
                 .toList();
 
         return new Shipment(
-                entity.getId(),
-                entity.getOrderId(),
-                entity.getStatus(),
-                entity.getOriginWarehouseId(),
-                entity.getDestinationWarehouseId(),
-                entity.getRouteId(),
-                entity.getCreatedAt(),
-                entity.getUpdatedAt(),
+                e.getId(),
+                e.getType(),
+                e.getQuantity(),
+                e.getWeight(),
+                e.getVolume(),
+                e.getStatus(),
+                e.getOrigin(),
+                e.getDestination(),
+                e.getVehicleId(),
+                e.getDriverId(),
+                e.getPathId(),
+                e.getPrice(),
+                e.getCreatedAt(),
+                e.getUpdatedAt(),
                 items
         );
     }
 
     @Override
-    public ShipmentResponse toResponse(Shipment domain) {
-        List<ShipmentItemDto> items = domain.getItems().stream()
-                .map(itemMapper::toResponse)
-                .toList();
+    public ShipmentEntity toEntity(Shipment d) {
+        if (d == null) return null;
 
-        return new ShipmentResponse(
-                domain.getId(),
-                domain.getOrderId(),
-                mapStatusDto(domain.getStatus()),
-                domain.getOriginWarehouseId(),
-                domain.getDestinationWarehouseId(),
-                domain.getRouteId(),
-                domain.getCreatedAt(),
-                domain.getUpdatedAt(),
-                items
+        ShipmentEntity entity = new ShipmentEntity(
+                d.getId(),
+                d.getType(),
+                d.getQuantity(),
+                d.getWeight(),
+                d.getVolume(),
+                d.getStatus(),
+                d.getOrigin(),
+                d.getDestination(),
+                d.getVehicleId(),
+                d.getDriverId(),
+                d.getPathId(),
+                d.getPrice(),
+                d.getCreatedAt(),
+                d.getUpdatedAt(),
+                null
         );
-    }
 
-    private ShipmentStatus mapStatus(ShipmentStatusDto dto) {
-        return ShipmentStatus.valueOf(dto.name());
-    }
+        if (d.getItems() != null) {
+            List<ShipmentItemEntity> itemEntities = d.getItems().stream()
+                    .map(itemMapper::toEntity)
+                    .peek(i -> i.setShipment(entity))
+                    .toList();
 
-    private ShipmentStatusDto mapStatusDto(ShipmentStatus status) {
-        return ShipmentStatusDto.valueOf(status.name());
+            entity.setItems(itemEntities);
+        }
+
+        return entity;
     }
 }

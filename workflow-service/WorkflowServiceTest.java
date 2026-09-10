@@ -28,6 +28,9 @@ class WorkflowServiceTest {
     @Mock
     ShipmentsClient shipmentsClient;
 
+    // -----------------------------
+    // decideNextStatus
+    // -----------------------------
     @Test
     void decideNextStatus_valid() {
         var s = new WorkflowService(null, null);
@@ -45,6 +48,9 @@ class WorkflowServiceTest {
         assertThrows(IllegalArgumentException.class, () -> s.decideNextStatus("UNKNOWN"));
     }
 
+    // -----------------------------
+    // updateShipmentStatus
+    // -----------------------------
     @Test
     void updateShipmentStatus_validUpdate() {
         UUID id = UUID.randomUUID();
@@ -97,7 +103,7 @@ class WorkflowServiceTest {
                 .thenReturn(new TrackingEventResponse("IN_TRANSIT", Instant.now(), null));
 
         when(shipmentsClient.getShipment(any()))
-                .thenReturn(new ShipmentResponse(id, ShipmentStatusDto.DELIVERED));
+                .thenThrow(new RuntimeException("down"));
 
         var s = new WorkflowService(trackingClient, shipmentsClient);
 

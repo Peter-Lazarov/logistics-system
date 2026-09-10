@@ -6,35 +6,41 @@ import jakarta.validation.constraints.Positive;
 
 public class ShipmentItemDto {
 
-    @NotBlank(message = "SKU cannot be blank")
-    private String sku;
+    private String id;
+
+    @NotBlank
+    private String name;
+
+    @NotBlank
+    private String description;
 
     @NotNull
-    @Positive(message = "Quantity must be positive")
+    @Positive
     private Integer quantity;
-
-    @NotNull
-    @Positive(message = "Weight must be positive")
-    private Double weight;
 
     public ShipmentItemDto() {
     }
 
-    public ShipmentItemDto(String sku, Integer quantity, Double weight) {
-        this.sku = sku;
+    public ShipmentItemDto(String id, String name, String description, Integer quantity) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
         this.quantity = quantity;
-        this.weight = weight;
     }
 
-    public String getSku() {
-        return sku;
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public Integer getQuantity() {
         return quantity;
-    }
-
-    public Double getWeight() {
-        return weight;
     }
 }

@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="625b39e6-fec7-49f0-8e96-53e61f90e955" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../workflow-service/API.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../workflow-service/ERRORS.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../workflow-service/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../workflow-service/TEST.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../workflow-service/src/test/java/com/sunny/times/workflow/service/WorkflowServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentStatusDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentStatusDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../workflow-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../workflow-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../workflow-service/src/main/java/com/sunny/times/workflow/client/ShipmentsClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../workflow-service/src/main/java/com/sunny/times/workflow/client/ShipmentsClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../workflow-service/src/main/java/com/sunny/times/workflow/service/WorkflowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../workflow-service/src/main/java/com/sunny/times/workflow/service/WorkflowService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

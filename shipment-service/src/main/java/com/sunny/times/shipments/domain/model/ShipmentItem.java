@@ -1,28 +1,51 @@
 package com.sunny.times.shipments.domain.model;
 
-import java.util.UUID;
-
 public class ShipmentItem {
 
-    private final UUID id;
-    private final String sku;
-    private final int quantity;
-    private final double weight;
+    private String id;
+    private String name;
+    private String description;
+    private Integer quantity;
 
-    public ShipmentItem(
-            UUID id,
-            String sku,
-            int quantity,
-            double weight
-    ) {
-        this.id = id;
-        this.sku = sku;
-        this.quantity = quantity;
-        this.weight = weight;
+    public ShipmentItem() {
     }
 
-    public UUID getId() { return id; }
-    public String getSku() { return sku; }
-    public int getQuantity() { return quantity; }
-    public double getWeight() { return weight; }
+    public ShipmentItem(String id, String name, String description, Integer quantity) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.quantity = quantity;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }

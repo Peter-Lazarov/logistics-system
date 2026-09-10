@@ -1,91 +1,92 @@
 package com.sunny.times.shipments.api.dto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Positive;
 
-import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 public class CreateShipmentRequest {
 
-    @NotNull
-    private UUID orderId;
+    @NotBlank
+    private String type;
 
     @NotNull
-    private ShipmentStatusDto status;
+    @Positive
+    private Integer quantity;
 
     @NotNull
-    private UUID originWarehouseId;
+    @Positive
+    private Double weight;
 
     @NotNull
-    private UUID destinationWarehouseId;
+    @Positive
+    private Double volume;
+
+    @NotBlank
+    private String origin;
+
+    @NotBlank
+    private String destination;
+
+    @NotBlank
+    private String vehicleId;
+
+    @NotBlank
+    private String driverId;
+
+    @NotBlank
+    private String pathId;
 
     @NotNull
-    private UUID routeId;
-
-    @NotNull
-    private Instant createdAt;
-
-    @NotNull
-    private Instant updatedAt;
+    private String price;
 
     @NotNull
     @Valid
-    @Size(min = 1)
     private List<ShipmentItemDto> items;
 
     public CreateShipmentRequest() {
-
     }
 
-    public CreateShipmentRequest(
-            UUID orderId,
-            ShipmentStatusDto status,
-            UUID originWarehouseId,
-            UUID destinationWarehouseId,
-            UUID routeId,
-            Instant createdAt,
-            Instant updatedAt,
-            List<ShipmentItemDto> items
-    ) {
-        this.orderId = orderId;
-        this.status = status;
-        this.originWarehouseId = originWarehouseId;
-        this.destinationWarehouseId = destinationWarehouseId;
-        this.routeId = routeId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.items = items;
+    public String getType() {
+        return type;
     }
 
-    public UUID getOrderId() {
-        return orderId;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public ShipmentStatusDto getStatus() {
-        return status;
+    public Double getWeight() {
+        return weight;
     }
 
-    public UUID getOriginWarehouseId() {
-        return originWarehouseId;
+    public Double getVolume() {
+        return volume;
     }
 
-    public UUID getDestinationWarehouseId() {
-        return destinationWarehouseId;
+    public String getOrigin() {
+        return origin;
     }
 
-    public UUID getRouteId() {
-        return routeId;
+    public String getDestination() {
+        return destination;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
+    public String getVehicleId() {
+        return vehicleId;
     }
 
-    public Instant getUpdatedAt() {
-        return updatedAt;
+    public String getDriverId() {
+        return driverId;
+    }
+
+    public String getPathId() {
+        return pathId;
+    }
+
+    public String getPrice() {
+        return price;
     }
 
     public List<ShipmentItemDto> getItems() {

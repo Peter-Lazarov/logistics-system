@@ -1,32 +1,21 @@
 package com.sunny.times.shipments.messaging.event;
 
-import java.time.Instant;
-import java.util.UUID;
-
 public class ShipmentArrivedEvent {
 
-    private UUID shipmentId;
-    private UUID orderId;
-    private Instant timestamp;
+    private String shipmentId;
 
     public ShipmentArrivedEvent() {
     }
 
-    public ShipmentArrivedEvent(UUID shipmentId, UUID orderId, Instant timestamp) {
+    public ShipmentArrivedEvent(String shipmentId) {
         this.shipmentId = shipmentId;
-        this.orderId = orderId;
-        this.timestamp = timestamp;
     }
 
-    public UUID getShipmentId() {
+    public String getShipmentId() {
         return shipmentId;
     }
 
-    public UUID getOrderId() {
-        return orderId;
-    }
-
-    public Instant getTimestamp() {
-        return timestamp;
+    public void setShipmentId(String shipmentId) {
+        this.shipmentId = shipmentId;
     }
 }

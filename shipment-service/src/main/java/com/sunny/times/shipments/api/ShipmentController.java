@@ -4,37 +4,58 @@ import com.sunny.times.shipments.api.dto.CreateShipmentRequest;
 import com.sunny.times.shipments.api.dto.ShipmentResponse;
 import com.sunny.times.shipments.api.dto.UpdateShipmentStatusRequest;
 import com.sunny.times.shipments.domain.service.ShipmentService;
-import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.List;
 
 @RestController
 @RequestMapping("/shipments")
 public class ShipmentController {
 
-    private final ShipmentService shipmentService;
+    private final ShipmentService service;
 
-    public ShipmentController(ShipmentService shipmentService) {
-        this.shipmentService = shipmentService;
+    public ShipmentController(ShipmentService service) {
+        this.service = service;
     }
 
-    @PostMapping
-    public ShipmentResponse createShipment(@Valid @RequestBody CreateShipmentRequest request) {
-        return shipmentService.createShipment(request);
+    @GetMapping
+    public ResponseEntity<List<ShipmentResponse>> getAll() {
+        List<ShipmentResponse> response = service.getAll()
+                .stream()
+                .map(ShipmentResponse::fromDomain)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ShipmentResponse getShipment(@PathVariable UUID id) {
-        return shipmentService.getShipment(id);
+    public ResponseEntity<ShipmentResponse> getById(@PathVariable String id) {
+        return ResponseEntity.ok(
+                ShipmentResponse.fromDomain(service.getById(id))
+        );
     }
 
-    @PutMapping("/{id}/status")
-    public ShipmentResponse updateStatus(
-            @PathVariable UUID id,
-            @Valid @RequestBody UpdateShipmentStatusRequest request
+    @PostMapping
+    public ResponseEntity<ShipmentResponse> create(@RequestBody CreateShipmentRequest req) {
+        return ResponseEntity.ok(
+                ShipmentResponse.fromDomain(service.create(req))
+        );
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<ShipmentResponse> updateStatus(
+            @PathVariable String id,
+            @RequestBody UpdateShipmentStatusRequest req
     ) {
-        return shipmentService.updateShipmentStatus(id, request.status());
+        return ResponseEntity.ok(
+                ShipmentResponse.fromDomain(service.updateStatus(id, req.status()))
+        );
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

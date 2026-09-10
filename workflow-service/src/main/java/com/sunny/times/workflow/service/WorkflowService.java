@@ -42,7 +42,6 @@ public class WorkflowService {
         return false;
     }
 
-
     private int lifecycleOrder(ShipmentStatusDto status) {
         return switch (status) {
             case CREATED -> 0;

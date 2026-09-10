@@ -1,18 +1,23 @@
 package com.sunny.times.shipments.messaging.publisher;
 
-import com.sunny.times.shipments.messaging.event.*;
+import com.sunny.times.shipments.messaging.event.ShipmentCreatedEvent;
+import com.sunny.times.shipments.messaging.event.ShipmentInTransitEvent;
+import com.sunny.times.shipments.messaging.event.ShipmentArrivedEvent;
+import com.sunny.times.shipments.messaging.event.ShipmentDeliveredEvent;
+import com.sunny.times.shipments.messaging.event.ShipmentFailedEvent;
+import com.sunny.times.shipments.messaging.event.ShipmentOutForDeliveryEvent;
 
 public interface ShipmentEventPublisher {
-    void publishShipmentCreated(ShipmentCreatedEvent event);
 
-    void publishShipmentInTransit(ShipmentInTransitEvent event);
+    void publishCreated(ShipmentCreatedEvent event);
 
-    void publishShipmentArrived(ShipmentArrivedEvent event);
+    void publishInTransit(ShipmentInTransitEvent event);
 
-    void publishShipmentOutForDelivery(ShipmentOutForDeliveryEvent event);
+    void publishArrived(ShipmentArrivedEvent event);
 
-    void publishShipmentDelivered(ShipmentDeliveredEvent event);
+    void publishDelivered(ShipmentDeliveredEvent event);
 
-    void publishShipmentFailed(ShipmentFailedEvent event);
+    void publishOutForDelivery(ShipmentOutForDeliveryEvent event);
 
+    void publishFailed(ShipmentFailedEvent event);
 }
