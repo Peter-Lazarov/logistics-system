@@ -1,60 +1,58 @@
 package com.sunny.times.shipments.domain.model;
 
-import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.List;
 
 public class Shipment {
 
     private String id;
-    private String type;
-    private Integer quantity;
-    private Double weight;
-    private Double volume;
-    private ShipmentStatus status;
+    private String category;
+    private String description;
     private String origin;
     private String destination;
-    private String vehicleId;
+    private String clientId;
     private String driverId;
+    private String vehicleId;
     private String pathId;
-    private BigDecimal price;
+    private Double totalWeight;
+    private Double totalVolume;
+    private Double price;
+    private ShipmentStatus status;
     private Instant createdAt;
     private Instant updatedAt;
-    private List<ShipmentItem> items;
 
-    public Shipment() {
-    }
+    public Shipment() {}
 
     public Shipment(String id,
-                    String type,
-                    Integer quantity,
-                    Double weight,
-                    Double volume,
-                    ShipmentStatus status,
+                    String category,
+                    String description,
                     String origin,
                     String destination,
-                    String vehicleId,
+                    String clientId,
                     String driverId,
+                    String vehicleId,
                     String pathId,
-                    BigDecimal price,
+                    Double totalWeight,
+                    Double totalVolume,
+                    Double price,
+                    ShipmentStatus status,
                     Instant createdAt,
-                    Instant updatedAt,
-                    List<ShipmentItem> items) {
+                    Instant updatedAt) {
+
         this.id = id;
-        this.type = type;
-        this.quantity = quantity;
-        this.weight = weight;
-        this.volume = volume;
-        this.status = status;
+        this.category = category;
+        this.description = description;
         this.origin = origin;
         this.destination = destination;
-        this.vehicleId = vehicleId;
+        this.clientId = clientId;
         this.driverId = driverId;
+        this.vehicleId = vehicleId;
         this.pathId = pathId;
+        this.totalWeight = totalWeight;
+        this.totalVolume = totalVolume;
         this.price = price;
+        this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.items = items;
     }
 
     public String getId() {
@@ -65,44 +63,20 @@ public class Shipment {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getCategory() {
+        return category;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public String getDescription() {
+        return description;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-
-    public Double getVolume() {
-        return volume;
-    }
-
-    public void setVolume(Double volume) {
-        this.volume = volume;
-    }
-
-    public ShipmentStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ShipmentStatus status) {
-        this.status = status;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getOrigin() {
@@ -121,12 +95,12 @@ public class Shipment {
         this.destination = destination;
     }
 
-    public String getVehicleId() {
-        return vehicleId;
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setVehicleId(String vehicleId) {
-        this.vehicleId = vehicleId;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
     public String getDriverId() {
@@ -137,6 +111,14 @@ public class Shipment {
         this.driverId = driverId;
     }
 
+    public String getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(String vehicleId) {
+        this.vehicleId = vehicleId;
+    }
+
     public String getPathId() {
         return pathId;
     }
@@ -145,12 +127,36 @@ public class Shipment {
         this.pathId = pathId;
     }
 
-    public BigDecimal getPrice() {
+    public Double getTotalWeight() {
+        return totalWeight;
+    }
+
+    public void setTotalWeight(Double totalWeight) {
+        this.totalWeight = totalWeight;
+    }
+
+    public Double getTotalVolume() {
+        return totalVolume;
+    }
+
+    public void setTotalVolume(Double totalVolume) {
+        this.totalVolume = totalVolume;
+    }
+
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public ShipmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ShipmentStatus status) {
+        this.status = status;
     }
 
     public Instant getCreatedAt() {
@@ -169,11 +175,5 @@ public class Shipment {
         this.updatedAt = updatedAt;
     }
 
-    public List<ShipmentItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ShipmentItem> items) {
-        this.items = items;
-    }
+    // getters/setters...
 }

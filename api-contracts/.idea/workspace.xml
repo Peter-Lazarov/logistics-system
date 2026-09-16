@@ -5,7 +5,61 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="625b39e6-fec7-49f0-8e96-53e61f90e955" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/clients/ClientDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/drivers/DriverDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/routes/RouteDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/routes/RoutePointDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/drivers/DriverController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/drivers/DriverEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/drivers/DriverMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/drivers/DriverRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/drivers/DriverService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RoutePointEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../common-service/src/main/resources/data.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/common/CommonClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shipment-service/src/test/java/com/sunny/times/shipments/api/ShipmentControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shipment-service/src/test/java/com/sunny/times/shipments/api/TestApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shipment-service/src/test/java/com/sunny/times/shipments/api/TestSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shipment-service/src/test/java/com/sunny/times/shipments/domain/service/ShipmentServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/CreateShipmentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/CreateShipmentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentItemDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentStatusDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentStatusDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/UpdateShipmentStatusRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/UpdateShipmentStatusRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/AuthenticationServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/AuthenticationServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/MovementServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/ShipmentServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/ShipmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/ShipmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/dto/CreateShipmentRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/dto/ShipmentItemDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/dto/ShipmentResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/dto/ShipmentStatusDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/dto/UpdateShipmentStatusRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/config/WebClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/common/WebClientConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/model/Shipment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/model/Shipment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/model/ShipmentEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/model/ShipmentItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/model/ShipmentStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/model/ShipmentStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/model/ShipmentStatusFlow.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/service/ShipmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/service/ShipmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/mapper/ShipmentItemMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/mapper/ShipmentItemMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/mapper/ShipmentMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/mapper/ShipmentMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/persistence/entity/ShipmentEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/persistence/entity/ShipmentEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/persistence/entity/ShipmentItemEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/persistence/repository/ShipmentItemRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/test/java/com/sunny/times/movement/MovementServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/test/java/com/sunny/times/MovementServiceApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +69,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -36,10 +90,12 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/peter/Documents/Java/logistics-system/common-service&quot;
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

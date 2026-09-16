@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: common-service
+
+  sql:
+    init:
+      mode: always
+
+  jpa:
+    defer-datasource-initialization: true
+
+  config:
+    import: "optional:file:../../common.yaml"

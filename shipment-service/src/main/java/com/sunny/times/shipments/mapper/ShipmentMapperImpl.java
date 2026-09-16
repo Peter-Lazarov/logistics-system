@@ -1,48 +1,32 @@
 package com.sunny.times.shipments.mapper;
 
 import com.sunny.times.shipments.domain.model.Shipment;
-import com.sunny.times.shipments.domain.model.ShipmentItem;
 import com.sunny.times.shipments.persistence.entity.ShipmentEntity;
-import com.sunny.times.shipments.persistence.entity.ShipmentItemEntity;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class ShipmentMapperImpl implements ShipmentMapper {
-
-    private final ShipmentItemMapper itemMapper;
-
-    public ShipmentMapperImpl(ShipmentItemMapper itemMapper) {
-        this.itemMapper = itemMapper;
-    }
 
     @Override
     public Shipment toDomain(ShipmentEntity e) {
         if (e == null) return null;
 
-        List<ShipmentItem> items = e.getItems() == null
-                ? List.of()
-                : e.getItems().stream()
-                .map(itemMapper::toDomain)
-                .toList();
-
         return new Shipment(
                 e.getId(),
-                e.getType(),
-                e.getQuantity(),
-                e.getWeight(),
-                e.getVolume(),
-                e.getStatus(),
+                e.getCategory(),
+                e.getDescription(),
                 e.getOrigin(),
                 e.getDestination(),
-                e.getVehicleId(),
+                e.getClientId(),
                 e.getDriverId(),
+                e.getVehicleId(),
                 e.getPathId(),
+                e.getTotalWeight(),
+                e.getTotalVolume(),
                 e.getPrice(),
+                e.getStatus(),
                 e.getCreatedAt(),
-                e.getUpdatedAt(),
-                items
+                e.getUpdatedAt()
         );
     }
 
@@ -50,33 +34,22 @@ public class ShipmentMapperImpl implements ShipmentMapper {
     public ShipmentEntity toEntity(Shipment d) {
         if (d == null) return null;
 
-        ShipmentEntity entity = new ShipmentEntity(
+        return new ShipmentEntity(
                 d.getId(),
-                d.getType(),
-                d.getQuantity(),
-                d.getWeight(),
-                d.getVolume(),
-                d.getStatus(),
+                d.getCategory(),
+                d.getDescription(),
                 d.getOrigin(),
                 d.getDestination(),
-                d.getVehicleId(),
+                d.getClientId(),
                 d.getDriverId(),
+                d.getVehicleId(),
                 d.getPathId(),
+                d.getTotalWeight(),
+                d.getTotalVolume(),
                 d.getPrice(),
+                d.getStatus(),
                 d.getCreatedAt(),
-                d.getUpdatedAt(),
-                null
+                d.getUpdatedAt()
         );
-
-        if (d.getItems() != null) {
-            List<ShipmentItemEntity> itemEntities = d.getItems().stream()
-                    .map(itemMapper::toEntity)
-                    .peek(i -> i.setShipment(entity))
-                    .toList();
-
-            entity.setItems(itemEntities);
-        }
-
-        return entity;
     }
 }
