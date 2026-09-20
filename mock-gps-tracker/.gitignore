@@ -1,0 +1,26 @@
+# 1. NODE.JS (Specific to mock-gps-tracker)
+# ==========================================
+# Ignore dependencies for the Node.js module
+node_modules/
+
+# Ignore debug logs inside the Node.js module
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore environment variables/secrets for the tracker
+.env
+.env.local
+
+# 2. SYSTEM & IDE (Global exclusions)
+# ==========================================
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# JetBrains / IntelliJ IDEA files (if any are global)
+.idea/
+*.iml
+
+# VS Code project settings
+.vscode/
