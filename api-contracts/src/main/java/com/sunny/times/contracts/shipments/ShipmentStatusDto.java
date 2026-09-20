@@ -2,10 +2,11 @@ package com.sunny.times.contracts.shipments;
 
 public enum ShipmentStatusDto {
     CREATED,
-    READY_FOR_PICKUP,
+    ASSIGNED,
+    LOADED,
     IN_TRANSIT,
-    OUT_FOR_DELIVERY,
+    DELAYED,
+    ARRIVED,
     DELIVERED,
     CANCELLED
 }
-

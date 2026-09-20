@@ -15,7 +15,7 @@ public class RouteMapper {
 
         return new RouteDto(
                 entity.getPathId(),
-                entity.getStart(),
+                entity.getOrigin(),
                 entity.getDestination(),
                 entity.getEstimatedTime(),
                 points

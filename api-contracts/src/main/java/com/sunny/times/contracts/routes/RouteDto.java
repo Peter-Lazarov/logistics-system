@@ -4,7 +4,7 @@ import java.util.List;
 
 public record RouteDto(
         String pathId,
-        String start,
+        String origin,
         String destination,
         String estimatedTime,
         List<RoutePointDto> points

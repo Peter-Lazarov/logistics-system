@@ -11,12 +11,10 @@ INSERT INTO clients (client_id, name, phone, email)
 VALUES ('CUST-003', 'Logistics LTD', '+359888555666', 'office@logistics-ltd.bg')
 ON CONFLICT (client_id) DO NOTHING;
 
-
 -- ROUTES
-INSERT INTO routes (path_id, start, destination, estimated_time)
+INSERT INTO routes (path_id, origin, destination, estimated_time)
 VALUES ('1102', 'Sofia', 'Plovdiv', '2h 30m')
 ON CONFLICT (path_id) DO NOTHING;
-
 
 -- ROUTE POINTS
 INSERT INTO route_points (lat, lon, route_path_id)

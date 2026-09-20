@@ -12,7 +12,7 @@ public class RouteEntity {
     @Id
     private String pathId;
 
-    private String start;
+    private String origin;
 
     @Column(name = "destination")
     private String destination;
@@ -24,9 +24,9 @@ public class RouteEntity {
 
     public RouteEntity() {}
 
-    public RouteEntity(String pathId, String start, String destination, String estimatedTime) {
+    public RouteEntity(String pathId, String origin, String destination, String estimatedTime) {
         this.pathId = pathId;
-        this.start = start;
+        this.origin = origin;
         this.destination = destination;
         this.estimatedTime = estimatedTime;
     }
@@ -35,8 +35,8 @@ public class RouteEntity {
         return pathId;
     }
 
-    public String getStart() {
-        return start;
+    public String getOrigin() {
+        return origin;
     }
 
     public String getDestination() {

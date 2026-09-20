@@ -3,6 +3,7 @@ package com.sunny.times.shipments.domain.service;
 import com.sunny.times.contracts.shipments.CreateShipmentRequest;
 import com.sunny.times.contracts.shipments.ShipmentResponse;
 import com.sunny.times.contracts.shipments.ShipmentStatusDto;
+import com.sunny.times.contracts.shipments.UpdateShipmentRequest;
 import com.sunny.times.shipments.common.CommonClientService;
 import com.sunny.times.shipments.domain.exception.ShipmentNotFoundException;
 import com.sunny.times.shipments.domain.model.Shipment;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ShipmentService {
@@ -53,7 +53,7 @@ public class ShipmentService {
         commonClient.getRoute(req.pathId());
 
         Shipment shipment = new Shipment(
-                UUID.randomUUID().toString(),
+                generateShipmentId(),
                 req.category(),
                 req.description(),
                 req.origin(),
@@ -71,6 +71,43 @@ public class ShipmentService {
         );
 
         ShipmentEntity saved = repository.save(mapper.toEntity(shipment));
+        return toResponse(mapper.toDomain(saved));
+    }
+
+    public ShipmentResponse update(String id, UpdateShipmentRequest req) {
+
+
+        ShipmentEntity entity = repository.findById(id)
+                .orElseThrow(() -> new ShipmentNotFoundException(id));
+
+        if (entity.getStatus() != ShipmentStatus.CREATED
+                && entity.getStatus() != ShipmentStatus.ASSIGNED) {
+
+            throw new IllegalStateException(
+                    "Shipment can only be edited in CREATED or ASSIGNED status"
+            );
+        }
+
+        commonClient.getClient(req.clientId());
+        commonClient.getDriver(req.driverId());
+        commonClient.getRoute(req.pathId());
+
+        entity.setCategory(req.category());
+        entity.setDescription(req.description());
+        entity.setOrigin(req.origin());
+        entity.setDestination(req.destination());
+        entity.setClientId(req.clientId());
+        entity.setDriverId(req.driverId());
+        entity.setVehicleId(req.vehicleId());
+        entity.setPathId(req.pathId());
+        entity.setTotalWeight(req.totalWeight());
+        entity.setTotalVolume(req.totalVolume());
+        entity.setPrice(req.price());
+
+        entity.setUpdatedAt(Instant.now());
+
+        ShipmentEntity saved = repository.save(entity);
+
         return toResponse(mapper.toDomain(saved));
     }
 
@@ -92,6 +129,13 @@ public class ShipmentService {
         repository.deleteById(id);
     }
 
+    private String generateShipmentId() {
+
+        long nextNumber = repository.count() + 10001;
+
+        return "SHP-" + nextNumber;
+    }
+
     private ShipmentResponse toResponse(Shipment s) {
         return new ShipmentResponse(
                 s.getId(),
@@ -111,4 +155,5 @@ public class ShipmentService {
                 s.getUpdatedAt().toString()
         );
     }
+
 }

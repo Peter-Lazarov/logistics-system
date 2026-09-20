@@ -2,6 +2,7 @@ package com.sunny.times.shipments.api;
 
 import com.sunny.times.contracts.shipments.CreateShipmentRequest;
 import com.sunny.times.contracts.shipments.ShipmentResponse;
+import com.sunny.times.contracts.shipments.UpdateShipmentRequest;
 import com.sunny.times.contracts.shipments.UpdateShipmentStatusRequest;
 import com.sunny.times.shipments.domain.service.ShipmentService;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,14 @@ public class ShipmentController {
     @PostMapping
     public ResponseEntity<ShipmentResponse> create(@RequestBody CreateShipmentRequest req) {
         return ResponseEntity.ok(service.create(req));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ShipmentResponse> update(
+            @PathVariable String id,
+            @RequestBody UpdateShipmentRequest req
+    ) {
+        return ResponseEntity.ok(service.update(id, req));
     }
 
     @PatchMapping("/{id}/status")

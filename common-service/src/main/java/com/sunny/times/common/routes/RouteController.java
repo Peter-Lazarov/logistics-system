@@ -3,6 +3,8 @@ package com.sunny.times.common.routes;
 import com.sunny.times.contracts.routes.RouteDto;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/routes")
 public class RouteController {
@@ -17,4 +19,10 @@ public class RouteController {
     public RouteDto getByPathId(@PathVariable String pathId) {
         return service.getByPathId(pathId);
     }
+
+    @GetMapping
+    public List<RouteDto> getAll() {
+        return service.getAll();
+    }
+
 }
