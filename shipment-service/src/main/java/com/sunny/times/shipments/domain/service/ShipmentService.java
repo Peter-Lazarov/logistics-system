@@ -14,6 +14,7 @@ import com.sunny.times.shipments.persistence.repository.ShipmentRepository;
 import org.springframework.stereotype.Service;
 import com.sunny.times.shipments.persistence.entity.ShipmentStatusHistoryEntity;
 import com.sunny.times.shipments.persistence.repository.ShipmentStatusHistoryRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.Instant;
 import java.util.List;
@@ -87,7 +88,10 @@ public class ShipmentService {
                         null,
                         saved.getId(),
                         ShipmentStatus.CREATED,
-                        "peter",
+                        SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName(),
                         Instant.now()
                 )
         );
