@@ -1,4 +1,5 @@
 const express = require('express');
+const GpsTrackerService = require('./services/gps-tracker-service');
 
 const app = express();
 
@@ -11,8 +12,14 @@ app.get('/health', (req, res) => {
     });
 });
 
+const gpsTrackerService = new GpsTrackerService();
+
+gpsTrackerService.start();
+
 const PORT = 3001;
 
 app.listen(PORT, () => {
-    console.log(`Mock GPS Tracker running on port ${PORT}`);
+    console.log(
+        `Mock GPS Tracker running on port ${PORT}`
+    );
 });

@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: tracking-api
+
+  config:
+    import: "optional:file:../../tracking-api.yaml"
+
+server:
+  port: 8082

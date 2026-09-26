@@ -5,36 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="625b39e6-fec7-49f0-8e96-53e61f90e955" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/UpdateShipmentRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/exception/ClientNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/exception/DriverNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/exception/RouteNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/model/ShipmentEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/model/ShipmentStatusFlow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/tracking/TrackingPointEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tracking-api/src/main/java/com/sunny/times/tracking_api/api/TrackingController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tracking-api/src/main/java/com/sunny/times/tracking_api/config/RabbitConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tracking-api/src/main/java/com/sunny/times/tracking_api/messaging/TrackingProducer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/routes/RouteDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/routes/RouteDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentStatusDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentStatusDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/drivers/DriverService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/drivers/DriverService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-service/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/resources/data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/ShipmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/ShipmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/config/RabbitConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/service/ShipmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/service/ShipmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/messaging/event/ShipmentArrivedEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/messaging/event/ShipmentCreatedEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/messaging/event/ShipmentDeliveredEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/messaging/event/ShipmentFailedEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/messaging/event/ShipmentInTransitEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/messaging/event/ShipmentOutForDeliveryEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/messaging/publisher/RabbitShipmentEventPublisher.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/messaging/publisher/ShipmentEventPublisher.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/tracking/TrackingEventResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/tracking/TrackingTimelineResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mock-gps-tracker/src/data/Botevgradko shose - Suhata Reka - reduced.geojson" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mock-gps-tracker/src/data/Botevgradko shose - Suhata Reka - reduced.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mock-gps-tracker/src/data/Industrialna zona Bojurishte manevri - reduced.geojson" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mock-gps-tracker/src/data/Industrialna zona Bojurishte manevri - reduced.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mock-gps-tracker/src/data/Kazichene - Letishte cargo - reduced.geojson" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mock-gps-tracker/src/data/Kazichene - Letishte cargo - reduced.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mock-gps-tracker/src/data/routes.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mock-gps-tracker/src/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/../mock-gps-tracker/src/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mock-gps-tracker/src/services/gps-tracker-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/../mock-gps-tracker/src/services/gps-tracker-service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/api/TrackingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/api/TrackingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/api/dto/TrackingEventResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/api/dto/TrackingTimelineResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/api/mapper/TrackingEventMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/config/MongoIndexConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/domain/model/TrackingEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/domain/service/TrackingEventService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/messaging/event/ShipmentArrivedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/messaging/event/ShipmentCreatedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/messaging/event/ShipmentDeliveredEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/messaging/event/ShipmentFailedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/messaging/event/ShipmentInTransitEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/messaging/event/ShipmentOutForDeliveryEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/messaging/listener/TrackingEventListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/persistence/entity/TrackingEventEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tracking-service/src/main/java/com/sunny/times/tracking/persistence/repository/TrackingEventRepository.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
