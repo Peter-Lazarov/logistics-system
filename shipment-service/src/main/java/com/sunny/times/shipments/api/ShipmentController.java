@@ -51,6 +51,15 @@ public class ShipmentController {
         return ResponseEntity.ok(service.updateStatus(id, req.status()));
     }
 
+    @GetMapping("/{id}/history")
+    public ResponseEntity<?> history(
+            @PathVariable String id
+    ) {
+        return ResponseEntity.ok(
+                service.getHistory(id)
+        );
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         service.delete(id);

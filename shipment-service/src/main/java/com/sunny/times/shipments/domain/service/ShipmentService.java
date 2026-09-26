@@ -12,6 +12,8 @@ import com.sunny.times.shipments.mapper.ShipmentMapper;
 import com.sunny.times.shipments.persistence.entity.ShipmentEntity;
 import com.sunny.times.shipments.persistence.repository.ShipmentRepository;
 import org.springframework.stereotype.Service;
+import com.sunny.times.shipments.persistence.entity.ShipmentStatusHistoryEntity;
+import com.sunny.times.shipments.persistence.repository.ShipmentStatusHistoryRepository;
 
 import java.time.Instant;
 import java.util.List;
@@ -22,13 +24,18 @@ public class ShipmentService {
     private final ShipmentRepository repository;
     private final ShipmentMapper mapper;
     private final CommonClientService commonClient;
+    private final ShipmentStatusHistoryRepository historyRepository;
 
-    public ShipmentService(ShipmentRepository repository,
-                           ShipmentMapper mapper,
-                           CommonClientService commonClient) {
+    public ShipmentService(
+            ShipmentRepository repository,
+            ShipmentMapper mapper,
+            CommonClientService commonClient,
+            ShipmentStatusHistoryRepository historyRepository
+    ) {
         this.repository = repository;
         this.mapper = mapper;
         this.commonClient = commonClient;
+        this.historyRepository = historyRepository;
     }
 
     public List<ShipmentResponse> getAll() {
@@ -70,8 +77,24 @@ public class ShipmentService {
                 Instant.now()
         );
 
-        ShipmentEntity saved = repository.save(mapper.toEntity(shipment));
-        return toResponse(mapper.toDomain(saved));
+        ShipmentEntity saved =
+                repository.save(
+                        mapper.toEntity(shipment)
+                );
+
+        historyRepository.save(
+                new ShipmentStatusHistoryEntity(
+                        null,
+                        saved.getId(),
+                        ShipmentStatus.CREATED,
+                        "peter",
+                        Instant.now()
+                )
+        );
+
+        return toResponse(
+                mapper.toDomain(saved)
+        );
     }
 
     public ShipmentResponse update(String id, UpdateShipmentRequest req) {
@@ -111,14 +134,32 @@ public class ShipmentService {
         return toResponse(mapper.toDomain(saved));
     }
 
-    public ShipmentResponse updateStatus(String id, ShipmentStatusDto newStatus) {
+    public ShipmentResponse updateStatus(
+            String id,
+            ShipmentStatusDto newStatus
+    ) {
+
         ShipmentEntity entity = repository.findById(id)
                 .orElseThrow(() -> new ShipmentNotFoundException(id));
 
-        entity.setStatus(ShipmentStatus.valueOf(newStatus.name()));
+        entity.setStatus(
+                ShipmentStatus.valueOf(newStatus.name())
+        );
+
         entity.setUpdatedAt(Instant.now());
 
+        historyRepository.save(
+                new ShipmentStatusHistoryEntity(
+                        null,
+                        entity.getId(),
+                        entity.getStatus(),
+                        "peter",
+                        Instant.now()
+                )
+        );
+
         ShipmentEntity saved = repository.save(entity);
+
         return toResponse(mapper.toDomain(saved));
     }
 
@@ -156,4 +197,12 @@ public class ShipmentService {
         );
     }
 
+    public List<ShipmentStatusHistoryEntity> getHistory(
+            String shipmentId
+    ) {
+        return historyRepository
+                .findByShipmentIdOrderByChangedAtAsc(
+                        shipmentId
+                );
+    }
 }
