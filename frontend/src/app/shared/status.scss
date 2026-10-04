@@ -1,0 +1,48 @@
+@use './theme' as theme;
+
+.status-badge {
+  padding: 6px 6px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-CREATED {
+  background: theme.$status-created-bg;
+  color: theme.$status-created-text;
+}
+
+.status-ASSIGNED {
+  background: theme.$status-assigned-bg;
+  color: theme.$status-assigned-text;
+}
+
+.status-LOADED {
+  background: theme.$status-loaded-bg;
+  color: theme.$status-loaded-text;
+}
+
+.status-IN_TRANSIT {
+  background: theme.$status-transit-bg;
+  color: theme.$status-transit-text;
+}
+
+.status-DELAYED {
+  background: theme.$status-delayed-bg;
+  color: theme.$status-delayed-text;
+}
+
+.status-ARRIVED {
+  background: theme.$status-arrived-bg;
+  color: theme.$status-arrived-text;
+}
+
+.status-DELIVERED {
+  background: theme.$status-delivered-bg;
+  color: theme.$status-delivered-text;
+}
+
+.status-CANCELLED {
+  background: theme.$status-cancelled-bg;
+  color: theme.$status-cancelled-text;
+}

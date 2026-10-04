@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../core/auth/auth.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +10,8 @@ import { AuthService } from '../../../core/auth/auth.service';
 })
 export class Login {
 
-  username = '';
-  password = '';
+  username = 'peter';
+  password = '1234';
 
   constructor(
     private authService: AuthService
@@ -37,6 +37,8 @@ export class Login {
         );
 
         console.log('LOGIN SUCCESS');
+        
+        window.location.href = '/shipments';
 
         console.log(response);
 

@@ -1,0 +1,65 @@
+<form [formGroup]="form" (ngSubmit)="createShipment()" class="shipment-form">
+
+  <h2>Create Shipment</h2>
+
+  <select formControlName="clientId">
+    <option value="">
+      Select Client
+    </option>
+
+    @for (client of clients; track client.clientId) {
+    <option [value]="client.clientId">
+      {{ client.clientId }} - {{ client.name }}
+    </option>
+    }
+  </select>
+
+  <input formControlName="origin" placeholder="Origin">
+
+  <input formControlName="destination" placeholder="Destination">
+
+    <select formControlName="pathId">
+    <option value="">
+      Select Route
+    </option>
+
+    @for (route of routes; track route.pathId) {
+    <option [value]="route.pathId">
+      {{ route.origin }} → {{ route.destination }}
+    </option>
+    }
+  </select>
+
+  <input formControlName="category" placeholder="Category">
+
+  <input formControlName="description" placeholder="Description">
+
+  <label>Weight (kg)</label>
+  <input type="number" formControlName="totalWeight" placeholder="Weight">
+
+  <label>Volume (m³)</label>
+  <input type="number" formControlName="totalVolume" placeholder="Volume">
+
+  <select formControlName="driverId" (change)="onDriverChange($any($event.target).value)">
+
+    <option value="">
+      Select Driver
+    </option>
+
+    @for (driver of drivers; track driver.id) {
+    <option [value]="driver.id">
+      {{ driver.id }} - {{ driver.name }}
+    </option>
+    }
+  </select>
+
+  <input formControlName="vehicleId" placeholder="Vehicle" readonly>
+
+  <label>Price (euro)</label>
+  <input type="number" formControlName="price" placeholder="Price">
+
+  <button type="submit">
+    Create Shipment
+  </button>
+
+</form>

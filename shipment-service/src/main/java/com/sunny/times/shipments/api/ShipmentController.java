@@ -3,7 +3,8 @@ package com.sunny.times.shipments.api;
 import com.sunny.times.contracts.shipments.CreateShipmentRequest;
 import com.sunny.times.contracts.shipments.ShipmentResponse;
 import com.sunny.times.contracts.shipments.UpdateShipmentRequest;
-import com.sunny.times.contracts.shipments.UpdateShipmentStatusRequest;
+import com.sunny.times.contracts.shipments.ProcessShipmentEventRequest;
+import com.sunny.times.contracts.shipments.ClientShipmentRequest;
 import com.sunny.times.shipments.domain.service.ShipmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,12 +44,24 @@ public class ShipmentController {
         return ResponseEntity.ok(service.update(id, req));
     }
 
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<ShipmentResponse> updateStatus(
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/event")
+    public ResponseEntity<ShipmentResponse> processEvent(
             @PathVariable String id,
-            @RequestBody UpdateShipmentStatusRequest req
+            @RequestBody ProcessShipmentEventRequest req
     ) {
-        return ResponseEntity.ok(service.updateStatus(id, req.status()));
+
+        return ResponseEntity.ok(
+                service.processEvent(
+                        id,
+                        req.event()
+                )
+        );
     }
 
     @GetMapping("/{id}/history")
@@ -60,9 +73,15 @@ public class ShipmentController {
         );
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/requests")
+    public ResponseEntity<ShipmentResponse> createRequest(
+            @RequestBody ClientShipmentRequest req
+    ) {
+
+        return ResponseEntity.ok(
+                service.createRequest(req)
+        );
     }
+
+    
 }

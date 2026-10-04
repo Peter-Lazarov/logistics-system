@@ -1,0 +1,198 @@
+@use '../../../shared/theme' as theme;
+@use '../../../shared/status';
+
+.details-card {
+
+  background: white;
+
+  padding: 24px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  max-width: 900px;
+
+}
+
+.details-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 900px;
+}
+
+.details-card h2 {
+  color: #2f4858;
+  margin-top: 0;
+}
+
+.details-card p {
+  margin: 12px 0;
+  color: #475569;
+}
+
+.details-card hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 20px 0;
+}
+
+.journey {
+  position: relative;
+  height: 220px;
+}
+
+.step {
+  position: absolute;
+  transform: translateX(-50%);
+  z-index: 2;
+
+  width: 160px;
+  text-align: center;
+}
+
+.journey-track {
+  position: absolute;
+  top: 26px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #cbd5e1;
+  z-index: 0;
+}
+
+.journey-progress {
+  height: 100%;
+  background: #7dc4f4;
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  background: #cbd5e1;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  transition: all 0.3s ease;
+}
+
+.step span {
+  font-size: 17px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+
+
+.step-info {
+  margin-top: 12px;
+  font-size: 15px;
+  color: #475569;
+}
+
+.step-user {
+  font-weight: 600;
+}
+
+.step-time {
+  margin-top: 3px;
+}
+
+.step-date {
+  margin-top: 2px;
+}
+
+.step.active .dot {
+  background: #7dc4f4;
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(125, 196, 244, 0.7);
+}
+
+.step.active span {
+  color: #2563eb;
+}
+
+
+
+
+
+
+.journey-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  color: #475569;
+}
+
+.journey-origin,
+.journey-center,
+.journey-destination {
+  text-align: center;
+}
+
+.meta-title {
+  font-weight: 700;
+  color: #2f4858;
+  margin-bottom: 8px;
+}
+
+
+
+
+.next-action-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: #7dc4f4;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.next-action-btn:hover {
+  background: #5baee8;
+}
+
+
+
+
+
+.step-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 14px 0;
+  position: relative;
+  z-index: 10;
+}
+
+.primary-action-btn {
+  background: #7dc4f4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.primary-action-btn:hover {
+  background: #5baee8;
+}
+
+.secondary-action-btn {
+  background: #fca5a5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.secondary-action-btn:hover {
+  background: #ef4444;
+}
+

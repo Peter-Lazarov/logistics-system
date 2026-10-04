@@ -1,2 +1,22 @@
-<router-outlet></router-outlet>
+<header class="topbar">
 
+  <div class="logo">
+    Logistics System
+  </div>
+
+  <nav>
+    <a class="create-btn" routerLink="/shipments/create">Create shipment</a>
+    <a class="create-btn" routerLink="/shipments">Shipments</a>
+    <a class="create-btn" routerLink="/client/request">Client Request</a>
+
+    <button class="logout-btn" (click)="logout()">
+      Logout
+    </button>
+  </nav>
+</header>
+
+<main class="content">
+
+  <router-outlet></router-outlet>
+
+</main>

@@ -1,0 +1,38 @@
+<h2>Shipments</h2>
+
+<p class="shipment-count">Count: {{ shipments.length }}</p>
+
+<table class="shipment-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Category</th>
+      <th>Origin</th>
+      <th>Destination</th>
+      <th>Vehicle</th>
+      <th>Driver</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr
+      *ngFor="let shipment of shipments"
+      [routerLink]="['/shipments', shipment.id]"
+      class="shipment-row"
+    >
+      <td>{{ shipment.id }}</td>
+      <td>{{ shipment.category }}</td>
+      <td>{{ shipment.origin }}</td>
+      <td>{{ shipment.destination }}</td>
+      <td>{{ shipment.vehicleId }}</td>
+      <td>{{ shipment.driverId }}</td>
+
+      <td>
+        <span class="status-badge" [ngClass]="'status-' + shipment.status">
+          {{ shipment.status }}
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,120 @@
+@if (shipment) {
+
+<div class="details-card">
+  <h2><b>Client:</b> {{ shipment.clientId }}</h2>
+
+  <hr />
+  <h3>{{ shipment.id }}</h3>
+  <p><b>Category:</b> {{ shipment.category }}</p>
+  <p><b>Description:</b> {{ shipment.description }}</p>
+  <p><b>Volume:</b> {{ shipment.totalVolume }}</p>
+  <p><b>Weight:</b> {{ shipment.totalWeight }}</p>
+  <p>
+    <b>Status:</b>
+    <span class="status-badge" [ngClass]="'status-' + shipment.status">
+      {{ shipment.status }}
+    </span>
+  </p>
+  <p><b>Created:</b> {{ shipment.createdAt }}</p>
+  <p><b>Updated:</b> {{ shipment.updatedAt }}</p>
+  <p><b>Price:</b> {{ shipment.price }}</p>
+</div>
+
+@if ( shipment?.status === 'CREATED' && !shipment?.driverId ) {
+
+<div class="assignment-panel">
+  <h3>Assign Shipment</h3>
+
+  <select [(ngModel)]="selectedDriverId">
+    <option value="">Select Driver</option>
+
+    @for (driver of drivers; track driver.id) {
+    <option [value]="driver.id">{{ driver.name }}</option>
+    }
+  </select>
+
+  <select [(ngModel)]="selectedRouteId">
+    <option value="">Select Route</option>
+
+    @for (route of routes; track route.pathId) {
+    <option [value]="route.pathId">
+      {{ route.origin }} → {{ route.destination }}
+    </option>
+    }
+  </select>
+</div>
+
+}
+
+<div class="journey-meta">
+  <div class="journey-origin">
+    <div class="meta-title">Origin</div>
+
+    <div>{{ shipment?.origin }}</div>
+  </div>
+
+  <div class="journey-center">
+    <div><b>Path:</b> {{ shipment?.pathId }}</div>
+
+    <div><b>Driver:</b> {{ shipment?.driverId }}</div>
+
+    <div><b>Vehicle:</b> {{ shipment?.vehicleId }}</div>
+  </div>
+
+  <div class="journey-destination">
+    <div class="meta-title">Destination</div>
+
+    <div>{{ shipment?.destination }}</div>
+  </div>
+</div>
+
+<div class="journey">
+  <div class="journey-track">
+    <div
+      class="journey-progress"
+      [style.width.%]="
+      stepPositions[getCurrentStep()]
+    "
+    ></div>
+  </div>
+
+  <div
+    *ngFor="let step of journeySteps; let i = index"
+    class="step"
+    [style.left.%]="stepPositions[i]"
+    [class.active]="getCurrentStep() >= i"
+  >
+    <span>{{ step }}</span>
+    <div class="dot"></div>
+
+    @if (getCurrentStep() === i) {
+    <div class="step-actions">
+      @if (getSecondaryAction()) {
+      <button
+        class="secondary-action-btn"
+        (click)="processEvent(getSecondaryAction()!)"
+      >
+        {{ getSecondaryAction() }}
+      </button>
+      } @if (getPrimaryAction()) {
+      <button
+        class="primary-action-btn"
+        (click)="processEvent(getPrimaryAction()!)"
+      >
+        {{ getPrimaryAction() }}
+      </button>
+      }
+    </div>
+    } @if (getHistoryEntry(step); as entry) {
+    <div class="step-info">
+      <div class="step-user">{{ entry.changedBy }}</div>
+
+      <div class="step-time">{{ formatTime(entry.changedAt) }}</div>
+
+      <div class="step-date">{{ formatDate(entry.changedAt) }}</div>
+    </div>
+    }
+  </div>
+</div>
+
+}

@@ -28,13 +28,13 @@ public class ShipmentEntity {
     @Column(nullable = false)
     private String clientId;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String driverId;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String vehicleId;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String pathId;
 
     @Column(nullable = false)

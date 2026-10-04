@@ -1,0 +1,70 @@
+@use '../../../shared/theme' as theme;
+@use '../../../shared/status';
+
+h2 {
+  color: #2f4858;
+  margin-bottom: 10px;
+}
+
+.shipment-count {
+
+  color: #64748b;
+
+  margin-bottom: 20px;
+
+}
+
+.shipment-table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  background: white;
+
+  overflow: hidden;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+}
+
+.shipment-table thead {
+
+  background: #7dc4f4;
+
+}
+
+.shipment-table th {
+
+  padding: 14px;
+
+  text-align: left;
+
+  color: #2f4858;
+
+}
+
+.shipment-table td {
+
+  padding: 14px;
+
+  border-bottom: 1px solid #e5e7eb;
+
+}
+
+.shipment-row {
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+}
+
+.shipment-row:hover {
+
+  background: #e8f4fb;
+
+  transform: scale(1.002);
+
+}
+

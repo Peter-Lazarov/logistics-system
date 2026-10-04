@@ -1,13 +1,15 @@
 package com.sunny.times.shipments.domain.service;
 
+import com.sunny.times.contracts.shipments.ClientShipmentRequest;
 import com.sunny.times.contracts.shipments.CreateShipmentRequest;
 import com.sunny.times.contracts.shipments.ShipmentResponse;
-import com.sunny.times.contracts.shipments.ShipmentStatusDto;
 import com.sunny.times.contracts.shipments.UpdateShipmentRequest;
 import com.sunny.times.shipments.common.CommonClientService;
 import com.sunny.times.shipments.domain.exception.ShipmentNotFoundException;
 import com.sunny.times.shipments.domain.model.Shipment;
+import com.sunny.times.shipments.domain.model.ShipmentEvent;
 import com.sunny.times.shipments.domain.model.ShipmentStatus;
+import com.sunny.times.shipments.domain.model.ShipmentStatusFlow;
 import com.sunny.times.shipments.mapper.ShipmentMapper;
 import com.sunny.times.shipments.persistence.entity.ShipmentEntity;
 import com.sunny.times.shipments.persistence.repository.ShipmentRepository;
@@ -55,10 +57,21 @@ public class ShipmentService {
     }
 
     public ShipmentResponse create(CreateShipmentRequest req) {
-
         commonClient.getClient(req.clientId());
-        commonClient.getDriver(req.driverId());
-        commonClient.getRoute(req.pathId());
+
+        if (req.driverId() != null &&
+                !req.driverId().isBlank()) {
+            commonClient.getDriver(
+                    req.driverId()
+            );
+        }
+
+        if (req.pathId() != null &&
+                !req.pathId().isBlank()) {
+            commonClient.getRoute(
+                    req.pathId()
+            );
+        }
 
         Shipment shipment = new Shipment(
                 generateShipmentId(),
@@ -102,14 +115,10 @@ public class ShipmentService {
     }
 
     public ShipmentResponse update(String id, UpdateShipmentRequest req) {
-
-
         ShipmentEntity entity = repository.findById(id)
                 .orElseThrow(() -> new ShipmentNotFoundException(id));
 
-        if (entity.getStatus() != ShipmentStatus.CREATED
-                && entity.getStatus() != ShipmentStatus.ASSIGNED) {
-
+        if (entity.getStatus() != ShipmentStatus.CREATED && entity.getStatus() != ShipmentStatus.ASSIGNED) {
             throw new IllegalStateException(
                     "Shipment can only be edited in CREATED or ASSIGNED status"
             );
@@ -132,35 +141,6 @@ public class ShipmentService {
         entity.setPrice(req.price());
 
         entity.setUpdatedAt(Instant.now());
-
-        ShipmentEntity saved = repository.save(entity);
-
-        return toResponse(mapper.toDomain(saved));
-    }
-
-    public ShipmentResponse updateStatus(
-            String id,
-            ShipmentStatusDto newStatus
-    ) {
-
-        ShipmentEntity entity = repository.findById(id)
-                .orElseThrow(() -> new ShipmentNotFoundException(id));
-
-        entity.setStatus(
-                ShipmentStatus.valueOf(newStatus.name())
-        );
-
-        entity.setUpdatedAt(Instant.now());
-
-        historyRepository.save(
-                new ShipmentStatusHistoryEntity(
-                        null,
-                        entity.getId(),
-                        entity.getStatus(),
-                        "peter",
-                        Instant.now()
-                )
-        );
 
         ShipmentEntity saved = repository.save(entity);
 
@@ -209,4 +189,99 @@ public class ShipmentService {
                         shipmentId
                 );
     }
+
+    public ShipmentResponse processEvent(
+            String id,
+            String eventName
+    ) {
+
+        ShipmentEntity entity = repository.findById(id)
+                .orElseThrow(() -> new ShipmentNotFoundException(id));
+
+        ShipmentEvent event =
+                ShipmentEvent.valueOf(eventName);
+
+        ShipmentStatus nextStatus =
+                ShipmentStatusFlow.nextStatus(
+                        entity.getStatus(),
+                        event
+                );
+
+        entity.setStatus(nextStatus);
+
+        entity.setUpdatedAt(
+                Instant.now()
+        );
+
+        historyRepository.save(
+                new ShipmentStatusHistoryEntity(
+                        null,
+                        entity.getId(),
+                        nextStatus,
+                        SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName(),
+                        Instant.now()
+                )
+        );
+
+        ShipmentEntity saved =
+                repository.save(entity);
+
+        return toResponse(
+                mapper.toDomain(saved)
+        );
+    }
+
+    public ShipmentResponse createRequest(
+            ClientShipmentRequest req
+    ) {
+        Shipment shipment = new Shipment(
+                generateShipmentId(),
+                req.category(),
+                req.description(),
+                req.origin(),
+                req.destination(),
+
+                "CUST-003",
+
+                null,
+                null,
+                null,
+
+                req.totalWeight(),
+                req.totalVolume(),
+
+                0.0,
+
+                ShipmentStatus.CREATED,
+
+                Instant.now(),
+                Instant.now()
+        );
+
+        ShipmentEntity saved =
+                repository.save(
+                        mapper.toEntity(shipment)
+                );
+
+        historyRepository.save(
+                new ShipmentStatusHistoryEntity(
+                        null,
+                        saved.getId(),
+                        ShipmentStatus.CREATED,
+                        SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName(),
+                        Instant.now()
+                )
+        );
+
+        return toResponse(
+                mapper.toDomain(saved)
+        );
+    }
+
 }

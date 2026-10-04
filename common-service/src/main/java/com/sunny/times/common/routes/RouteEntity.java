@@ -19,7 +19,12 @@ public class RouteEntity {
 
     private String estimatedTime;
 
-    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(
+            mappedBy = "route",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
+    )
     private List<RoutePointEntity> points = new ArrayList<>();
 
     public RouteEntity() {}

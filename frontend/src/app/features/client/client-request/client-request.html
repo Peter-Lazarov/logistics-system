@@ -1,0 +1,112 @@
+<div class="request-layout">
+
+    <div class="request-form">
+
+        <form
+            [formGroup]="form"
+            (ngSubmit)="submitRequest()"
+            class="client-form">
+
+            <h2>Request for shipment</h2>
+
+            <div class="field-row">
+                <label for="origin">Origin</label>
+
+                <input
+                    id="origin"
+                    formControlName="origin"
+                    placeholder="Origin: City, Street, Number">
+            </div>
+
+            <div class="field-row">
+                <label for="category">Category</label>
+
+                <input
+                    id="category"
+                    formControlName="category"
+                    placeholder="Wood, metal, food, furniture">
+            </div>
+
+            <div class="field-row">
+                <label for="description">Description</label>
+
+                <input
+                    id="description"
+                    formControlName="description"
+                    placeholder="Cargo description">
+            </div>
+
+            <div class="cargo-row">
+
+                <div class="field">
+                    <label for="weight">
+                        Weight (kg)
+                    </label>
+
+                    <input
+                        id="weight"
+                        type="number"
+                        formControlName="totalWeight">
+                </div>
+
+                <div class="field">
+                    <label for="volume">
+                        Volume (m³)
+                    </label>
+
+                    <input
+                        id="volume"
+                        type="number"
+                        formControlName="totalVolume">
+                </div>
+
+            </div>
+
+            <div class="field-row">
+                <label for="destination">
+                    Destination
+                </label>
+
+                <input
+                    id="destination"
+                    formControlName="destination"
+                    placeholder="Destination: City, Street, Number">
+            </div>
+
+            <button type="submit">
+                Send request
+            </button>
+
+        </form>
+
+    </div>
+
+    <div class="demo-panel">
+
+        <h3>Demo Loads</h3>
+
+        @for (
+            load of demoLoads;
+            track load.origin
+        ) {
+
+            <button
+                type="button"
+                class="demo-route"
+                (click)="loadDemo(load)">
+
+                {{ load.origin }}
+                →
+                {{ load.destination }}
+
+            </button>
+
+        }
+
+        <p class="demo-note">
+            For tracking demonstration use one of the predefined loads.
+        </p>
+
+    </div>
+
+</div>

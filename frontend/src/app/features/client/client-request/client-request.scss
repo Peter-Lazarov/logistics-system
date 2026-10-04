@@ -1,0 +1,103 @@
+.request-layout {
+  max-width: 1280px;
+  margin: 40px auto;
+  padding: 0 24px;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+}
+
+.request-form {
+  width: 100%;
+}
+
+.shipment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.shipment-form h2 {
+  margin-bottom: 12px;
+}
+
+.field-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.field-row label {
+  width: 120px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.field-row input {
+  flex: 1;
+}
+
+.cargo-row {
+  display: flex;
+  gap: 12px;
+}
+
+.cargo-row .field {
+  flex: 1;
+}
+
+.cargo-row label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bfd1e5;
+  border-radius: 6px;
+}
+
+.demo-panel {
+  border: 2px solid #5a9be6;
+  padding: 20px;
+  height: fit-content;
+}
+
+.demo-panel h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.demo-route {
+  width: 100%;
+  text-align: left;
+
+  border: none;
+  background: transparent;
+
+  padding: 8px 0;
+
+  cursor: pointer;
+
+  color: #2e77d0;
+  font-size: 16px;
+}
+
+.demo-route:hover {
+  text-decoration: underline;
+}
+
+.demo-note {
+  margin-top: 20px;
+  color: #4b5563;
+}
+
+button[type="submit"] {
+  margin-top: 16px;
+  padding: 12px;
+}
+
+
