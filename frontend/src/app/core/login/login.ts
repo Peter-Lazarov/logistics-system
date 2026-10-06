@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../core/auth/auth.service';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,8 @@ export class Login {
   password = '1234';
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   login(): void {
@@ -36,22 +39,39 @@ export class Login {
           response.refreshToken
         );
 
-        console.log('LOGIN SUCCESS');
-        
-        window.location.href = '/shipments';
+        localStorage.setItem(
+          'role',
+          response.role
+        );
 
-        console.log(response);
+        switch (response.role) {
 
+          case 'ROLE_CLIENT':
+            this.router.navigate(['/client/request']);
+            break;
+
+          case 'ROLE_EMPLOYEE':
+            this.router.navigate(['/shipments']);
+            break;
+
+          case 'ROLE_ADMIN':
+            this.router.navigate(['/shipments']);
+            break;
+
+          default:
+            this.router.navigate(['/login']);
+        }
       },
 
       error: err => {
 
         console.error('LOGIN ERROR');
-
         console.error(err);
 
       }
 
     });
+
   }
+
 }

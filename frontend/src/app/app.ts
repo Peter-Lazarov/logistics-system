@@ -1,29 +1,33 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet, Router, RouterLink } from '@angular/router';
+import { Component, signal } from "@angular/core";
+import { RouterOutlet, Router, RouterLink } from "@angular/router";
 
 @Component({
-  imports: [
-    RouterOutlet,
-    RouterLink
-  ],
-  selector: 'app-root',
-  styleUrl: './app.scss',
-  templateUrl: './app.html',
+  imports: [RouterOutlet, RouterLink],
+  selector: "app-root",
+  styleUrl: "./app.scss",
+  templateUrl: "./app.html",
 })
 export class App {
+  protected readonly title = signal("frontend");
 
-  protected readonly title = signal('frontend');
-
-  constructor(private router: Router) {
-  }
+  constructor(private router: Router) {}
 
   logout(): void {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
 
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-
-    this.router.navigate(['/login']);
-
+    this.router.navigate(["/login"]);
   }
 
+  isAdmin(): boolean {
+    return localStorage.getItem("role") === "ROLE_ADMIN";
+  }
+
+  isEmployee(): boolean {
+    return localStorage.getItem("role") === "ROLE_EMPLOYEE";
+  }
+
+  isClient(): boolean {
+    return localStorage.getItem("role") === "ROLE_CLIENT";
+  }
 }

@@ -24,11 +24,24 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(auth.register(request.getUsername(), request.getPassword()));
+        return ResponseEntity.ok(auth.register(request));
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<?> refresh(@RequestBody RefreshRequest request) {
         return ResponseEntity.ok(auth.refresh(request.getToken()));
     }
+
+    @PostMapping("/admin/register-employee")
+    public ResponseEntity<?> registerEmployee(
+            @RequestBody RegisterRequest request
+    ) {
+        return ResponseEntity.ok(
+                auth.registerEmployee(request)
+        );
+    }
+
+
+
+
 }

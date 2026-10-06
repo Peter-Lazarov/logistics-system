@@ -1,22 +1,24 @@
 <header class="topbar">
-
-  <div class="logo">
-    Logistics System
-  </div>
+  <div class="logo">Logistics System</div>
 
   <nav>
-    <a class="create-btn" routerLink="/shipments/create">Create shipment</a>
-    <a class="create-btn" routerLink="/shipments">Shipments</a>
-    <a class="create-btn" routerLink="/client/request">Client Request</a>
+    @if (isClient()) {
+    <a class="create-btn" routerLink="/shipments/create"> Create Shipment </a>
+    <a class="create-btn" routerLink="/client/request"> Client Request </a>
+    }
+    
+    @if (isEmployee() || isAdmin()) {
+    <a class="create-btn" routerLink="/shipments"> Shipments </a>
+    }
+    
+    @if (isAdmin()) {
+    <a class="create-btn" routerLink="/admin/register-employee"> Register Employee </a>
+    }
 
-    <button class="logout-btn" (click)="logout()">
-      Logout
-    </button>
+    <button class="logout-btn" (click)="logout()"> Logout </button>
   </nav>
 </header>
 
 <main class="content">
-
   <router-outlet></router-outlet>
-
 </main>

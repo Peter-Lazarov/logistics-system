@@ -2,6 +2,10 @@
 
 <p class="shipment-count">Count: {{ shipments.length }}</p>
 
+@if (isClient()) {
+<a class="create-btn" routerLink="/shipments/create"> Create Shipment </a>
+}
+
 <table class="shipment-table">
   <thead>
     <tr>

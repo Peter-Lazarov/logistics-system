@@ -5,27 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="625b39e6-fec7-49f0-8e96-53e61f90e955" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ClientShipmentRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ProcessShipmentEventRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/config/CorsConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/security/JwtAuthenticationFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/ShipmentStatusDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sunny/times/contracts/shipments/UpdateShipmentStatusRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/dto/AuthResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/dto/AuthResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/dto/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/dto/RegisterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/model/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/service/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/service/AuthenticationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/auth/auth-guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/auth/auth-guard.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/auth/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/login/login/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/login/login/login.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/login/login/login.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/login/login/login.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/ShipmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/ShipmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/common/WebClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/common/WebClientConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/login/login.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/login/login.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-list/shipment-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-list/shipment-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-list/shipment-list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-list/shipment-list.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/service/ShipmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/service/ShipmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/persistence/repository/ShipmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/persistence/repository/ShipmentRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
