@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ShipmentRepository extends JpaRepository<ShipmentEntity, String> {
-    List<ShipmentEntity> findByClientId(String clientId);
+    List<ShipmentEntity> findByClientUserId(Long clientUserId);
 }

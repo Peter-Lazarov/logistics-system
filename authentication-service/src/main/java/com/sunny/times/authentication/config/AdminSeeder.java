@@ -15,8 +15,8 @@ public class AdminSeeder implements CommandLineRunner {
 
     private final UserRepository repo;
     private final PasswordEncoder encoder;
-    @Value("${admin.username}")
-    private String adminUsername;
+    @Value("${admin.email}")
+    private String adminEmail;
     @Value("${admin.password}")
     private String adminPassword;
 
@@ -28,15 +28,15 @@ public class AdminSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        if (repo.findByUsername(adminUsername).isPresent()) {
+        if (repo.findByEmail(adminEmail).isPresent()) {
             return;
         }
 
         User admin = new User();
-        admin.setUsername(adminUsername);
+        admin.setEmail(adminEmail);
         admin.setPassword(encoder.encode(adminPassword));
         admin.setRoles(Set.of(Role.ROLE_ADMIN));
         repo.save(admin);
-        //System.out.println("Admin user created: " + adminUsername);
+        //System.out.println("Admin user created: " + adminEmail);
     }
 }

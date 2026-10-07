@@ -1,9 +1,7 @@
 package com.sunny.times.contracts.drivers;
 
 public record DriverDto(
-        String id,
-        String name,
-        String phone,
+        Long userId,
         String licenseNumber,
         String assignedVehicleId
 ) {}

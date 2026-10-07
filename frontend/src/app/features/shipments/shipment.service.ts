@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { environment } from '../../environments/environment';
 
 export interface Shipment {
   id: string;
@@ -32,7 +33,7 @@ export interface ShipmentHistory {
   providedIn: "root",
 })
 export class ShipmentService {
-  private readonly apiUrl = "http://localhost:8082/shipments";
+  private readonly apiUrl = `${environment.shipmentUrl}${environment.shipment.root}`;
 
   constructor(private http: HttpClient) {}
 
@@ -67,15 +68,15 @@ export class ShipmentService {
   }
 
   getClients() {
-    return this.http.get<any[]>("http://localhost:8081/clients");
+    return this.http.get<any[]>(`${environment.commonUrl}${environment.common.clients}`);
   }
 
   getDrivers() {
-    return this.http.get<any[]>("http://localhost:8081/drivers");
+    return this.http.get<any[]>(`${environment.commonUrl}${environment.common.drivers}`);
   }
 
   getRoutes() {
-    return this.http.get<any[]>("http://localhost:8081/routes");
+    return this.http.get<any[]>(`${environment.commonUrl}${environment.common.routes}`);
   }
 
   createRequest(request: any) {

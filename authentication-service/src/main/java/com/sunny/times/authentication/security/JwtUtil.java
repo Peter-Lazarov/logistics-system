@@ -29,7 +29,8 @@ public class JwtUtil {
 
     public String generateAccessToken(User user) {
         return Jwts.builder()
-                .setSubject(user.getUsername())
+                .setSubject(user.getEmail())
+                .claim("userId", user.getId())
                 .claim("roles", user.getRoles())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15)) // 15 min
@@ -39,7 +40,7 @@ public class JwtUtil {
 
     public String generateRefreshToken(User user) {
         return Jwts.builder()
-                .setSubject(user.getUsername())
+                .setSubject(user.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 7)) // 7 days
                 .signWith(REFRESH_KEY, SignatureAlgorithm.HS256)
@@ -54,7 +55,7 @@ public class JwtUtil {
                 .getBody();
 
         User user = new User();
-        user.setUsername(claims.getSubject());
+        user.setEmail(claims.getSubject());
         return user;
     }
 }

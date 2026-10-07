@@ -9,8 +9,8 @@ public class Shipment {
     private String description;
     private String origin;
     private String destination;
-    private String clientId;
-    private String driverId;
+    private Long clientUserId;
+    private Long driverUserId;
     private String vehicleId;
     private String pathId;
     private Double totalWeight;
@@ -27,8 +27,8 @@ public class Shipment {
                     String description,
                     String origin,
                     String destination,
-                    String clientId,
-                    String driverId,
+                    Long clientUserId,
+                    Long driverUserId,
                     String vehicleId,
                     String pathId,
                     Double totalWeight,
@@ -43,8 +43,8 @@ public class Shipment {
         this.description = description;
         this.origin = origin;
         this.destination = destination;
-        this.clientId = clientId;
-        this.driverId = driverId;
+        this.clientUserId = clientUserId;
+        this.driverUserId = driverUserId;
         this.vehicleId = vehicleId;
         this.pathId = pathId;
         this.totalWeight = totalWeight;
@@ -95,20 +95,20 @@ public class Shipment {
         this.destination = destination;
     }
 
-    public String getClientId() {
-        return clientId;
+    public Long getClientUserId() {
+        return clientUserId;
     }
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setClientUserId(Long clientUserId) {
+        this.clientUserId = clientUserId;
     }
 
-    public String getDriverId() {
-        return driverId;
+    public Long getDriverUserId() {
+        return driverUserId;
     }
 
-    public void setDriverId(String driverId) {
-        this.driverId = driverId;
+    public void setDriverUserId(Long driverUserId) {
+        this.driverUserId = driverUserId;
     }
 
     public String getVehicleId() {
@@ -175,5 +175,4 @@ public class Shipment {
         this.updatedAt = updatedAt;
     }
 
-    // getters/setters...
 }

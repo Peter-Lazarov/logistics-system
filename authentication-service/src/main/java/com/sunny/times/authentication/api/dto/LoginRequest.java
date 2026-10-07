@@ -1,9 +1,15 @@
 package com.sunny.times.authentication.api.dto;
 
 public class LoginRequest {
-    private String username;
+
+    private String email;
     private String password;
 
-    public String getUsername() { return username; }
-    public String getPassword() { return password; }
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

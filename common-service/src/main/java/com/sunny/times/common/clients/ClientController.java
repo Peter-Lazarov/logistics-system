@@ -21,7 +21,16 @@ public class ClientController {
     }
 
     @GetMapping("/{clientId}")
-    public ClientDto getById(@PathVariable String clientId) {
+    public ClientDto getById(@PathVariable Long clientId) {
         return service.getById(clientId);
     }
+
+    @PostMapping
+    public ClientDto create(
+            @RequestBody ClientDto dto
+    ) {
+        return service.create(dto);
+    }
+
+
 }

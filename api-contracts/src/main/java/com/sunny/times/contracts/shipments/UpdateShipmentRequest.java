@@ -8,8 +8,8 @@ public record UpdateShipmentRequest(
         String origin,
         String destination,
 
-        String clientId,
-        String driverId,
+        Long clientUserId,
+        Long driverUserId,
         String vehicleId,
         String pathId,
 

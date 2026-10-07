@@ -83,5 +83,13 @@ public class ShipmentController {
         );
     }
 
-    
+    @GetMapping("/my")
+    public ResponseEntity<List<ShipmentResponse>> getMyShipments(
+            @RequestParam Long userId
+    ) {
+        return ResponseEntity.ok(
+                service.getMyShipments(userId)
+        );
+    }
+
 }

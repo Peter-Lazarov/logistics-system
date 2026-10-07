@@ -57,12 +57,11 @@ public class ShipmentService {
     }
 
     public ShipmentResponse create(CreateShipmentRequest req) {
-        commonClient.getClient(req.clientId());
+        commonClient.getClient(req.clientUserId());
 
-        if (req.driverId() != null &&
-                !req.driverId().isBlank()) {
+        if (req.driverUserId() != null) {
             commonClient.getDriver(
-                    req.driverId()
+                    req.driverUserId()
             );
         }
 
@@ -79,8 +78,8 @@ public class ShipmentService {
                 req.description(),
                 req.origin(),
                 req.destination(),
-                req.clientId(),
-                req.driverId(),
+                req.clientUserId(),
+                req.driverUserId(),
                 req.vehicleId(),
                 req.pathId(),
                 req.totalWeight(),
@@ -124,16 +123,16 @@ public class ShipmentService {
             );
         }
 
-        commonClient.getClient(req.clientId());
-        commonClient.getDriver(req.driverId());
+        commonClient.getClient(req.clientUserId());
+        commonClient.getDriver(req.driverUserId());
         commonClient.getRoute(req.pathId());
 
         entity.setCategory(req.category());
         entity.setDescription(req.description());
         entity.setOrigin(req.origin());
         entity.setDestination(req.destination());
-        entity.setClientId(req.clientId());
-        entity.setDriverId(req.driverId());
+        entity.setClientUserId(req.clientUserId());
+        entity.setDriverUserId(req.driverUserId());
         entity.setVehicleId(req.vehicleId());
         entity.setPathId(req.pathId());
         entity.setTotalWeight(req.totalWeight());
@@ -168,8 +167,8 @@ public class ShipmentService {
                 s.getDescription(),
                 s.getOrigin(),
                 s.getDestination(),
-                s.getClientId(),
-                s.getDriverId(),
+                s.getClientUserId(),
+                s.getDriverUserId(),
                 s.getVehicleId(),
                 s.getPathId(),
                 s.getTotalWeight(),
@@ -244,7 +243,7 @@ public class ShipmentService {
                 req.origin(),
                 req.destination(),
 
-                "CUST-003",
+                1004L,
 
                 null,
                 null,
@@ -282,6 +281,15 @@ public class ShipmentService {
         return toResponse(
                 mapper.toDomain(saved)
         );
+    }
+
+    public List<ShipmentResponse> getMyShipments(Long clientUserId) {
+
+        return repository.findByClientUserId(clientUserId)
+                .stream()
+                .map(mapper::toDomain)
+                .map(this::toResponse)
+                .toList();
     }
 
 }

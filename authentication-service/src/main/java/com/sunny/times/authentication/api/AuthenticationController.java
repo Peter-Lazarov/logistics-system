@@ -19,7 +19,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(auth.login(request.getUsername(), request.getPassword()));
+        return ResponseEntity.ok(auth.login(request.getEmail(), request.getPassword()));
     }
 
     @PostMapping("/register")
@@ -41,6 +41,13 @@ public class AuthenticationController {
         );
     }
 
+    @GetMapping("/admin/users")
+    public ResponseEntity<?> users() {
+        return ResponseEntity.ok(
+                auth.getAllUsers()
+        );
+
+    }
 
 
 

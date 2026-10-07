@@ -2,20 +2,25 @@ package com.sunny.times.authentication.api.dto;
 
 public class RegisterRequest {
 
-    private String username;
+    private String email;
     private String password;
-    private String role;
 
-    public String getUsername() {
-        return username;
+    private String name;
+    private String phone;
+
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public String getRole() {
-        return role;
+    public String getName() {
+        return name;
     }
 
+    public String getPhone() {
+        return phone;
+    }
 }

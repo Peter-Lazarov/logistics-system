@@ -26,10 +26,10 @@ public class ShipmentEntity {
     private String destination;
 
     @Column(nullable = false)
-    private String clientId;
+    private Long clientUserId;
 
     @Column(nullable = true)
-    private String driverId;
+    private Long driverUserId;
 
     @Column(nullable = true)
     private String vehicleId;
@@ -63,8 +63,8 @@ public class ShipmentEntity {
                           String description,
                           String origin,
                           String destination,
-                          String clientId,
-                          String driverId,
+                          Long clientUserId,
+                          Long driverUserId,
                           String vehicleId,
                           String pathId,
                           Double totalWeight,
@@ -79,8 +79,8 @@ public class ShipmentEntity {
         this.description = description;
         this.origin = origin;
         this.destination = destination;
-        this.clientId = clientId;
-        this.driverId = driverId;
+        this.clientUserId = clientUserId;
+        this.driverUserId = driverUserId;
         this.vehicleId = vehicleId;
         this.pathId = pathId;
         this.totalWeight = totalWeight;
@@ -106,11 +106,11 @@ public class ShipmentEntity {
     public String getDestination() { return destination; }
     public void setDestination(String destination) { this.destination = destination; }
 
-    public String getClientId() { return clientId; }
-    public void setClientId(String clientId) { this.clientId = clientId; }
+    public Long getClientUserId() { return clientUserId; }
+    public void setClientUserId(Long clientUserId) { this.clientUserId = clientUserId; }
 
-    public String getDriverId() { return driverId; }
-    public void setDriverId(String driverId) { this.driverId = driverId; }
+    public Long getDriverUserId() { return driverUserId; }
+    public void setDriverUserId(Long driverUserId) { this.driverUserId = driverUserId; }
 
     public String getVehicleId() { return vehicleId; }
     public void setVehicleId(String vehicleId) { this.vehicleId = vehicleId; }

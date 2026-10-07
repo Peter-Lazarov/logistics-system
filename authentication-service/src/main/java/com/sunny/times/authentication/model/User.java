@@ -9,11 +9,26 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_seq"
+    )
+    @SequenceGenerator(
+            name = "user_seq",
+            sequenceName = "user_seq",
+            initialValue = 1001,
+            allocationSize = 1
+    )
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String email;
+
+    @Column(nullable = true)
+    private String name;
+
+    @Column(nullable = true)
+    private String phone;
 
     @Column(nullable = false)
     private String password;
@@ -30,12 +45,28 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getPassword() {

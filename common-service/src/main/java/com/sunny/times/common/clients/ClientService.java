@@ -16,15 +16,19 @@ public class ClientService {
     }
 
     public List<ClientDto> getAll() {
-        return repository.findAll()
-                .stream()
-                .map(ClientMapper::toDto)
-                .toList();
+        return repository.findAll().stream().map(ClientMapper::toDto).toList();
     }
 
-    public ClientDto getById(String clientId) {
-        ClientEntity entity = repository.findById(clientId)
-                .orElseThrow(() -> new ClientNotFoundException(clientId));
+    public ClientDto getById(Long clientUserId) {
+        ClientEntity entity = repository.findById(clientUserId).orElseThrow(() -> new ClientNotFoundException(clientUserId));
         return ClientMapper.toDto(entity);
     }
+
+    public ClientDto create(ClientDto dto) {
+
+        ClientEntity entity = new ClientEntity(dto.userId(), dto.companyName(), dto.companyAddress(), dto.vatNumber());
+
+        return ClientMapper.toDto(repository.save(entity));
+    }
+
 }

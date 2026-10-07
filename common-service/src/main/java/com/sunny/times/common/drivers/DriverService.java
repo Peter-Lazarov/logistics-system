@@ -22,7 +22,7 @@ public class DriverService {
                 .toList();
     }
 
-    public DriverDto getById(String id) {
+    public DriverDto getById(Long id) {
         DriverEntity entity = repository.findById(id)
                 .orElseThrow(() -> new DriverNotFoundException(id));
         return DriverMapper.toDto(entity);

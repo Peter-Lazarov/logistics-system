@@ -5,37 +5,31 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "drivers")
+@Table(name = "driver_profiles")
 public class DriverEntity {
 
     @Id
-    private String id;
+    private Long userId;
 
-    private String name;
-    private String phone;
     private String licenseNumber;
+
     private String assignedVehicleId;
 
-    public DriverEntity() {}
+    public DriverEntity() {
+    }
 
-    public DriverEntity(String id, String name, String phone, String licenseNumber, String assignedVehicleId) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
+    public DriverEntity(
+            Long userId,
+            String licenseNumber,
+            String assignedVehicleId
+    ) {
+        this.userId = userId;
         this.licenseNumber = licenseNumber;
         this.assignedVehicleId = assignedVehicleId;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPhone() {
-        return phone;
+    public Long getUserId() {
+        return userId;
     }
 
     public String getLicenseNumber() {

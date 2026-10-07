@@ -18,12 +18,12 @@ public class CommonClientService {
         this.webClient = commonWebClient;
     }
 
-    public ClientDto getClient(String clientId) {
+    public ClientDto getClient(Long clientUserId) {
         return webClient.get()
-                .uri("/clients/{id}", clientId)
+                .uri("/clients/{id}", clientUserId)
                 .retrieve()
                 .onStatus(status -> status.value() == 404,
-                        response -> Mono.error(new ShipmentNotFoundException("Client not found: " + clientId)))
+                        response -> Mono.error(new ShipmentNotFoundException("Client not found: " + clientUserId)))
                 .onStatus(HttpStatusCode::is5xxServerError,
                         response -> Mono.error(new RuntimeException("Common Service unavailable")))
                 .bodyToMono(ClientDto.class)
@@ -42,12 +42,12 @@ public class CommonClientService {
                 .block();
     }
 
-    public DriverDto getDriver(String driverId) {
+    public DriverDto getDriver(Long driverUserId) {
         return webClient.get()
-                .uri("/drivers/{id}", driverId)
+                .uri("/drivers/{id}", driverUserId)
                 .retrieve()
                 .onStatus(status -> status.value() == 404,
-                        response -> Mono.error(new ShipmentNotFoundException("Driver not found: " + driverId)))
+                        response -> Mono.error(new ShipmentNotFoundException("Driver not found: " + driverUserId)))
                 .onStatus(HttpStatusCode::is5xxServerError,
                         response -> Mono.error(new RuntimeException("Common Service unavailable")))
                 .bodyToMono(DriverDto.class)
