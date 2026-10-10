@@ -39,18 +39,16 @@
   margin: 20px 0;
 }
 
+
 .journey {
   position: relative;
-  height: 220px;
-}
-
-.step {
-  position: absolute;
-  transform: translateX(-50%);
-  z-index: 2;
-
-  width: 160px;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 40px;
+  height: auto;
+  min-height: 220px;
+  box-sizing: border-box;
 }
 
 .journey-track {
@@ -61,6 +59,14 @@
   height: 3px;
   background: #cbd5e1;
   z-index: 0;
+}
+
+.step {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  max-width: 160px;
+  text-align: center;
 }
 
 .journey-progress {
@@ -82,8 +88,6 @@
   font-weight: 600;
   color: #64748b;
 }
-
-
 
 .step-info {
   margin-top: 12px;
@@ -196,3 +200,19 @@
   background: #ef4444;
 }
 
+.client-card {
+  border: 2px solid #6ca8ff;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 350px;
+}
+
+.client-card hr {
+  margin: 10px 0;
+}
+
+.banner{
+    margin: 15px 0 0 0;
+    background: #B8E6B8;
+    height: 15px;
+}

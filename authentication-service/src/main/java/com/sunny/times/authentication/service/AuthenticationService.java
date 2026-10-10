@@ -2,15 +2,16 @@ package com.sunny.times.authentication.service;
 
 import com.sunny.times.authentication.api.dto.AuthResponse;
 import com.sunny.times.authentication.api.dto.RegisterRequest;
+import com.sunny.times.authentication.api.dto.UserProfile;
 import com.sunny.times.authentication.api.dto.UserResponse;
 import com.sunny.times.authentication.model.Role;
 import com.sunny.times.authentication.model.User;
 import com.sunny.times.authentication.repository.UserRepository;
 import com.sunny.times.authentication.security.JwtUtil;
+import com.sunny.times.contracts.clients.ClientDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import com.sunny.times.contracts.clients.ClientDto;
 
 import java.util.List;
 import java.util.Set;
@@ -51,6 +52,8 @@ public class AuthenticationService {
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPassword(encoder.encode(request.getPassword()));
+        user.setName(request.getName());
+        user.setPhone(request.getPhone());
         user.setRoles(Set.of(Role.ROLE_CLIENT));
 
         User savedUser = repo.save(user);
@@ -90,6 +93,8 @@ public class AuthenticationService {
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPassword(encoder.encode(request.getPassword()));
+        user.setName(request.getName());
+        user.setPhone(request.getPhone());
         user.setRoles(Set.of(Role.ROLE_EMPLOYEE));
         repo.save(user);
 
@@ -103,5 +108,35 @@ public class AuthenticationService {
 
         return repo.findAll().stream().map(user -> new UserResponse(user.getId(), user.getEmail(), user.getRoles().iterator().next().name())).toList();
     }
+
+    public UserProfile getUserById(Long id) {
+        User user = repo.findById(id).orElseThrow(() ->
+                new RuntimeException("User not found")
+        );
+
+        return new UserProfile(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPhone()
+        );
+    }
+
+    public UserProfile getCurrentUser(String email) {
+        User user = repo.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "User not found"
+                        )
+                );
+
+        return new UserProfile(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPhone()
+        );
+    }
+
 
 }

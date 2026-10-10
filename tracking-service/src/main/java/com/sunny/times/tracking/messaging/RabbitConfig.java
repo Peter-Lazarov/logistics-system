@@ -1,4 +1,4 @@
-package com.sunny.times.tracking.config;
+package com.sunny.times.tracking.messaging;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

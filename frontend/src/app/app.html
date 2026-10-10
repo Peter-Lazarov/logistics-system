@@ -2,22 +2,27 @@
   <div class="logo">Logistics System</div>
 
   <nav>
-    @if (isClient()) {
-    <a class="create-btn" routerLink="/shipments/create"> Create Shipment </a>
-    <a class="create-btn" routerLink="/client/request"> Client Request </a>
-    }
-    
-    @if (isEmployee() || isAdmin()) {
+    @if (!isClient() && !isEmployee() && !isAdmin()) {
+    <a class="create-btn" routerLink="/login">Login</a>
+    <a class="create-btn" routerLink="/register">Register</a>
+    } @if (isClient()) {
+    <a class="create-btn" routerLink="/shipments/my"> My Shipments </a>
+    <a class="create-btn" routerLink="/shipments/request"> Shipment Request </a>
+    } @if (isEmployee()) {
     <a class="create-btn" routerLink="/shipments"> Shipments </a>
+    <a class="create-btn" routerLink="/shipments/create"> Create Shipment </a>
+    } @if (isAdmin()) {
+    <a class="create-btn" routerLink="/shipments"> Shipments </a>
+    <a class="create-btn" routerLink="/admin/register-employee">
+      Register Employee
+    </a>
+    } @if (isClient() || isEmployee() || isAdmin()) {
+    <a class="create-btn" routerLink="/profile"> Profile </a>
+    <button class="logout-btn" (click)="logout()">Logout</button>
     }
-    
-    @if (isAdmin()) {
-    <a class="create-btn" routerLink="/admin/register-employee"> Register Employee </a>
-    }
-
-    <button class="logout-btn" (click)="logout()"> Logout </button>
   </nav>
 </header>
+<div class="banner"></div>
 
 <main class="content">
   <router-outlet></router-outlet>

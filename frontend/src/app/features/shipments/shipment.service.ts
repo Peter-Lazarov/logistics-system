@@ -1,22 +1,29 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { environment } from '../../environments/environment';
+import { environment } from "../../environments/environment";
 
 export interface Shipment {
   id: string;
+
   category: string;
   description: string;
+
   origin: string;
   destination: string;
-  clientId: string;
-  driverId: string;
-  vehicleId: string;
-  pathId: string;
+
+  clientUserId: number;
+  driverUserId: number | null;
+
+  vehicleId: string | null;
+  pathId: string | null;
+
   totalWeight: number;
   totalVolume: number;
+
   price: number;
   status: string;
+
   createdAt: string;
   updatedAt: string;
 }
@@ -68,15 +75,21 @@ export class ShipmentService {
   }
 
   getClients() {
-    return this.http.get<any[]>(`${environment.commonUrl}${environment.common.clients}`);
+    return this.http.get<any[]>(
+      `${environment.commonUrl}${environment.common.clients}`,
+    );
   }
 
   getDrivers() {
-    return this.http.get<any[]>(`${environment.commonUrl}${environment.common.drivers}`);
+    return this.http.get<any[]>(
+      `${environment.commonUrl}${environment.common.drivers}`,
+    );
   }
 
   getRoutes() {
-    return this.http.get<any[]>(`${environment.commonUrl}${environment.common.routes}`);
+    return this.http.get<any[]>(
+      `${environment.commonUrl}${environment.common.routes}`,
+    );
   }
 
   createRequest(request: any) {
@@ -85,5 +98,15 @@ export class ShipmentService {
 
   update(id: string, request: any) {
     return this.http.put(`${this.apiUrl}/${id}`, request);
+  }
+
+  getMyShipments() {
+    return this.http.get<any[]>(`${environment.shipmentUrl}/shipments/my`);
+  }
+
+  getClientById(id: number) {
+    return this.http.get<any>(
+      `${environment.commonUrl}${environment.common.clients}/${id}`,
+    );
   }
 }

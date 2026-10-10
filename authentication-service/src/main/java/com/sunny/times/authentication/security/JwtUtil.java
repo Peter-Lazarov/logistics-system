@@ -58,4 +58,28 @@ public class JwtUtil {
         user.setEmail(claims.getSubject());
         return user;
     }
+
+    public String extractEmail(String token) {
+
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(ACCESS_KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getSubject();
+    }
+
+    public Long extractUserId(String token) {
+
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(ACCESS_KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return ((Number) claims.get("userId"))
+                .longValue();
+    }
+
 }

@@ -1,6 +1,8 @@
 .login-container {
-  width: 350px;
   margin: 100px auto;
+  padding: 20px;
+  width: 350px;
+  text-align: center;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -13,4 +15,9 @@ input {
 button {
   padding: 10px;
   cursor: pointer;
+}
+
+.banner{
+    background: #A7D8FF;
+    height: 15px;
 }

@@ -3,7 +3,12 @@ package com.sunny.times.common;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(
+		scanBasePackages = {
+				"com.sunny.times.common",
+				"com.sunny.times.security"
+		}
+)
 public class CommonServiceApplication {
 
 	public static void main(String[] args) {

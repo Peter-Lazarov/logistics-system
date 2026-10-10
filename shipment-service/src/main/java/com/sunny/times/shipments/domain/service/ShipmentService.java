@@ -4,19 +4,22 @@ import com.sunny.times.contracts.shipments.ClientShipmentRequest;
 import com.sunny.times.contracts.shipments.CreateShipmentRequest;
 import com.sunny.times.contracts.shipments.ShipmentResponse;
 import com.sunny.times.contracts.shipments.UpdateShipmentRequest;
-import com.sunny.times.shipments.common.CommonClientService;
 import com.sunny.times.shipments.domain.exception.ShipmentNotFoundException;
 import com.sunny.times.shipments.domain.model.Shipment;
 import com.sunny.times.shipments.domain.model.ShipmentEvent;
 import com.sunny.times.shipments.domain.model.ShipmentStatus;
 import com.sunny.times.shipments.domain.model.ShipmentStatusFlow;
-import com.sunny.times.shipments.mapper.ShipmentMapper;
 import com.sunny.times.shipments.persistence.entity.ShipmentEntity;
 import com.sunny.times.shipments.persistence.repository.ShipmentRepository;
-import org.springframework.stereotype.Service;
 import com.sunny.times.shipments.persistence.entity.ShipmentStatusHistoryEntity;
 import com.sunny.times.shipments.persistence.repository.ShipmentStatusHistoryRepository;
+import com.sunny.times.shipments.mapper.ShipmentMapper;
+import com.sunny.times.shipments.common.CommonClientService;
+
+import com.sunny.times.security.CurrentUserService;
+
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
@@ -28,17 +31,20 @@ public class ShipmentService {
     private final ShipmentMapper mapper;
     private final CommonClientService commonClient;
     private final ShipmentStatusHistoryRepository historyRepository;
+    private final CurrentUserService currentUserService;
 
     public ShipmentService(
             ShipmentRepository repository,
             ShipmentMapper mapper,
             CommonClientService commonClient,
-            ShipmentStatusHistoryRepository historyRepository
+            ShipmentStatusHistoryRepository historyRepository,
+            CurrentUserService currentUserService
     ) {
         this.repository = repository;
         this.mapper = mapper;
         this.commonClient = commonClient;
         this.historyRepository = historyRepository;
+        this.currentUserService = currentUserService;
     }
 
     public List<ShipmentResponse> getAll() {
@@ -233,9 +239,10 @@ public class ShipmentService {
         );
     }
 
-    public ShipmentResponse createRequest(
-            ClientShipmentRequest req
-    ) {
+    public ShipmentResponse createRequest(ClientShipmentRequest req) {
+
+        Long clientUserId = currentUserService.getCurrentUser().userId();
+
         Shipment shipment = new Shipment(
                 generateShipmentId(),
                 req.category(),
@@ -243,7 +250,7 @@ public class ShipmentService {
                 req.origin(),
                 req.destination(),
 
-                1004L,
+                clientUserId,
 
                 null,
                 null,

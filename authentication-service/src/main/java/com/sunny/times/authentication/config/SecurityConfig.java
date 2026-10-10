@@ -31,7 +31,37 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth.requestMatchers("/auth/login", "/auth/register", "/auth/refresh").permitAll().requestMatchers("/auth/admin/**").hasRole("ADMIN").anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/auth/login",
+                                "/auth/register",
+                                "/auth/refresh"
+                        )
+                        .permitAll()
+
+                        .requestMatchers("/auth/admin/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers("/auth/users/**")
+                        .hasAnyRole("ADMIN", "EMPLOYEE")
+
+                        .anyRequest()
+                        .authenticated() //for all other poins with token, every client can see unprotected points
+
+                )
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
+                )
+                .addFilterBefore(
+                        jwtFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
+
         return http.build();
     }
 

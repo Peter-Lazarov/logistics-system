@@ -1,4 +1,4 @@
-package com.sunny.times.tracking.config;
+package com.sunny.times.tracking.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

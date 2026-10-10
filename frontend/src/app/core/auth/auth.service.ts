@@ -4,8 +4,15 @@ import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 
 export interface LoginRequest {
-  username: string;
+  email: string;
   password: string;
+}
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
 }
 
 export interface AuthResponse {
@@ -26,19 +33,33 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, request);
   }
 
+  register(request: RegisterRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, request);
+  }
+
   getRole(): string | null {
     return localStorage.getItem("role");
   }
 
   isAdmin(): boolean {
-    return this.getRole() === "ADMIN";
+    return this.getRole() === "ROLE_ADMIN";
   }
 
   isEmployee(): boolean {
-    return this.getRole() === "EMPLOYEE";
+    return this.getRole() === "ROLE_EMPLOYEE";
   }
 
   isClient(): boolean {
-    return this.getRole() === "CLIENT";
+    return this.getRole() === "ROLE_CLIENT";
+  }
+
+  logout(): void {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("role");
+  }
+
+  getMe() {
+    return this.http.get<any>(`${this.apiUrl}/me`);
   }
 }

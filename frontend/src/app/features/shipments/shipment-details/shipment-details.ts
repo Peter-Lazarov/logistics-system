@@ -23,8 +23,8 @@ export class ShipmentDetails implements OnInit {
   routes: any[] = [];
   selectedDriverId = "";
   selectedRouteId = "";
-
   stepPositions = [8, 25, 40, 68, 88, 98];
+  client: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,14 +40,6 @@ export class ShipmentDetails implements OnInit {
         this.cdr.detectChanges();
       },
     });
-
-    this.shipmentService.getById(id).subscribe({
-      next: (data) => {
-        this.shipment = data;
-
-        this.cdr.detectChanges();
-      },
-    });
   }
 
   ngOnInit(): void {
@@ -57,9 +49,9 @@ export class ShipmentDetails implements OnInit {
       return;
     }
 
-    this.shipmentService.getHistory(id).subscribe({
+    this.shipmentService.getById(id).subscribe({
       next: (data) => {
-        this.history = data;
+        this.shipment = data;
 
         this.cdr.detectChanges();
       },
@@ -69,9 +61,9 @@ export class ShipmentDetails implements OnInit {
       },
     });
 
-    this.shipmentService.getById(id).subscribe({
+    this.shipmentService.getHistory(id).subscribe({
       next: (data) => {
-        this.shipment = data;
+        this.history = data;
 
         this.cdr.detectChanges();
       },
@@ -251,9 +243,9 @@ export class ShipmentDetails implements OnInit {
           origin: this.shipment.origin,
           destination: this.shipment.destination,
 
-          clientId: this.shipment.clientId,
+          clientUserId: this.shipment.clientUserId,
 
-          driverId: this.selectedDriverId,
+          driverUserId: this.selectedDriverId,
           pathId: this.selectedRouteId,
           vehicleId: driver?.assignedVehicleId ?? "",
 
@@ -315,9 +307,9 @@ export class ShipmentDetails implements OnInit {
         origin: this.shipment.origin,
         destination: this.shipment.destination,
 
-        clientId: this.shipment.clientId,
+        clientUserId: this.shipment.clientUserId,
 
-        driverId: this.selectedDriverId,
+        driverUserId: this.selectedDriverId,
         vehicleId: this.shipment.vehicleId ?? "",
         pathId: this.selectedRouteId,
 

@@ -1,32 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ShipmentService } from '../../shipments/shipment.service';
 
 interface DemoLoad {
-
   origin: string;
   destination: string;
-
   category: string;
   description: string;
-
   totalWeight: number;
   totalVolume: number;
-
 }
 
 @Component({
+  selector: 'app-client-request',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule
   ],
-  selector: 'app-client-request',
   styleUrl: './client-request.scss',
   templateUrl: './client-request.html',
 })
@@ -66,7 +59,6 @@ export class ClientRequest implements OnInit {
     private router: Router,
     private shipmentService: ShipmentService
   ) {
-
     this.form = this.fb.group({
       origin: ['', Validators.required],
       destination: ['', Validators.required],
@@ -75,15 +67,11 @@ export class ClientRequest implements OnInit {
       totalWeight: [0, Validators.required],
       totalVolume: [0, Validators.required],
     });
-
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  loadDemo(
-    load: DemoLoad
-  ): void {
+  loadDemo(load: DemoLoad): void {
     this.form.patchValue({
       origin: load.origin,
       destination: load.destination,
@@ -100,25 +88,14 @@ export class ClientRequest implements OnInit {
     }
 
     this.shipmentService
-      .createRequest(
-        this.form.getRawValue()
-      )
+      .createRequest(this.form.getRawValue())
       .subscribe({
-        next: response => {
-          console.log(response);
-          alert(
-            'Request submitted successfully'
-          );
-          this.form.reset();
-          this.router.navigate([
-            '/shipments'
-          ]);
+        next: () => {
+          this.router.navigate(['/shipments/my']);
         },
-        error: err => {
+        error: (err) => {
           console.error(err);
         }
       });
   }
-  
-
 }

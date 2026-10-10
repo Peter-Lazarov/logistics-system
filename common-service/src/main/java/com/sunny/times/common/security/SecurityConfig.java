@@ -1,18 +1,21 @@
-package com.sunny.times.shipments.config;
+package com.sunny.times.common.security;
 
-import com.sunny.times.shipments.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import org.springframework.security.config.Customizer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.sunny.times.security.JwtAuthenticationFilter;
+import com.sunny.times.security.UserContext;
+import com.sunny.times.security.CurrentUserService;
+import com.sunny.times.security.JwtUtil;
 
 import java.util.List;
 
@@ -28,28 +31,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors(Customizer.withDefaults())
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers(
-                        "/shipments/requests"
+                .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/clients/me")
+                        .hasAnyRole(
+                                "CLIENT",
+                                "EMPLOYEE",
+                                "ADMIN"
+                        )
+                        .anyRequest().authenticated()
                 )
-                .hasRole("CLIENT")
-                .requestMatchers(
-                        "/shipments",
-                        "/shipments/**"
-                )
-                .hasAnyRole(
-                        "EMPLOYEE",
-                        "ADMIN"
-                )
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(
-                jwtFilter,
-                UsernamePasswordAuthenticationFilter.class
-            );
+                .addFilterBefore(
+                        jwtFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         return http.build();
     }

@@ -1,0 +1,21 @@
+<h2>My Shipments</h2>
+
+<div class="list">
+  @if (shipments$ | async; as resolvedShipments) {
+  <p>Count: {{ resolvedShipments.length }}</p>
+
+  @for (shipment of resolvedShipments; track shipment.id) {
+    <div>
+      {{ shipment.id }}
+      {{ shipment.status }}
+      {{ shipment.origin }}
+      {{ shipment.destination }}
+    </div>
+  }
+} @else {
+  <p>Loading shipments...</p>
+}
+
+</div>
+
+<div class="banner"></div>

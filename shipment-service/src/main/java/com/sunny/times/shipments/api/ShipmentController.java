@@ -5,6 +5,7 @@ import com.sunny.times.contracts.shipments.ShipmentResponse;
 import com.sunny.times.contracts.shipments.UpdateShipmentRequest;
 import com.sunny.times.contracts.shipments.ProcessShipmentEventRequest;
 import com.sunny.times.contracts.shipments.ClientShipmentRequest;
+import com.sunny.times.security.CurrentUserService;
 import com.sunny.times.shipments.domain.service.ShipmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,11 @@ import java.util.List;
 public class ShipmentController {
 
     private final ShipmentService service;
+    private final CurrentUserService currentUserService;
 
-    public ShipmentController(ShipmentService service) {
+    public ShipmentController(ShipmentService service, CurrentUserService currentUserService) {
         this.service = service;
+        this.currentUserService = currentUserService;
     }
 
     @GetMapping
@@ -84,9 +87,13 @@ public class ShipmentController {
     }
 
     @GetMapping("/my")
-    public ResponseEntity<List<ShipmentResponse>> getMyShipments(
-            @RequestParam Long userId
-    ) {
+    public ResponseEntity<List<ShipmentResponse>> getMyShipments() {
+
+        Long userId =
+                currentUserService
+                        .getCurrentUser()
+                        .userId();
+
         return ResponseEntity.ok(
                 service.getMyShipments(userId)
         );

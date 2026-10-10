@@ -13,7 +13,12 @@ import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 
-@SpringBootApplication
+@SpringBootApplication(
+		scanBasePackages = {
+				"com.sunny.times.tracking",
+				"com.sunny.times.security"
+		}
+)
 public class TrackingServiceApplication {
 
 	@Value("${spring.data.mongodb.uri}")

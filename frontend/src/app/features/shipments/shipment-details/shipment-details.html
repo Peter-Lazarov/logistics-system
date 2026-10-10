@@ -1,7 +1,7 @@
 @if (shipment) {
 
 <div class="details-card">
-  <h2><b>Client:</b> {{ shipment.clientId }}</h2>
+  <h2><b>Client:</b> {{ shipment.clientUserId }}</h2>
 
   <hr />
   <h3>{{ shipment.id }}</h3>
@@ -20,7 +20,7 @@
   <p><b>Price:</b> {{ shipment.price }}</p>
 </div>
 
-@if ( shipment?.status === 'CREATED' && !shipment?.driverId ) {
+@if ( shipment?.status === 'CREATED' && !shipment?.driverUserId ) {
 
 <div class="assignment-panel">
   <h3>Assign Shipment</h3>
@@ -56,7 +56,7 @@
   <div class="journey-center">
     <div><b>Path:</b> {{ shipment?.pathId }}</div>
 
-    <div><b>Driver:</b> {{ shipment?.driverId }}</div>
+    <div><b>Driver:</b> {{ shipment?.driverUserId }}</div>
 
     <div><b>Vehicle:</b> {{ shipment?.vehicleId }}</div>
   </div>
@@ -81,7 +81,6 @@
   <div
     *ngFor="let step of journeySteps; let i = index"
     class="step"
-    [style.left.%]="stepPositions[i]"
     [class.active]="getCurrentStep() >= i"
   >
     <span>{{ step }}</span>
@@ -118,3 +117,5 @@
 </div>
 
 }
+
+<div class="banner"></div>

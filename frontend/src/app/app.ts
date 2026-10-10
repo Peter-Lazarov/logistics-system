@@ -15,6 +15,7 @@ export class App {
   logout(): void {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("role");
 
     this.router.navigate(["/login"]);
   }

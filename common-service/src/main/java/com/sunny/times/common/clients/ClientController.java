@@ -8,9 +8,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
-
     private final ClientService service;
-
     public ClientController(ClientService service) {
         this.service = service;
     }
@@ -20,17 +18,32 @@ public class ClientController {
         return service.getAll();
     }
 
+    @GetMapping("/me")
+    public ClientDto getCurrent() {
+        return service.getCurrent();
+    }
+
     @GetMapping("/{clientId}")
     public ClientDto getById(@PathVariable Long clientId) {
         return service.getById(clientId);
     }
 
     @PostMapping
-    public ClientDto create(
-            @RequestBody ClientDto dto
-    ) {
+    public ClientDto create(@RequestBody ClientDto dto) {
         return service.create(dto);
     }
 
+    @PutMapping("/me")
+    public ClientDto updateCurrent(@RequestBody ClientDto dto) {
+        return service.updateCurrent(dto);
+    }
+
+    @PutMapping("/{clientId}")
+    public ClientDto update(
+            @PathVariable Long clientId,
+            @RequestBody ClientDto dto
+    ) {
+        return service.update(clientId, dto);
+    }
 
 }

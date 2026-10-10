@@ -1,65 +1,65 @@
-<form [formGroup]="form" (ngSubmit)="createShipment()" class="shipment-form">
+@if (data$ | async; as vm) {
+  <form [formGroup]="form" (ngSubmit)="createShipment()" class="shipment-form">
 
-  <h2>Create Shipment</h2>
+    <h2>Create Shipment</h2>
 
-  <select formControlName="clientId">
-    <option value="">
-      Select Client
-    </option>
+    <select formControlName="clientUserId">
+      <option value="">
+        Select Client
+      </option>
+      @for (client of vm.clients; track client.id || client.clientUserId || $index) {
+        <option [value]="client.id || client.clientUserId">
+          {{ client.id || client.clientUserId }} - {{ client.name }}
+        </option>
+      }
+    </select>
 
-    @for (client of clients; track client.clientId) {
-    <option [value]="client.clientId">
-      {{ client.clientId }} - {{ client.name }}
-    </option>
-    }
-  </select>
+    <input formControlName="origin" placeholder="Origin">
 
-  <input formControlName="origin" placeholder="Origin">
-
-  <input formControlName="destination" placeholder="Destination">
+    <input formControlName="destination" placeholder="Destination">
 
     <select formControlName="pathId">
-    <option value="">
-      Select Route
-    </option>
+      <option value="">
+        Select Route
+      </option>
+      @for (route of vm.routes; track route.id || route.pathId || $index) {
+        <option [value]="route.id || route.pathId">
+          {{ route.origin }} → {{ route.destination }}
+        </option>
+      }
+    </select>
 
-    @for (route of routes; track route.pathId) {
-    <option [value]="route.pathId">
-      {{ route.origin }} → {{ route.destination }}
-    </option>
-    }
-  </select>
+    <input formControlName="category" placeholder="Category">
 
-  <input formControlName="category" placeholder="Category">
+    <input formControlName="description" placeholder="Description">
 
-  <input formControlName="description" placeholder="Description">
+    <label>Weight (kg)</label>
+    <input type="number" formControlName="totalWeight" placeholder="Weight">
 
-  <label>Weight (kg)</label>
-  <input type="number" formControlName="totalWeight" placeholder="Weight">
+    <label>Volume (m³)</label>
+    <input type="number" formControlName="totalVolume" placeholder="Volume">
 
-  <label>Volume (m³)</label>
-  <input type="number" formControlName="totalVolume" placeholder="Volume">
+    <select formControlName="driverId" (change)="onDriverChange($any($event.target).value)">
+      <option value="">
+        Select Driver
+      </option>
+      @for (driver of vm.drivers; track driver.id || $index) {
+        <option [value]="driver.id">
+          {{ driver.id }} - {{ driver.name }}
+        </option>
+      }
+    </select>
 
-  <select formControlName="driverId" (change)="onDriverChange($any($event.target).value)">
+    <input formControlName="vehicleId" placeholder="Vehicle" readonly>
 
-    <option value="">
-      Select Driver
-    </option>
+    <label>Price (euro)</label>
+    <input type="number" formControlName="price" placeholder="Price">
 
-    @for (driver of drivers; track driver.id) {
-    <option [value]="driver.id">
-      {{ driver.id }} - {{ driver.name }}
-    </option>
-    }
-  </select>
+    <button type="submit">
+      Create Shipment
+    </button>
 
-  <input formControlName="vehicleId" placeholder="Vehicle" readonly>
-
-  <label>Price (euro)</label>
-  <input type="number" formControlName="price" placeholder="Price">
-
-  <button type="submit">
-    Create Shipment
-  </button>
-
-</form>
+  </form>
+} @else {
+  <p>Loading form data...</p>
+}

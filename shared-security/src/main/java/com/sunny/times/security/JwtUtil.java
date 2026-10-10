@@ -1,5 +1,5 @@
 
-package com.sunny.times.shipments.security;
+package com.sunny.times.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -37,6 +37,10 @@ public class JwtUtil {
 
     public String extractUsername(String token) {
         return extractClaims(token).getSubject();
+    }
+
+    public Long extractUserId(String token) {
+        return extractClaims(token).get("userId", Long.class);
     }
 
     public List<GrantedAuthority> getAuthorities(String token) {

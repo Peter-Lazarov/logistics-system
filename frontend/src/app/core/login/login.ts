@@ -1,77 +1,61 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Router } from "@angular/router";
 
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from "../auth/auth.service";
 
 @Component({
-  selector: 'app-login',
+  selector: "app-login",
   imports: [FormsModule],
-  templateUrl: './login.html',
-  styleUrl: './login.scss'
+  templateUrl: "./login.html",
+  styleUrl: "./login.scss",
 })
 export class Login {
-
-  username = 'peter';
-  password = '1234';
+  // email = "peter@sunny-times.com";
+  email = "georgy@sunny-times.com"
+  password = "1234";
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
 
   login(): void {
+    this.authService
+      .login({
+        email: this.email,
+        password: this.password,
+      })
+      .subscribe({
+        next: (response) => {
+          localStorage.setItem("accessToken", response.accessToken);
 
-    this.authService.login({
-      username: this.username,
-      password: this.password
-    }).subscribe({
+          localStorage.setItem("refreshToken", response.refreshToken);
 
-      next: response => {
+          localStorage.setItem("role", response.role);
 
-        localStorage.setItem(
-          'accessToken',
-          response.accessToken
-        );
+          switch (response.role) {
+            case "ROLE_CLIENT":
+              this.router.navigate(["/shipments/my"]);
+              break;
 
-        localStorage.setItem(
-          'refreshToken',
-          response.refreshToken
-        );
+            case "ROLE_EMPLOYEE":
+              this.router.navigate(["/shipments"]);
+              break;
 
-        localStorage.setItem(
-          'role',
-          response.role
-        );
+            case "ROLE_ADMIN":
+              this.router.navigate(["/shipments"]);
+              break;
 
-        switch (response.role) {
+            default:
+              this.router.navigate(["/login"]);
+          }
+        },
 
-          case 'ROLE_CLIENT':
-            this.router.navigate(['/client/request']);
-            break;
-
-          case 'ROLE_EMPLOYEE':
-            this.router.navigate(['/shipments']);
-            break;
-
-          case 'ROLE_ADMIN':
-            this.router.navigate(['/shipments']);
-            break;
-
-          default:
-            this.router.navigate(['/login']);
-        }
-      },
-
-      error: err => {
-
-        console.error('LOGIN ERROR');
-        console.error(err);
-
-      }
-
-    });
-
+        error: (err) => {
+          console.error("LOGIN ERROR");
+          console.error(err);
+        },
+      });
   }
-
 }

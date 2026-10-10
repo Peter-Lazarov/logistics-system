@@ -1,0 +1,26 @@
+@if (profile$ | async; as profile) {
+
+<div class="profile-card">
+  <h2>Profile</h2>
+
+  <hr />
+
+  <p>
+    <b>Name:</b>
+    {{ profile.name }}
+  </p>
+
+  <p>
+    <b>Email:</b>
+    {{ profile.email }}
+  </p>
+
+  <p>
+    <b>Phone:</b>
+    {{ profile.phone }}
+  </p>
+</div>
+
+}
+
+<div class="banner"></div>
