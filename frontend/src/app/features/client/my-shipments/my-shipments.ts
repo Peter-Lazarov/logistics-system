@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { ShipmentService } from '../../shipments/shipment.service';
+import { Shipment, ShipmentService } from '../../shipments/shipment.service';
 
 @Component({
   selector: 'app-my-shipments',
@@ -11,7 +11,7 @@ import { ShipmentService } from '../../shipments/shipment.service';
   styleUrl: './my-shipments.scss'
 })
 export class MyShipmentsComponent implements OnInit {
-  shipments$!: Observable<any[]>; 
+  shipments$!: Observable<Shipment[]>;
 
   constructor(private shipmentService: ShipmentService) {}
 

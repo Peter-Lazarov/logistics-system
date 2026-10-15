@@ -1,6 +1,26 @@
 spring:
   application:
     name: shipment-service
+  datasource:
+    url: ${SHIPMENT_DB_URL}
+    username: ${SHIPMENT_DB_USERNAME}
+    password: ${SHIPMENT_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    open-in-view: false
 
-  config:
-    import: "optional:file:../../shipment.yaml"
+server:
+  port: ${SHIPMENT_SERVER_PORT}
+
+common:
+  service:
+    url: ${SHIPMENT_COMMON_SERVICE_URL}
+
+jwt:
+  access-secret: ${SHIPMENT_JWT_ACCESS_SECRET}
+  refresh-secret: ${SHIPMENT_JWT_REFRESH_SECRET}

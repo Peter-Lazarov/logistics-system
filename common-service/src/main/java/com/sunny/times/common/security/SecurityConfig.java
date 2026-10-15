@@ -2,6 +2,7 @@ package com.sunny.times.common.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -34,14 +35,40 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // internal endpoint used by authentication-service
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/clients"
+                        )
+                        .permitAll()
+
                         .requestMatchers("/clients/me")
                         .hasAnyRole(
                                 "CLIENT",
                                 "EMPLOYEE",
                                 "ADMIN"
                         )
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/clients/**"
+                        )
+                        .permitAll()
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/drivers/**"
+                        )
+                        .permitAll()
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/routes/**"
+                        )
+                        .permitAll()
+
                         .anyRequest().authenticated()
                 )
+
                 .addFilterBefore(
                         jwtFilter,
                         UsernamePasswordAuthenticationFilter.class

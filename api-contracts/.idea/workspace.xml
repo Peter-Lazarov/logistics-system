@@ -5,49 +5,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="625b39e6-fec7-49f0-8e96-53e61f90e955" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/dto/UserProfile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/security/CurrentUserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/security/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/security/UserContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/dto/UpdateProfileRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/dto/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/api/dto/UserResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/security/JwtAuthenticationFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/security/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/security/JwtUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/service/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/java/com/sunny/times/authentication/service/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../authentication-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../authentication-service/src/main/resources/application.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/clients/ClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/drivers/DriverController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/drivers/DriverController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/routes/RouteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/java/com/sunny/times/common/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common-service/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../common-service/src/main/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.routes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/auth/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/auth/role-guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/auth/role-guard.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/auth/role.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/auth/role.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/interceptors/auth.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/interceptors/auth.interceptor.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/login/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/login/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/login/login.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/login/login.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/login/login.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/login/login.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/client/client-request/client-request.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/client/client-request/client-request.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/client/client-request/client-request.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/client/client-request/client-request.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/client/client-request/client-request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/client/client-request/client-request.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-create/shipment-create.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-create/shipment-create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-create/shipment-create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-create/shipment-create.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/profile/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/profile/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/profile/profile.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/profile/profile.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/core/profile/profile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/core/profile/profile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/environments/environment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/admin/employee-register/employee-register.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/admin/employee-register/employee-register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/admin/employee-register/employee-register.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/admin/employee-register/employee-register.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-details/shipment-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-details/shipment-details.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-details/shipment-details.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-details/shipment-details.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-details/shipment-details.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-details/shipment-details.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-list/shipment-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-list/shipment-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-list/shipment-list.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-list/shipment-list.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-list/shipment-list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment-list/shipment-list.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/features/shipments/shipment.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/ShipmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/api/ShipmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/common/WebClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/common/WebClientConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shared-security/src/main/java/com/sunny/times/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shared-security/src/main/java/com/sunny/times/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shared-security/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../shared-security/src/main/resources/application.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/service/ShipmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/domain/service/ShipmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/security/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/security/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/mapper/ShipmentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shipment-service/src/main/java/com/sunny/times/shipments/mapper/ShipmentMapper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +67,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -84,13 +85,29 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/peter/Documents/Java/logistics-system/common-service&quot;
+    &quot;last_opened_file_path&quot;: &quot;/home/peter/Documents/Java/logistics-system/common-service&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
 }</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10968.63" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10968.63" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -101,6 +118,9 @@
       <updated>1786285317357</updated>
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

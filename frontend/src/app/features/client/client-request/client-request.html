@@ -1,19 +1,19 @@
 <div class="request-layout">
   <div class="request-form">
-    <form [formGroup]="form" (ngSubmit)="submitRequest()" class="client-form">
-      <h2>Request for shipment</h2>
+    <form [formGroup]="form" (ngSubmit)="submitRequest()" class="client-form standard-form">
+      <h2 class="client-page-title">Request for shipment</h2>
 
-      <div class="field-row">
+      <div class="field-row standard-field-row">
         <label for="origin">Origin</label>
         <input id="origin" formControlName="origin" placeholder="Origin: City, Street, Number" />
       </div>
 
-      <div class="field-row">
+      <div class="field-row standard-field-row">
         <label for="category">Category</label>
         <input id="category" formControlName="category" placeholder="Wood, metal, food, furniture" />
       </div>
 
-      <div class="field-row">
+      <div class="field-row standard-field-row">
         <label for="description">Description</label>
         <input id="description" formControlName="description" placeholder="Cargo description" />
       </div>
@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <div class="field-row">
+      <div class="field-row standard-field-row">
         <label for="destination"> Destination </label>
         <input id="destination" formControlName="destination" placeholder="Destination: City, Street, Number" />
       </div>

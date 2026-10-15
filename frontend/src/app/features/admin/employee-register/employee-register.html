@@ -1,35 +1,71 @@
 <div class="register-card">
   <h2>Register Employee</h2>
 
-  <input type="text" placeholder="Username" [(ngModel)]="username" />
-
-  <input type="password" placeholder="Password" [(ngModel)]="password" />
-
-  <button (click)="createEmployee()">Create Employee</button>
+  <div class="standard-form">
+    <div class="standard-field-row">
+      <label for="employee-email">Email</label>
+      <input id="employee-email" type="email" placeholder="Email" [(ngModel)]="email" />
+    </div>
+    <div class="standard-field-row">
+      <label for="employee-name">Name</label>
+      <input id="employee-name" type="text" placeholder="Name" [(ngModel)]="name" />
+    </div>
+    <div class="standard-field-row">
+      <label for="employee-phone">Phone</label>
+      <input id="employee-phone" type="tel" placeholder="Phone" [(ngModel)]="phone" />
+    </div>
+    <div class="standard-field-row">
+      <label for="employee-password">Password</label>
+      <input id="employee-password" type="password" placeholder="Password" [(ngModel)]="password" />
+    </div>
+    <button (click)="createEmployee()">Create Employee</button>
+  </div>
 
   <hr />
 
   <h3>Users</h3>
 
-  <table>
+  <div class="users-table-wrap">
+    <table class="users-table">
     <thead>
       <tr>
         <th>ID</th>
-        <th>Username</th>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Phone</th>
         <th>Role</th>
+        <th>Status</th>
+        <th>Actions</th>
       </tr>
     </thead>
 
-    <tbody>
-      @for (user of users; track user.id) {
-
-      <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.username }}</td>
-        <td>{{ user.role }}</td>
-      </tr>
-
-      }
-    </tbody>
-  </table>
+      <tbody>
+        @for (user of (users$ | async); track user.id) {
+          <tr>
+            <td class="user-id">{{ user.id }}</td>
+            <td class="user-email">{{ user.email }}</td>
+            <td>{{ user.name || "—" }}</td>
+            <td>{{ user.phone || "—" }}</td>
+            <td><span class="role-label">{{ user.role }}</span></td>
+            <td>
+              <span class="status-label" [class.status-active]="user.status === 'ACTIVE'" [class.status-disabled]="user.status === 'DISABLED'">
+                {{ user.status }}
+              </span>
+            </td>
+            <td>
+              <button class="status-action" [class.enable-action]="user.status !== 'ACTIVE'" (click)="toggleUserStatus(user)">
+                {{ user.status === "ACTIVE" ? "Disable" : "Enable" }}
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty-state">No users found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
+
+<div class="banner"></div>

@@ -1,26 +1,59 @@
 @if (profile$ | async; as profile) {
 
 <div class="profile-card">
-  <h2>Profile</h2>
+  <div class="profile-heading">
+    <h2 class="client-page-title">Profile</h2>
+    @if (!isEditing) {
+      <button type="button" class="secondary-button" (click)="startEditing(profile)">
+        Edit profile
+      </button>
+    }
+  </div>
 
   <hr />
 
-  <p>
-    <b>Name:</b>
-    {{ profile.name }}
-  </p>
+  @if (isEditing) {
+    <form #profileForm="ngForm" (ngSubmit)="saveProfile()" class="standard-form">
+      <div class="standard-field-row">
+        <label for="profile-name">Name</label>
+        <input id="profile-name" name="name" type="text" [(ngModel)]="name" required />
+      </div>
 
-  <p>
-    <b>Email:</b>
-    {{ profile.email }}
-  </p>
+      <div class="standard-field-row">
+        <label for="profile-email">Email</label>
+        <input id="profile-email" type="email" [value]="profile.email" readonly />
+      </div>
 
-  <p>
-    <b>Phone:</b>
-    {{ profile.phone }}
-  </p>
+      <div class="standard-field-row">
+        <label for="profile-phone">Phone</label>
+        <input id="profile-phone" name="phone" type="tel" [(ngModel)]="phone" required />
+      </div>
+
+      <div class="standard-form-actions">
+        <button type="submit" [disabled]="profileForm.invalid || isSaving">
+          {{ isSaving ? "Saving..." : "Save changes" }}
+        </button>
+        <button type="button" class="secondary-button" [disabled]="isSaving" (click)="cancelEditing()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  } @else {
+    <p><b>Name:</b> {{ profile.name }}</p>
+    <p><b>Email:</b> {{ profile.email }}</p>
+    <p><b>Phone:</b> {{ profile.phone }}</p>
+  }
+
+  @if (errorMessage) {
+    <p class="message error" role="alert">{{ errorMessage }}</p>
+  }
+  @if (successMessage) {
+    <p class="message success" role="status">{{ successMessage }}</p>
+  }
 </div>
 
+} @else {
+  <p class="profile-loading">Loading profile...</p>
 }
 
-<div class="banner"></div>
+<div class="banner" [class]="'banner ' + bannerRoleClass"></div>

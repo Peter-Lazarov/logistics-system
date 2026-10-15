@@ -47,16 +47,14 @@ public class JwtUtil {
                 .compact();
     }
 
-    public User validateRefreshToken(String token) {
+    public String extractRefreshEmail(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(REFRESH_KEY)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
 
-        User user = new User();
-        user.setEmail(claims.getSubject());
-        return user;
+        return claims.getSubject();
     }
 
     public String extractEmail(String token) {

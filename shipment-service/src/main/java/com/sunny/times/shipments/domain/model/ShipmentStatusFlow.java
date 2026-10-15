@@ -12,37 +12,37 @@ public final class ShipmentStatusFlow {
         return switch (current) {
 
             case CREATED -> switch (event) {
-                case ASSIGN_DRIVER -> ShipmentStatus.ASSIGNED;
+                case ASSIGN -> ShipmentStatus.ASSIGNED;
                 case CANCEL -> ShipmentStatus.CANCELLED;
                 default -> throw invalid(current, event);
             };
 
             case ASSIGNED -> switch (event) {
-                case LOAD_SHIPMENT -> ShipmentStatus.LOADED;
+                case LOAD -> ShipmentStatus.LOADED;
                 case CANCEL -> ShipmentStatus.CANCELLED;
                 default -> throw invalid(current, event);
             };
 
             case LOADED -> switch (event) {
-                case START_ROUTE -> ShipmentStatus.IN_TRANSIT;
+                case DEPART -> ShipmentStatus.IN_TRANSIT;
                 case CANCEL -> ShipmentStatus.CANCELLED;
                 default -> throw invalid(current, event);
             };
 
             case IN_TRANSIT -> switch (event) {
-                case ARRIVE_DESTINATION -> ShipmentStatus.ARRIVED;
+                case ARRIVE -> ShipmentStatus.ARRIVED;
                 case DELAY -> ShipmentStatus.DELAYED;
                 default -> throw invalid(current, event);
             };
 
             case DELAYED -> switch (event) {
-                case START_ROUTE -> ShipmentStatus.IN_TRANSIT;
+                case DEPART -> ShipmentStatus.IN_TRANSIT;
                 case CANCEL -> ShipmentStatus.CANCELLED;
                 default -> throw invalid(current, event);
             };
 
             case ARRIVED -> switch (event) {
-                case COMPLETE_DELIVERY -> ShipmentStatus.DELIVERED;
+                case DELIVER -> ShipmentStatus.DELIVERED;
                 default -> throw invalid(current, event);
             };
 

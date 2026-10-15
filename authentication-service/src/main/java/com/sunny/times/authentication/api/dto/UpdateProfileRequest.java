@@ -1,4 +1,7 @@
 package com.sunny.times.authentication.api.dto;
 
-public class UpdateProfileRequest {
+public record UpdateProfileRequest(
+        String name,
+        String phone
+) {
 }

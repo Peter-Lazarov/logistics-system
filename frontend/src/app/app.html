@@ -10,7 +10,7 @@
     <a class="create-btn" routerLink="/shipments/request"> Shipment Request </a>
     } @if (isEmployee()) {
     <a class="create-btn" routerLink="/shipments"> Shipments </a>
-    <a class="create-btn" routerLink="/shipments/create"> Create Shipment </a>
+    <!-- <a class="create-btn" routerLink="/shipments/create"> Create Shipment </a> -->
     } @if (isAdmin()) {
     <a class="create-btn" routerLink="/shipments"> Shipments </a>
     <a class="create-btn" routerLink="/admin/register-employee">
@@ -18,7 +18,10 @@
     </a>
     } @if (isClient() || isEmployee() || isAdmin()) {
     <a class="create-btn" routerLink="/profile"> Profile </a>
-    <button class="logout-btn" (click)="logout()">Logout</button>
+    <div class="user-info">
+      <span class="user-email">{{ email }}</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
     }
   </nav>
 </header>

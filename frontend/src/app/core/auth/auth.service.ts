@@ -21,6 +21,18 @@ export interface AuthResponse {
   role: string;
 }
 
+export interface UserProfile {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+}
+
+export interface UpdateProfileRequest {
+  name: string;
+  phone: string;
+}
+
 @Injectable({
   providedIn: "root",
 })
@@ -59,7 +71,11 @@ export class AuthService {
     localStorage.removeItem("role");
   }
 
-  getMe() {
-    return this.http.get<any>(`${this.apiUrl}/me`);
+  getMe(): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${this.apiUrl}/me`);
+  }
+
+  updateProfile(request: UpdateProfileRequest): Observable<UserProfile> {
+    return this.http.put<UserProfile>(`${this.apiUrl}/me`, request);
   }
 }

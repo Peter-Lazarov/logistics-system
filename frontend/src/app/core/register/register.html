@@ -1,12 +1,14 @@
 <div class="register-container">
   <h2>Client Registration</h2>
 
-  <input type="email" placeholder="Email" [(ngModel)]="email" />
-  <input type="password" placeholder="Password" [(ngModel)]="password" />
-  <input type="text" placeholder="Full Name" [(ngModel)]="name" />
-  <input type="text" placeholder="Phone" [(ngModel)]="phone" />
+  <form (ngSubmit)="register()">
+    <input type="email" name="email" placeholder="Email" [(ngModel)]="email" />
+    <input type="password" name="password" placeholder="Password" [(ngModel)]="password" />
+    <input type="text" name="name" placeholder="Full Name" [(ngModel)]="name" />
+    <input type="text" name="phone" placeholder="Phone" [(ngModel)]="phone" />
 
-  <button (click)="register()">Register</button>
+    <button type="submit">Register</button>
+  </form>
 
   <div class="banner"></div>
 </div>

@@ -1,6 +1,6 @@
 import {
   ApplicationConfig,
-  provideBrowserGlobalErrorListeners
+  provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 
 import {

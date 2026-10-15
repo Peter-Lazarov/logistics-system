@@ -1,4 +1,4 @@
-<h2>Shipments</h2>
+<h2 class="page-title">Shipments</h2>
 
 @if (shipments$ | async; as resolvedShipments) {
   <p class="shipment-count">Count: {{ resolvedShipments.length }}</p>
@@ -10,7 +10,6 @@
         <th>Category</th>
         <th>Origin</th>
         <th>Destination</th>
-        <th>Vehicle</th>
         <th>Driver</th>
         <th>Status</th>
       </tr>
@@ -26,9 +25,7 @@
           <td>{{ shipment.category }}</td>
           <td>{{ shipment.origin }}</td>
           <td>{{ shipment.destination }}</td>
-          <td>{{ shipment.vehicleId }}</td>
           <td>{{ shipment.driverUserId }}</td>
-
           <td>
             <span class="status-badge" [ngClass]="'status-' + shipment.status">
               {{ shipment.status }}
@@ -45,4 +42,4 @@
 } @else {
   <p>Loading shipments...</p>
 }
-<div class="banner"></div>
+<div class="banner" [class.admin-banner]="isAdmin()"></div>

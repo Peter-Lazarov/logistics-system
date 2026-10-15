@@ -1,6 +1,7 @@
 package com.sunny.times.common.routes;
 
 import com.sunny.times.contracts.routes.RouteDto;
+import com.sunny.times.contracts.routes.RouteSummaryDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,11 @@ public class RouteController {
     @GetMapping
     public List<RouteDto> getAll() {
         return service.getAll();
+    }
+
+    @GetMapping("/summary")
+    public List<RouteSummaryDto> getRouteSummaries() {
+        return service.getRouteSummaries();
     }
 
 }

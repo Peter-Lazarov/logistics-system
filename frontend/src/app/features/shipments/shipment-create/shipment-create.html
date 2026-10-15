@@ -1,63 +1,85 @@
 @if (data$ | async; as vm) {
-  <form [formGroup]="form" (ngSubmit)="createShipment()" class="shipment-form">
+  <form [formGroup]="form" (ngSubmit)="createShipment()" class="shipment-form standard-form">
 
-    <h2>Create Shipment</h2>
+    <h2 class="page-title">Create Shipment</h2>
 
-    <select formControlName="clientUserId">
-      <option value="">
-        Select Client
-      </option>
-      @for (client of vm.clients; track client.id || client.clientUserId || $index) {
-        <option [value]="client.id || client.clientUserId">
-          {{ client.id || client.clientUserId }} - {{ client.name }}
-        </option>
-      }
-    </select>
+    <div class="standard-field-row">
+      <label for="shipment-client">Client</label>
+      <select id="shipment-client" formControlName="clientUserId">
+        <option value="">Select Client</option>
+        @for (client of vm.clients; track client.id || client.clientUserId || $index) {
+          <option [value]="client.id || client.clientUserId">
+            {{ client.id || client.clientUserId }} - {{ client.name }}
+          </option>
+        }
+      </select>
+    </div>
 
-    <input formControlName="origin" placeholder="Origin">
+    <div class="standard-field-row">
+      <label for="shipment-origin">Origin</label>
+      <input id="shipment-origin" formControlName="origin" placeholder="Origin">
+    </div>
 
-    <input formControlName="destination" placeholder="Destination">
+    <div class="standard-field-row">
+      <label for="shipment-destination">Destination</label>
+      <input id="shipment-destination" formControlName="destination" placeholder="Destination">
+    </div>
 
-    <select formControlName="pathId">
-      <option value="">
-        Select Route
-      </option>
-      @for (route of vm.routes; track route.id || route.pathId || $index) {
-        <option [value]="route.id || route.pathId">
-          {{ route.origin }} → {{ route.destination }}
-        </option>
-      }
-    </select>
+    <div class="standard-field-row">
+      <label for="shipment-route">Route</label>
+      <select id="shipment-route" formControlName="pathId">
+        <option value="">Select Route</option>
+        @for (route of vm.routes; track route.id || route.pathId || $index) {
+          <option [value]="route.id || route.pathId">
+            {{ route.origin }} → {{ route.destination }}
+          </option>
+        }
+      </select>
+    </div>
 
-    <input formControlName="category" placeholder="Category">
+    <div class="standard-field-row">
+      <label for="shipment-category">Category</label>
+      <input id="shipment-category" formControlName="category" placeholder="Category">
+    </div>
 
-    <input formControlName="description" placeholder="Description">
+    <div class="standard-field-row">
+      <label for="shipment-description">Description</label>
+      <input id="shipment-description" formControlName="description" placeholder="Description">
+    </div>
 
-    <label>Weight (kg)</label>
-    <input type="number" formControlName="totalWeight" placeholder="Weight">
+    <div class="standard-field-row">
+      <label for="shipment-weight">Weight (kg)</label>
+      <input id="shipment-weight" type="number" formControlName="totalWeight" placeholder="Weight">
+    </div>
 
-    <label>Volume (m³)</label>
-    <input type="number" formControlName="totalVolume" placeholder="Volume">
+    <div class="standard-field-row">
+      <label for="shipment-volume">Volume (m³)</label>
+      <input id="shipment-volume" type="number" formControlName="totalVolume" placeholder="Volume">
+    </div>
 
-    <select formControlName="driverId" (change)="onDriverChange($any($event.target).value)">
-      <option value="">
-        Select Driver
-      </option>
-      @for (driver of vm.drivers; track driver.id || $index) {
-        <option [value]="driver.id">
-          {{ driver.id }} - {{ driver.name }}
-        </option>
-      }
-    </select>
+    <div class="standard-field-row">
+      <label for="shipment-driver">Driver</label>
+      <select id="shipment-driver" formControlName="driverId" (change)="onDriverChange($any($event.target).value)">
+        <option value="">Select Driver</option>
+        @for (driver of vm.drivers; track driver.id || $index) {
+          <option [value]="driver.id">
+            {{ driver.id }} - {{ driver.name }}
+          </option>
+        }
+      </select>
+    </div>
 
-    <input formControlName="vehicleId" placeholder="Vehicle" readonly>
+    <div class="standard-field-row">
+      <label for="shipment-vehicle">Vehicle</label>
+      <input id="shipment-vehicle" formControlName="vehicleId" placeholder="Vehicle" readonly>
+    </div>
 
-    <label>Price (euro)</label>
-    <input type="number" formControlName="price" placeholder="Price">
+    <div class="standard-field-row">
+      <label for="shipment-price">Price (euro)</label>
+      <input id="shipment-price" type="number" formControlName="price" placeholder="Price">
+    </div>
 
-    <button type="submit">
-      Create Shipment
-    </button>
+    <button type="submit">Create Shipment</button>
 
   </form>
 } @else {

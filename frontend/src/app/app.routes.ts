@@ -59,19 +59,19 @@ export const routes: Routes = [
     },
   },
   {
-    path: "admin/register-employee",
-    component: EmployeeRegister,
-    canActivate: [authGuard, roleGuard],
-    data: {
-      roles: ["ROLE_ADMIN"],
-    },
-  },
-  {
     path: "shipments/:id",
     component: ShipmentDetails,
     canActivate: [authGuard, roleGuard],
     data: {
       roles: ["ROLE_ADMIN", "ROLE_EMPLOYEE"],
+    },
+  },
+  {
+    path: "admin/register-employee",
+    component: EmployeeRegister,
+    canActivate: [authGuard, roleGuard],
+    data: {
+      roles: ["ROLE_ADMIN"],
     },
   },
   {

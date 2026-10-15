@@ -2,6 +2,7 @@ package com.sunny.times.common.routes;
 
 import com.sunny.times.common.exception.RouteNotFoundException;
 import com.sunny.times.contracts.routes.RouteDto;
+import com.sunny.times.contracts.routes.RouteSummaryDto;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -24,6 +25,13 @@ public class RouteService {
         return repository.findAll()
                 .stream()
                 .map(RouteMapper::toDto)
+                .toList();
+    }
+
+    public List<RouteSummaryDto> getRouteSummaries() {
+        return repository.findAll()
+                .stream()
+                .map(RouteMapper::toSummary)
                 .toList();
     }
 

@@ -1,1 +1,137 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+	--form-border: #bfd1e5;
+	--form-focus: #5a9be6;
+	--form-control-height: 36px;
+}
+
+body {
+	font-family: 'Comic Sans MS', 'Comic Sans', sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+	font-family: inherit;
+}
+
+.page-title,
+.client-page-title {
+	margin: 0;
+	color: #2f4858;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 1.25;
+}
+
+.standard-form > .page-title {
+	margin-bottom: 8px;
+}
+
+.create-btn,
+:where(button:not(.logout-btn):not(.demo-route)) {
+	display: inline-block;
+	width: auto;
+	white-space: nowrap;
+	box-sizing: border-box;
+	text-align: center;
+	background-color: #efefef;
+	color: #000000;
+	text-decoration: none;
+	padding: 10px 16px;
+	font-family: inherit;
+	font-size: 12px;
+	border: 1px solid #767676;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+.register-card,
+.profile-card,
+.shipment-form,
+.request-layout {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 1280px;
+	margin: 0;
+	padding-right: 24px;
+	padding-left: 24px;
+}
+
+.standard-form {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	width: 100%;
+}
+
+.standard-field-row {
+	display: grid;
+	grid-template-columns: 120px minmax(0, 1fr);
+	align-items: center;
+	gap: 12px;
+	margin: 0;
+}
+
+.standard-field-row label {
+	text-align: center;
+	font-weight: 600;
+}
+
+.standard-form input,
+.standard-form select {
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
+	min-height: var(--form-control-height);
+	padding: 6px 8px;
+	border: 1px solid var(--form-border);
+	border-radius: 6px;
+	font: inherit;
+}
+
+.standard-form input:focus,
+.standard-form select:focus {
+	border-color: var(--form-focus);
+	outline: 2px solid color-mix(in srgb, var(--form-focus) 25%, transparent);
+	outline-offset: 1px;
+}
+
+.standard-form button {
+	min-height: 43px;
+	padding: 10px 14px;
+	cursor: pointer;
+}
+
+.standard-form > button {
+	align-self: flex-start;
+	margin-top: 8px;
+}
+
+.standard-form-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 12px;
+	margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+	.standard-field-row {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 4px;
+	}
+
+	.standard-field-row label {
+		text-align: left;
+	}
+
+	.register-card,
+	.profile-card,
+	.shipment-form,
+	.request-layout {
+		padding-right: 16px;
+		padding-left: 16px;
+	}
+}

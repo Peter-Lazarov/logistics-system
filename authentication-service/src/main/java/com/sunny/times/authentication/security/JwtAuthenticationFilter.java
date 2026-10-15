@@ -1,5 +1,7 @@
 package com.sunny.times.authentication.security;
 
+import com.sunny.times.authentication.model.UserStatus;
+import com.sunny.times.authentication.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
@@ -24,13 +26,16 @@ import java.util.stream.Collectors;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final SecretKey accessKey;
+    private final UserRepository userRepository;
 
     public JwtAuthenticationFilter(
-            @Value("${jwt.access-secret}") String accessSecret
+            @Value("${jwt.access-secret}") String accessSecret,
+            UserRepository userRepository
     ) {
         this.accessKey = Keys.hmacShaKeyFor(
                 accessSecret.getBytes(StandardCharsets.UTF_8)
         );
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -49,37 +54,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = header.substring(7);
 
+        Claims claims;
+        List<?> tokenRoles;
+        List<String> roles;
+        String email;
         try {
-
-            Claims claims = Jwts.parserBuilder()
+            claims = Jwts.parserBuilder()
                     .setSigningKey(accessKey)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-
-            String email = claims.getSubject();
-
-            List<String> roles =
-                    claims.get("roles", List.class);
-
-            var authorities =
-                    roles.stream()
-                            .map(SimpleGrantedAuthority::new)
-                            .collect(Collectors.toList());
-
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            email,
-                            null,
-                            authorities
-                    );
-
-            SecurityContextHolder
-                    .getContext()
-                    .setAuthentication(authentication);
-
-        } catch (Exception ignored) {
+            email = claims.getSubject();
+            tokenRoles = claims.get("roles", List.class);
+            if (email == null || tokenRoles == null
+                    || tokenRoles.stream().anyMatch(role -> !(role instanceof String))) {
+                throw new IllegalArgumentException("Invalid access token claims");
+            }
+            roles = tokenRoles.stream().map(String.class::cast).toList();
+        } catch (io.jsonwebtoken.JwtException | IllegalArgumentException exception) {
+            filterChain.doFilter(request, response);
+            return;
         }
+
+        var user = userRepository.findByEmail(email).orElse(null);
+        if (user == null || user.getStatus() != UserStatus.ACTIVE) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User account is disabled or unavailable");
+            return;
+        }
+
+        var authorities = roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(email, null, authorities);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         filterChain.doFilter(request, response);
     }

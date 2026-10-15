@@ -18,58 +18,32 @@
   gap: 16px;
 }
 
-.shipment-form h2 {
-  margin-bottom: 12px;
-}
-
-.field-row {
-  margin: 8px 0px;
-  display: flex;
-  align-items: center;
+.cargo-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-.field-row label {
-  width: 120px;
-  text-align: center;
-  font-weight: 600;
-}
-
-.field-row input {
-  flex: 1;
-  width: auto;
-}
-
-
-.cargo-row {
-  display: flex;
-  gap: 24px;
-}
-
 .cargo-field {
-  display: flex;
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
   align-items: center;
-  flex: 1;
-  gap: 10px;
+  gap: 12px;
 }
 
 .cargo-field label {
   white-space: nowrap;
   font-weight: 600;
+  text-align: center;
 }
 
 .cargo-field input {
-  flex: 1;
-}
-
-input {
-  padding: 5px;
-  border: 1px solid #bfd1e5;
-  border-radius: 6px;
+  width: 100%;
+  min-width: 0;
 }
 
 .demo-panel {
-  border: 2px solid #5a9be6;
+  border: 2px solid #b7b7b7;
   padding: 20px;
   height: fit-content;
 }
@@ -105,7 +79,28 @@ button[type="submit"] {
 }
 
 .banner{
-    margin: 15px 0 0 0;
-    background: #FFE89A;
+    margin: 15px 0;
+  background: #FFF28E;
     height: 15px;
+}
+
+@media (max-width: 640px) {
+  .request-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .cargo-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .cargo-field {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .cargo-field label {
+    text-align: left;
+  }
 }

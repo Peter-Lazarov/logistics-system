@@ -33,11 +33,30 @@ export class ShipmentDetails implements OnInit {
   ) {}
 
   private loadData(id: string): void {
+    this.shipmentService.getById(id).subscribe({
+      next: (data) => {
+        this.shipment = data;
+        this.loadClient(data.clientUserId);
+        this.cdr.detectChanges();
+      }
+    });
+
     this.shipmentService.getHistory(id).subscribe({
       next: (data) => {
         this.history = data;
-
         this.cdr.detectChanges();
+      }
+    });
+  }
+
+  private loadClient(clientUserId: number): void {
+    this.shipmentService.getClientById(clientUserId).subscribe({
+      next: (data) => {
+        this.client = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
       },
     });
   }
@@ -52,7 +71,7 @@ export class ShipmentDetails implements OnInit {
     this.shipmentService.getById(id).subscribe({
       next: (data) => {
         this.shipment = data;
-
+        this.loadClient(data.clientUserId);
         this.cdr.detectChanges();
       },
 
@@ -96,25 +115,25 @@ export class ShipmentDetails implements OnInit {
     switch (this.shipment.status) {
       case "CREATED":
         if (this.selectedDriverId && this.selectedRouteId) {
-          return ["ASSIGN_DRIVER", "CANCEL"];
+          return ["ASSIGN", "CANCEL"];
         }
 
         return ["CANCEL"];
 
       case "ASSIGNED":
-        return ["LOAD_SHIPMENT", "CANCEL"];
+        return ["LOAD", "CANCEL"];
 
       case "LOADED":
-        return ["START_ROUTE", "CANCEL"];
+        return ["DEPART", "CANCEL"];
 
       case "IN_TRANSIT":
-        return ["ARRIVE_DESTINATION", "DELAY"];
+        return ["ARRIVE", "DELAY"];
 
       case "DELAYED":
-        return ["START_ROUTE", "CANCEL"];
+        return ["DEPART", "CANCEL"];
 
       case "ARRIVED":
-        return ["COMPLETE_DELIVERY"];
+        return ["DELIVER"];
 
       case "DELIVERED":
       case "CANCELLED":
@@ -234,7 +253,7 @@ export class ShipmentDetails implements OnInit {
 
     const driver = this.drivers.find((d) => d.id === this.selectedDriverId);
 
-    if (event === "ASSIGN_DRIVER") {
+    if (event === "ASSIGN") {
       this.shipmentService
         .update(this.shipment.id, {
           category: this.shipment.category,
@@ -295,10 +314,7 @@ export class ShipmentDetails implements OnInit {
     if (!this.shipment || !this.selectedDriverId || !this.selectedRouteId) {
       return;
     }
-
-    const driver = this.drivers.find((d) => d.id === this.selectedDriverId);
-    const route = this.routes.find((r) => r.pathId === this.selectedRouteId);
-
+    
     this.shipmentService
       .update(this.shipment.id, {
         category: this.shipment.category,
@@ -320,7 +336,7 @@ export class ShipmentDetails implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.processEvent("ASSIGN_DRIVER");
+          this.processEvent("ASSIGN");
         },
 
         error: (err) => {

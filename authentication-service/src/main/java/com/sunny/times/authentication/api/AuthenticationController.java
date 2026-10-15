@@ -1,14 +1,14 @@
 package com.sunny.times.authentication.api;
 
-import com.sunny.times.authentication.api.dto.UserProfile;
+import com.sunny.times.authentication.api.dto.*;
 import com.sunny.times.authentication.security.JwtUtil;
 import com.sunny.times.authentication.service.AuthenticationService;
-import com.sunny.times.authentication.api.dto.LoginRequest;
-import com.sunny.times.authentication.api.dto.RegisterRequest;
-import com.sunny.times.authentication.api.dto.RefreshRequest;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -50,10 +50,29 @@ public class AuthenticationController {
     }
 
     @GetMapping("/admin/users")
-    public ResponseEntity<?> users() {
+    public ResponseEntity<List<UserResponse>> users() {
         return ResponseEntity.ok(
                 auth.getAllUsers()
         );
+    }
+
+    @PatchMapping("/admin/users/{id}/status")
+    public ResponseEntity<UserResponse> updateUserStatus(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateUserStatusRequest request
+    ) {
+        return ResponseEntity.ok(auth.updateUserStatus(id, request));
+    }
+
+    @GetMapping("/token/validate")
+    public ResponseEntity<Void> validateToken(
+            @RequestHeader(value = "Authorization", required = false) String authorization
+    ) {
+        if (authorization == null || !authorization.startsWith("Bearer ")
+                || !auth.isActiveAccessToken(authorization.substring(7))) {
+            return ResponseEntity.status(401).build();
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/users/{id}")
@@ -77,6 +96,25 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(
                 auth.getCurrentUser(email)
+        );
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<UserProfile> updateProfile(
+            HttpServletRequest request,
+            @RequestBody UpdateProfileRequest requestDto
+    ) {
+        String token = request
+                .getHeader("Authorization")
+                .substring(7);
+
+        String email = jwtUtil.extractEmail(token);
+
+        return ResponseEntity.ok(
+                auth.updateProfile(
+                        email,
+                        requestDto
+                )
         );
     }
 }

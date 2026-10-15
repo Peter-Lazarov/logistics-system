@@ -106,10 +106,7 @@ public class ShipmentService {
                         null,
                         saved.getId(),
                         ShipmentStatus.CREATED,
-                        SecurityContextHolder
-                                .getContext()
-                                .getAuthentication()
-                                .getName(),
+                        currentUserEmail(),
                         Instant.now()
                 )
         );
@@ -223,10 +220,7 @@ public class ShipmentService {
                         null,
                         entity.getId(),
                         nextStatus,
-                        SecurityContextHolder
-                                .getContext()
-                                .getAuthentication()
-                                .getName(),
+                        currentUserEmail(),
                         Instant.now()
                 )
         );
@@ -277,10 +271,7 @@ public class ShipmentService {
                         null,
                         saved.getId(),
                         ShipmentStatus.CREATED,
-                        SecurityContextHolder
-                                .getContext()
-                                .getAuthentication()
-                                .getName(),
+                        currentUserEmail(),
                         Instant.now()
                 )
         );
@@ -297,6 +288,12 @@ public class ShipmentService {
                 .map(mapper::toDomain)
                 .map(this::toResponse)
                 .toList();
+    }
+
+    private String currentUserEmail() {
+        return currentUserService
+                .getCurrentUser()
+                .email();
     }
 
 }

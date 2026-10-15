@@ -1,9 +1,13 @@
 spring:
   application:
     name: tracking-api
-
-  config:
-    import: "optional:file:../../tracking-api.yaml"
+  jpa:
+    open-in-view: false
+  rabbitmq:
+    host: ${TRACKING_API_RABBITMQ_HOST}
+    port: ${TRACKING_API_RABBITMQ_PORT}
+    username: ${TRACKING_API_RABBITMQ_USERNAME}
+    password: ${TRACKING_API_RABBITMQ_PASSWORD}
 
 server:
-  port: 8082
+  port: ${TRACKING_API_SERVER_PORT}

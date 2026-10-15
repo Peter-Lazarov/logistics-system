@@ -28,4 +28,8 @@ export class ShipmentList implements OnInit {
   isClient(): boolean {
     return localStorage.getItem("role") === "ROLE_CLIENT";
   }
+
+  isAdmin(): boolean {
+    return localStorage.getItem("role") === "ROLE_ADMIN";
+  }
 }

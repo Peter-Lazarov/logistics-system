@@ -1,21 +1,31 @@
 @use '../../../shared/theme' as theme;
 @use '../../../shared/status';
 
-.details-card {
+/* =========================
+   TOP SECTION */
 
-  background: white;
+.top-section {
+  width: 80%;
+  margin: 0 auto 32px auto;
 
-  padding: 24px;
+  display: flex;
+  gap: 2rem;
+  align-items: stretch;
+}
 
-  border-radius: 12px;
+.client-card {
+  width: 350px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid #7dc4f4;
+}
 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-  max-width: 900px;
-
+.client-card hr {
+  margin: 10px 0;
 }
 
 .details-card {
+  flex: 7;
   background: white;
   padding: 24px;
   border-radius: 12px;
@@ -33,40 +43,122 @@
   color: #475569;
 }
 
+.price-field input,
+.journey-center select {
+    box-sizing: border-box;
+    height: 24px;
+    margin-left: 8px;
+    padding: 0px 5px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font: inherit;
+}
+
+.price-field input {
+  width: 140px;
+}
+
+.journey-center select {
+  min-width: 180px;
+}
+
 .details-card hr {
   border: none;
   border-top: 1px solid #e5e7eb;
   margin: 20px 0;
 }
 
+/* =========================
+   JOURNEY META */
+
+.journey-meta {
+  width: 100%;
+  margin-top: 40px;
+
+  display: flex;
+  justify-content: space-between;
+
+  color: #475569;
+}
+
+.journey-origin{
+  margin-left: 20px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.banner-origin {
+  margin-top: 10px;
+  background: #FFF28E;
+  height: 15px;
+}
+
+.journey-center,
+.journey-destination {
+  text-align: right;
+  font-size: 16px;
+}
+
+.journey-destination {
+  margin-right: 20px;
+}
+
+.banner-destination{
+  margin: 10px 0 0 0;
+  background: #FFD6A5;
+  height: 15px;
+}
+
+.meta-title {
+  font-weight: 700;
+  color: #2f4858;
+  margin-bottom: 8px;
+}
+
+/* =========================
+   ASSIGNMENT PANEL */
+
+.assignment-panel {
+  margin-top: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.assignment-panel select {
+  min-width: 220px;
+}
+
+/* =========================
+   TIMELINE */
 
 .journey {
+  width: 100%;
+  margin-top: 40px;
+
   position: relative;
+
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-top: 40px;
   height: auto;
-  min-height: 220px;
+  // min-height: 220px;
   box-sizing: border-box;
 }
 
 .journey-track {
   position: absolute;
+
   top: 26px;
   left: 0;
   right: 0;
-  height: 3px;
-  background: #cbd5e1;
-  z-index: 0;
-}
 
-.step {
-  position: relative;
-  z-index: 2;
-  flex: 1;
-  max-width: 160px;
-  text-align: center;
+  height: 3px;
+
+  background: #cbd5e1;
+
+  z-index: 0;
 }
 
 .journey-progress {
@@ -74,23 +166,54 @@
   background: #7dc4f4;
 }
 
-.dot {
-  width: 15px;
-  height: 15px;
-  background: #cbd5e1;
-  border-radius: 50%;
-  margin: 0 auto 10px;
-  transition: all 0.3s ease;
+.step {
+  position: relative;
+  z-index: 2;
+
+  flex: 1;
+  max-width: 160px;
+
+  text-align: center;
 }
 
 .step span {
   font-size: 17px;
   font-weight: 600;
   color: #64748b;
+  background: transparent;
 }
+
+.dot {
+  width: 15px;
+  height: 15px;
+
+  margin: 0 auto 10px;
+
+  border-radius: 50%;
+
+  background: #cbd5e1;
+
+  transition: all 0.3s ease;
+}
+
+.step.active .dot {
+  background: #7dc4f4;
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(125, 196, 244, 0.7);
+}
+
+.step.active span {
+  color: #2f4858;
+  font-weight: 700;
+}
+
+/* =========================
+   STEP INFO
+   ========================= */
 
 .step-info {
   margin-top: 12px;
+
   font-size: 15px;
   color: #475569;
 }
@@ -107,64 +230,14 @@
   margin-top: 2px;
 }
 
-.step.active .dot {
-  background: #7dc4f4;
-  transform: scale(1.2);
-  box-shadow: 0 0 12px rgba(125, 196, 244, 0.7);
-}
-
-.step.active span {
-  color: #2563eb;
-}
-
-
-
-
-
-
-.journey-meta {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 40px;
-  color: #475569;
-}
-
-.journey-origin,
-.journey-center,
-.journey-destination {
-  text-align: center;
-}
-
-.meta-title {
-  font-weight: 700;
-  color: #2f4858;
-  margin-bottom: 8px;
-}
-
-
-
-
-.next-action-btn {
-  margin-top: 10px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 8px;
-  background: #7dc4f4;
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.next-action-btn:hover {
-  background: #5baee8;
-}
-
-
-
-
+/* =========================
+   ACTION BUTTONS
+   ========================= */
 
 .step-actions {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap: 10px;
   margin: 14px 0;
@@ -172,14 +245,29 @@
   z-index: 10;
 }
 
+.step-actions button {
+  box-sizing: border-box;
+  width: min(100%, 150px);
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.step-actions button:focus-visible {
+  outline: 2px solid #2f4858;
+  outline-offset: 2px;
+}
+
 .primary-action-btn {
   background: #7dc4f4;
   color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 8px;
-  cursor: pointer;
-  font-weight: 600;
 }
 
 .primary-action-btn:hover {
@@ -187,32 +275,42 @@
 }
 
 .secondary-action-btn {
-  background: #fca5a5;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 8px;
-  cursor: pointer;
-  font-weight: 600;
+  background: #ffd6a5;
+  color: #7a4310;
 }
 
 .secondary-action-btn:hover {
-  background: #ef4444;
+  background: #ffc47a;
 }
 
-.client-card {
-  border: 2px solid #6ca8ff;
-  padding: 20px;
-  margin-bottom: 20px;
-  width: 350px;
+/* =========================
+   LEGACY ACTION BUTTON */
+
+.next-action-btn {
+  margin-top: 10px;
+
+  padding: 8px 12px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #7dc4f4;
+  color: white;
+
+  cursor: pointer;
+
+  font-weight: 600;
 }
 
-.client-card hr {
-  margin: 10px 0;
+.next-action-btn:hover {
+  background: #5baee8;
 }
 
-.banner{
-    margin: 15px 0 0 0;
-    background: #B8E6B8;
-    height: 15px;
+/* =========================
+   FOOTER BANNER */
+
+.banner {
+  margin: 15px 0 0 0;
+  background: #b8e6b8;
+  height: 15px;
 }

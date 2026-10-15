@@ -1,7 +1,7 @@
 package com.sunny.times.authentication.model;
 
 import jakarta.persistence.*;
-
+import java.time.Instant;
 import java.util.Set;
 
 @Entity
@@ -32,6 +32,12 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column
+    private Instant createdAt;
+
+    @Column
+    private String status = UserStatus.ACTIVE.name();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
@@ -84,5 +90,30 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-}
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public UserStatus getStatus() {
+        return status == null ? UserStatus.ACTIVE : UserStatus.valueOf(status);
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status == null ? null : status.name();
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) {
+            createdAt = Instant.now();
+        }
+        if (status == null) {
+            status = UserStatus.ACTIVE.name();
+        }
+    }
+}

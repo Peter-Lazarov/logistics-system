@@ -37,6 +37,5 @@ public class AdminSeeder implements CommandLineRunner {
         admin.setPassword(encoder.encode(adminPassword));
         admin.setRoles(Set.of(Role.ROLE_ADMIN));
         repo.save(admin);
-        //System.out.println("Admin user created: " + adminEmail);
     }
 }

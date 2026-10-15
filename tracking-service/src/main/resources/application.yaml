@@ -1,9 +1,21 @@
 spring:
   application:
     name: tracking-service
+  jpa:
+    open-in-view: false
+  data:
+    mongodb:
+      uri: ${TRACKING_MONGODB_URI}
+      database: ${TRACKING_MONGODB_DATABASE}
+      uuid-representation: standard
+  rabbitmq:
+    host: ${TRACKING_RABBITMQ_HOST}
+    port: ${TRACKING_RABBITMQ_PORT}
+    username: ${TRACKING_RABBITMQ_USERNAME}
+    password: ${TRACKING_RABBITMQ_PASSWORD}
 
-  config:
-    import: "optional:file:../../tracking.yaml"
+server:
+  port: ${TRACKING_SERVER_PORT}
 
 management:
   endpoints:

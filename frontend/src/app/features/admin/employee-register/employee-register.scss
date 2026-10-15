@@ -1,0 +1,115 @@
+.register-card h3 {
+    margin: 24px 0 12px;
+    color: #2f4858;
+}
+
+.users-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #dbe5eb;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.users-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.users-table thead {
+    background: #e7f2f8;
+    border-bottom: 2px solid #a7d8ff;
+}
+
+.users-table th {
+    padding: 12px 14px;
+    color: #2f4858;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.users-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e7edf0;
+    color: #344854;
+}
+
+.users-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.users-table tbody tr:hover {
+    background: #f4f9fb;
+}
+
+.user-id {
+    color: #647b88 !important;
+    font-variant-numeric: tabular-nums;
+}
+
+.user-email {
+    font-weight: 600;
+}
+
+.role-label,
+.status-label {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.role-label {
+    background: #e9eef6;
+    color: #405777;
+}
+
+.status-active {
+    background: #e2f3e9;
+    color: #246442;
+}
+
+.status-disabled {
+    background: #fbe9e7;
+    color: #a13e34;
+}
+
+.status-action {
+    min-width: 76px;
+    padding: 6px 10px;
+    border: 1px solid #d7a5a0;
+    border-radius: 3px;
+    background: #fff;
+    color: #963f37;
+    cursor: pointer;
+}
+
+.status-action:hover {
+    background: #fff3f1;
+}
+
+.status-action.enable-action {
+    border-color: #9bc7aa;
+    color: #246442;
+}
+
+.status-action.enable-action:hover {
+    background: #eff8f1;
+}
+
+.empty-state {
+    padding: 24px !important;
+    color: #64748b !important;
+    text-align: center;
+}
+
+.banner {
+    margin: 15px 0;
+    background: #5877b9;
+    height: 15px;
+}

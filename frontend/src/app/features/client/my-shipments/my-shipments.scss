@@ -1,13 +1,52 @@
-h2 {
-    padding: 0 24px;
+@use "../../../shared/theme" as theme;
+@use "../../../shared/status";
+
+.shipment-count {
+    color: #64748b;
+    margin: 16px 0 20px;
 }
 
-.list {
-    padding: 0 24px;
+.shipment-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.banner{
-    margin: 15px 0 0 0;
-    background: #FFE89A;
+.shipment-table thead {
+    background: #ffface;
+}
+
+.shipment-table th {
+    padding: 14px;
+    text-align: left;
+    color: #2f4858;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.shipment-table td {
+    padding: 14px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.shipment-row {
+    transition: all 0.2s ease;
+}
+
+.shipment-row:hover {
+    background: #e8f4fb;
+    transform: scale(1.002);
+}
+
+.empty-state {
+    text-align: center;
+}
+
+.banner {
+    margin: 15px 0;
+    background: #FFF28E;
     height: 15px;
 }
