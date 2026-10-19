@@ -6,15 +6,40 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
 
+    private static final String TRACKING_EXCHANGE = "tracking.exchange";
+    private static final String TRACKING_QUEUE = "tracking.queue";
+    private static final String TRACKING_ROUTING_KEY = "tracking.location";
+
     @Bean
     public TopicExchange shipmentsExchange() {
         return new TopicExchange("shipments.exchange");
+    }
+
+    @Bean
+    public TopicExchange trackingExchange() {
+        return new TopicExchange(TRACKING_EXCHANGE);
+    }
+
+    @Bean
+    public Queue trackingQueue() {
+        return new Queue(TRACKING_QUEUE, true);
+    }
+
+    @Bean
+    public Binding trackingBinding(
+            @Qualifier("trackingQueue") Queue trackingQueue,
+            @Qualifier("trackingExchange") TopicExchange trackingExchange
+    ) {
+        return BindingBuilder.bind(trackingQueue)
+                .to(trackingExchange)
+                .with(TRACKING_ROUTING_KEY);
     }
 
     @Bean

@@ -55,9 +55,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String email;
         final Long userId;
+        final boolean tokenValid;
         try {
             email = jwtUtil.extractUsername(token);
             userId = jwtUtil.extractUserId(token);
+            tokenValid = jwtUtil.isTokenValid(token);
         } catch (RuntimeException exception) {
             filterChain.doFilter(request, response);
             return;
@@ -68,7 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .getContext()
                 .getAuthentication() == null) {
 
-            if (jwtUtil.isTokenValid(token)) {
+            if (tokenValid) {
                 final int validationStatus;
                 try {
                     HttpRequest validationRequest = HttpRequest.newBuilder(tokenValidationUri)
@@ -81,16 +83,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             HttpResponse.BodyHandlers.discarding()
                     ).statusCode();
                 } catch (IOException exception) {
-                    response.sendError(
+                    ApiErrorWriter.write(
+                            response,
                             HttpServletResponse.SC_SERVICE_UNAVAILABLE,
-                            "Unable to verify account status"
+                            "We could not verify your account status. Please try again."
                     );
                     return;
                 } catch (InterruptedException exception) {
                     Thread.currentThread().interrupt();
-                    response.sendError(
+                    ApiErrorWriter.write(
+                            response,
                             HttpServletResponse.SC_SERVICE_UNAVAILABLE,
-                            "Account status verification was interrupted"
+                            "We could not verify your account status. Please try again."
                     );
                     return;
                 }
@@ -98,14 +102,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if (validationStatus != HttpServletResponse.SC_NO_CONTENT) {
                     if (validationStatus == HttpServletResponse.SC_UNAUTHORIZED
                             || validationStatus == HttpServletResponse.SC_FORBIDDEN) {
-                        response.sendError(
-                                HttpServletResponse.SC_UNAUTHORIZED,
-                                "User account is disabled or unavailable"
-                        );
+                        int status = validationStatus == HttpServletResponse.SC_FORBIDDEN
+                                ? HttpServletResponse.SC_FORBIDDEN
+                                : HttpServletResponse.SC_UNAUTHORIZED;
+                        String message = status == HttpServletResponse.SC_FORBIDDEN
+                                ? "Your account has been disabled. Contact an administrator."
+                                : "Your session is no longer valid. Please sign in again.";
+                        ApiErrorWriter.write(response, status, message);
                     } else {
-                        response.sendError(
+                        ApiErrorWriter.write(
+                                response,
                                 HttpServletResponse.SC_SERVICE_UNAVAILABLE,
-                                "Unable to verify account status"
+                                "We could not verify your account status. Please try again."
                         );
                     }
                     return;

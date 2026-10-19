@@ -1,9 +1,14 @@
 package com.sunny.times.authentication.security;
 
 import com.sunny.times.authentication.model.UserStatus;
+import com.sunny.times.authentication.model.User;
 import com.sunny.times.authentication.repository.UserRepository;
+import com.sunny.times.security.ApiErrorWriter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +29,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     private final SecretKey accessKey;
     private final UserRepository userRepository;
@@ -76,9 +83,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        var user = userRepository.findByEmail(email).orElse(null);
-        if (user == null || user.getStatus() != UserStatus.ACTIVE) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User account is disabled or unavailable");
+        final User user;
+        try {
+            user = userRepository.findByEmail(email).orElse(null);
+        } catch (DataAccessException exception) {
+            log.error("Unable to verify the authenticated user's status", exception);
+            ApiErrorWriter.write(
+                    response,
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "An unexpected error occurred. Please try again later."
+            );
+            return;
+        }
+        if (user != null && user.getStatus() != UserStatus.ACTIVE) {
+            ApiErrorWriter.write(
+                    response,
+                    HttpServletResponse.SC_FORBIDDEN,
+                    "Your account has been disabled. Contact an administrator."
+            );
+            return;
+        }
+        if (user == null) {
+            ApiErrorWriter.write(
+                    response,
+                    HttpServletResponse.SC_UNAUTHORIZED,
+                    "Invalid or expired access token."
+            );
             return;
         }
 

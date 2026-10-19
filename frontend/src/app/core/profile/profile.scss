@@ -26,12 +26,18 @@
   color: #59646a;
 }
 
+.profile-card input.missing-value {
+  background: #fff0f0;
+  border-color: #d98a8a;
+}
+
 .profile-card button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
 
 .message.error {
+  margin: 20px 0;
   color: #a32626;
 }
 

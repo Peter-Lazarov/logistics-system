@@ -5,6 +5,8 @@ import com.sunny.times.contracts.shipments.ShipmentResponse;
 import com.sunny.times.contracts.shipments.UpdateShipmentRequest;
 import com.sunny.times.contracts.shipments.ProcessShipmentEventRequest;
 import com.sunny.times.contracts.shipments.ClientShipmentRequest;
+import com.sunny.times.contracts.common.ApiMessage;
+import com.sunny.times.contracts.common.ApiResponse;
 import com.sunny.times.security.CurrentUserService;
 import com.sunny.times.shipments.domain.service.ShipmentService;
 import org.springframework.http.ResponseEntity;
@@ -35,36 +37,40 @@ public class ShipmentController {
     }
 
     @PostMapping
-    public ResponseEntity<ShipmentResponse> create(@RequestBody CreateShipmentRequest req) {
-        return ResponseEntity.ok(service.create(req));
+    public ResponseEntity<ApiResponse<ShipmentResponse>> create(@RequestBody CreateShipmentRequest req) {
+        return ResponseEntity.ok(new ApiResponse<>(
+                "Shipment created successfully.",
+                service.create(req)
+        ));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ShipmentResponse> update(
+    public ResponseEntity<ApiResponse<ShipmentResponse>> update(
             @PathVariable String id,
             @RequestBody UpdateShipmentRequest req
     ) {
-        return ResponseEntity.ok(service.update(id, req));
+        return ResponseEntity.ok(new ApiResponse<>(
+                "Shipment updated successfully.",
+                service.update(id, req)
+        ));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
+    public ResponseEntity<ApiMessage> delete(@PathVariable String id) {
         service.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(new ApiMessage("Shipment deleted successfully."));
     }
 
     @PatchMapping("/{id}/event")
-    public ResponseEntity<ShipmentResponse> processEvent(
+    public ResponseEntity<ApiResponse<ShipmentResponse>> processEvent(
             @PathVariable String id,
             @RequestBody ProcessShipmentEventRequest req
     ) {
 
-        return ResponseEntity.ok(
-                service.processEvent(
-                        id,
-                        req.event()
-                )
-        );
+        return ResponseEntity.ok(new ApiResponse<>(
+                "Shipment status updated successfully.",
+                service.processEvent(id, req.event())
+        ));
     }
 
     @GetMapping("/{id}/history")
@@ -77,13 +83,14 @@ public class ShipmentController {
     }
 
     @PostMapping("/requests")
-    public ResponseEntity<ShipmentResponse> createRequest(
+    public ResponseEntity<ApiResponse<ShipmentResponse>> createRequest(
             @RequestBody ClientShipmentRequest req
     ) {
 
-        return ResponseEntity.ok(
+        return ResponseEntity.ok(new ApiResponse<>(
+                "Shipment created successfully.",
                 service.createRequest(req)
-        );
+        ));
     }
 
     @GetMapping("/my")

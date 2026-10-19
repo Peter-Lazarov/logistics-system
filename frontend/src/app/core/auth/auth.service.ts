@@ -19,6 +19,7 @@ export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
   role: string;
+  message: string;
 }
 
 export interface UserProfile {
@@ -45,8 +46,8 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, request);
   }
 
-  register(request: RegisterRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, request);
+  register(request: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, request);
   }
 
   getRole(): string | null {

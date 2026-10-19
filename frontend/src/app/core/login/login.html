@@ -17,6 +17,9 @@
         <button type="submit">Login</button>
     </form>
 
+    @if (errorMessage) {
+        <p class="message error" role="alert">{{ errorMessage }}</p>
+    }
+
     <div class="banner"></div>
 </div>
-

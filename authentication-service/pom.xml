@@ -102,6 +102,11 @@
 			<artifactId>api-contracts</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.sunny.times</groupId>
+			<artifactId>shared-security</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 	</dependencies>
 

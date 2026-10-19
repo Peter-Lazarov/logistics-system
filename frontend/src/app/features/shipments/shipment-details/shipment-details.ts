@@ -25,6 +25,8 @@ export class ShipmentDetails implements OnInit {
   selectedRouteId = "";
   stepPositions = [8, 25, 40, 68, 88, 98];
   client: any;
+  errorMessage = "";
+  successMessage = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -38,14 +40,16 @@ export class ShipmentDetails implements OnInit {
         this.shipment = data;
         this.loadClient(data.clientUserId);
         this.cdr.detectChanges();
-      }
+      },
+      error: (error) => this.showError(error),
     });
 
     this.shipmentService.getHistory(id).subscribe({
       next: (data) => {
         this.history = data;
         this.cdr.detectChanges();
-      }
+      },
+      error: (error) => this.showError(error),
     });
   }
 
@@ -56,7 +60,7 @@ export class ShipmentDetails implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error(err);
+        this.showError(err);
       },
     });
   }
@@ -76,7 +80,7 @@ export class ShipmentDetails implements OnInit {
       },
 
       error: (err) => {
-        console.error(err);
+        this.showError(err);
       },
     });
 
@@ -88,7 +92,7 @@ export class ShipmentDetails implements OnInit {
       },
 
       error: (err) => {
-        console.error(err);
+        this.showError(err);
       },
     });
 
@@ -97,6 +101,7 @@ export class ShipmentDetails implements OnInit {
         this.drivers = data;
         this.cdr.detectChanges();
       },
+      error: (err) => this.showError(err),
     });
 
     this.shipmentService.getRoutes().subscribe({
@@ -104,6 +109,7 @@ export class ShipmentDetails implements OnInit {
         this.routes = data;
         this.cdr.detectChanges();
       },
+      error: (err) => this.showError(err),
     });
   }
 
@@ -278,16 +284,18 @@ export class ShipmentDetails implements OnInit {
             this.shipmentService
               .processEvent(this.shipment!.id, event)
               .subscribe({
-                next: () => {
+                next: (response) => {
+                  this.successMessage = response.message;
+                  this.errorMessage = "";
                   this.loadData(this.shipment!.id);
                 },
                 error: (err) => {
-                  console.error(err);
+                  this.showError(err);
                 },
               });
           },
           error: (err) => {
-            console.error(err);
+            this.showError(err);
           },
         });
       return;
@@ -300,12 +308,14 @@ export class ShipmentDetails implements OnInit {
     }
 
     this.shipmentService.processEvent(this.shipment.id, event).subscribe({
-      next: () => {
+      next: (response) => {
+        this.successMessage = response.message;
+        this.errorMessage = "";
         this.loadData(this.shipment!.id);
       },
 
       error: (err) => {
-        console.error(err);
+        this.showError(err);
       },
     });
   }
@@ -335,13 +345,22 @@ export class ShipmentDetails implements OnInit {
         price: this.shipment.price,
       })
       .subscribe({
-        next: () => {
+        next: (response) => {
+          this.successMessage = response.message;
+          this.errorMessage = "";
           this.processEvent("ASSIGN");
         },
 
         error: (err) => {
-          console.error(err);
+          this.showError(err);
         },
       });
+  }
+
+  private showError(error: { error?: { message?: string } }): void {
+    this.errorMessage =
+      error?.error?.message ?? "We could not complete this shipment action. Please try again.";
+    this.successMessage = "";
+    this.cdr.detectChanges();
   }
 }

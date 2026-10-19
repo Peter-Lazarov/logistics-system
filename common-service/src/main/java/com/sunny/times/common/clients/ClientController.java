@@ -1,6 +1,8 @@
 package com.sunny.times.common.clients;
 
 import com.sunny.times.contracts.clients.ClientDto;
+import com.sunny.times.contracts.common.ApiResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,21 +31,30 @@ public class ClientController {
     }
 
     @PostMapping
-    public ClientDto create(@RequestBody ClientDto dto) {
-        return service.create(dto);
+    public ResponseEntity<ApiResponse<ClientDto>> create(@RequestBody ClientDto dto) {
+        return ResponseEntity.ok(new ApiResponse<>(
+                "Client created successfully.",
+                service.create(dto)
+        ));
     }
 
     @PutMapping("/me")
-    public ClientDto updateCurrent(@RequestBody ClientDto dto) {
-        return service.updateCurrent(dto);
+    public ResponseEntity<ApiResponse<ClientDto>> updateCurrent(@RequestBody ClientDto dto) {
+        return ResponseEntity.ok(new ApiResponse<>(
+                "Client updated successfully.",
+                service.updateCurrent(dto)
+        ));
     }
 
     @PutMapping("/{clientId}")
-    public ClientDto update(
+    public ResponseEntity<ApiResponse<ClientDto>> update(
             @PathVariable Long clientId,
             @RequestBody ClientDto dto
     ) {
-        return service.update(clientId, dto);
+        return ResponseEntity.ok(new ApiResponse<>(
+                "Client updated successfully.",
+                service.update(clientId, dto)
+        ));
     }
 
 }

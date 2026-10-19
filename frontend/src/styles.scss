@@ -117,6 +117,32 @@ textarea {
 	margin-top: 8px;
 }
 
+.message {
+	box-sizing: border-box;
+	width: 100%;
+	margin: 8px 0 0;
+	padding: 10px 12px;
+	border: 1px solid transparent;
+	border-left-width: 4px;
+	border-radius: 4px;
+	font-size: 14px;
+	line-height: 1.45;
+}
+
+.message.error {
+	border-color: #f2c2be;
+	border-left-color: #b42318;
+	background: #fff4f2;
+	color: #8f1d14;
+}
+
+.message.success {
+	border-color: #b9ddc5;
+	border-left-color: #22834d;
+	background: #f0faf3;
+	color: #17633a;
+}
+
 @media (max-width: 640px) {
 	.standard-field-row {
 		grid-template-columns: minmax(0, 1fr);

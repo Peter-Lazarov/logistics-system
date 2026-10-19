@@ -19,6 +19,8 @@ import { ShipmentService } from '../shipment.service';
 export class ShipmentCreate implements OnInit {
 
   form;
+  errorMessage = "";
+  successMessage = "";
   data$!: Observable<{ clients: any[], drivers: any[], routes: any[] }>;
   private rawDrivers: any[] = [];
   
@@ -66,17 +68,21 @@ export class ShipmentCreate implements OnInit {
   }
 
   createShipment(): void {
+    this.errorMessage = "";
+    this.successMessage = "";
     if (this.form.invalid) {
       return;
     }
     this.shipmentService
       .create(this.form.getRawValue())
       .subscribe({
-        next: () => {
-          this.router.navigate(['/shipments']);
+        next: (response) => {
+          this.successMessage = response.message ?? "Shipment created successfully.";
+          setTimeout(() => this.router.navigate(['/shipments']), 1500);
         },
         error: err => {
-          console.error(err);
+          this.errorMessage =
+            err?.error?.message ?? "We could not create the shipment. Please try again.";
         }
       });
   }

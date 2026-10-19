@@ -1,0 +1,229 @@
+services:
+  postgres_authentication:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: authenticationdb
+      POSTGRES_USER: ${AUTH_DB_USERNAME:-authentication}
+      POSTGRES_PASSWORD: ${AUTH_DB_PASSWORD:-authentication}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_authentication_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  postgres_common:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: commondb
+      POSTGRES_USER: ${COMMON_DB_USERNAME:-common}
+      POSTGRES_PASSWORD: ${COMMON_DB_PASSWORD:-common}
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_common_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  postgres_shipment:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: shipmentdb
+      POSTGRES_USER: ${SHIPMENT_DB_USERNAME:-shipment}
+      POSTGRES_PASSWORD: ${SHIPMENT_DB_PASSWORD:-shipment}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_shipment_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  mongodb_tracking:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: tracking
+      MONGO_INITDB_ROOT_PASSWORD: tracking
+      MONGO_INITDB_DATABASE: ${TRACKING_MONGODB_DATABASE:-trackingdb}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_tracking_data:/data/db
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mongosh --quiet --username $$MONGO_INITDB_ROOT_USERNAME --password $$MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase admin --eval 'db.adminCommand(\"ping\").ok'",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${TRACKING_API_RABBITMQ_USERNAME:-rabbit}
+      RABBITMQ_DEFAULT_PASS: ${TRACKING_API_RABBITMQ_PASSWORD:-rabbit}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  authentication-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.java
+      args:
+        SERVICE_MODULE: authentication-service
+    environment:
+      AUTH_SERVER_PORT: ${AUTH_SERVER_PORT:-8080}
+      AUTH_DB_URL: jdbc:postgresql://postgres_authentication:5432/authenticationdb
+      AUTH_DB_USERNAME: ${AUTH_DB_USERNAME:-authentication}
+      AUTH_DB_PASSWORD: ${AUTH_DB_PASSWORD:-authentication}
+      AUTH_ADMIN_EMAIL: ${AUTH_ADMIN_EMAIL:-admin@sunny-times.com}
+      AUTH_ADMIN_PASSWORD: ${AUTH_ADMIN_PASSWORD:-1234}
+      AUTH_JWT_ACCESS_SECRET: ${AUTH_JWT_ACCESS_SECRET:-super-access-secret-key-super-access-secret-key}
+      AUTH_JWT_REFRESH_SECRET: ${AUTH_JWT_REFRESH_SECRET:-super-refresh-secret-key-super-refresh-secret-key}
+      AUTH_JWT_ACCESS_EXPIRATION: ${AUTH_JWT_ACCESS_EXPIRATION:-900000}
+      AUTH_JWT_REFRESH_EXPIRATION: ${AUTH_JWT_REFRESH_EXPIRATION:-604800000}
+      AUTH_ALLOWED_ORIGINS: ${AUTH_ALLOWED_ORIGINS:-http://localhost:4200}
+      AUTH_COMMON_SERVICE_URL: http://common-service:8081
+    ports:
+      - "${AUTH_SERVER_PORT:-8080}:${AUTH_SERVER_PORT:-8080}"
+    depends_on:
+      postgres_authentication:
+        condition: service_healthy
+    restart: unless-stopped
+
+  common-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.java
+      args:
+        SERVICE_MODULE: common-service
+    environment:
+      COMMON_SERVER_PORT: ${COMMON_SERVER_PORT:-8081}
+      COMMON_DB_URL: jdbc:postgresql://postgres_common:5432/commondb
+      COMMON_DB_USERNAME: ${COMMON_DB_USERNAME:-common}
+      COMMON_DB_PASSWORD: ${COMMON_DB_PASSWORD:-common}
+      COMMON_JWT_ACCESS_SECRET: ${COMMON_JWT_ACCESS_SECRET:-super-access-secret-key-super-access-secret-key}
+      COMMON_JWT_REFRESH_SECRET: ${COMMON_JWT_REFRESH_SECRET:-super-refresh-secret-key-super-refresh-secret-key}
+      AUTHENTICATION_TOKEN_VALIDATION_URL: http://authentication-service:8080/auth/token/validate
+    ports:
+      - "${COMMON_SERVER_PORT:-8081}:${COMMON_SERVER_PORT:-8081}"
+    depends_on:
+      postgres_common:
+        condition: service_healthy
+      authentication-service:
+        condition: service_started
+    restart: unless-stopped
+
+  shipment-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.java
+      args:
+        SERVICE_MODULE: shipment-service
+    environment:
+      SHIPMENT_SERVER_PORT: ${SHIPMENT_SERVER_PORT:-8082}
+      SHIPMENT_COMMON_SERVICE_URL: http://common-service:8081
+      SHIPMENT_DB_URL: jdbc:postgresql://postgres_shipment:5432/shipmentdb
+      SHIPMENT_DB_USERNAME: ${SHIPMENT_DB_USERNAME:-shipment}
+      SHIPMENT_DB_PASSWORD: ${SHIPMENT_DB_PASSWORD:-shipment}
+      SHIPMENT_JWT_ACCESS_SECRET: ${SHIPMENT_JWT_ACCESS_SECRET:-super-access-secret-key-super-access-secret-key}
+      SHIPMENT_JWT_REFRESH_SECRET: ${SHIPMENT_JWT_REFRESH_SECRET:-super-refresh-secret-key-super-refresh-secret-key}
+      AUTHENTICATION_TOKEN_VALIDATION_URL: http://authentication-service:8080/auth/token/validate
+    ports:
+      - "${SHIPMENT_SERVER_PORT:-8082}:${SHIPMENT_SERVER_PORT:-8082}"
+    depends_on:
+      postgres_shipment:
+        condition: service_healthy
+      common-service:
+        condition: service_started
+      authentication-service:
+        condition: service_started
+    restart: unless-stopped
+
+  tracking-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.java
+      args:
+        SERVICE_MODULE: tracking-api
+    environment:
+      TRACKING_API_SERVER_PORT: ${TRACKING_API_SERVER_PORT:-8083}
+      TRACKING_API_RABBITMQ_HOST: rabbitmq
+      TRACKING_API_RABBITMQ_PORT: 5672
+      TRACKING_API_RABBITMQ_USERNAME: ${TRACKING_API_RABBITMQ_USERNAME:-rabbit}
+      TRACKING_API_RABBITMQ_PASSWORD: ${TRACKING_API_RABBITMQ_PASSWORD:-rabbit}
+    ports:
+      - "${TRACKING_API_SERVER_PORT:-8083}:${TRACKING_API_SERVER_PORT:-8083}"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
+
+  tracking-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.java
+      args:
+        SERVICE_MODULE: tracking-service
+    environment:
+      TRACKING_SERVER_PORT: ${TRACKING_SERVER_PORT:-8084}
+      TRACKING_MONGODB_URI: mongodb://tracking:tracking@mongodb_tracking:27017/trackingdb?authSource=admin
+      TRACKING_MONGODB_DATABASE: ${TRACKING_MONGODB_DATABASE:-trackingdb}
+      TRACKING_RABBITMQ_HOST: rabbitmq
+      TRACKING_RABBITMQ_PORT: 5672
+      TRACKING_RABBITMQ_USERNAME: ${TRACKING_RABBITMQ_USERNAME:-rabbit}
+      TRACKING_RABBITMQ_PASSWORD: ${TRACKING_RABBITMQ_PASSWORD:-rabbit}
+      AUTHENTICATION_TOKEN_VALIDATION_URL: http://authentication-service:8080/auth/token/validate
+    ports:
+      - "${TRACKING_SERVER_PORT:-8084}:${TRACKING_SERVER_PORT:-8084}"
+    depends_on:
+      mongodb_tracking:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      authentication-service:
+        condition: service_started
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - authentication-service
+      - common-service
+      - shipment-service
+      - tracking-service
+    restart: unless-stopped
+
+volumes:
+  postgres_authentication_data:
+  postgres_common_data:
+  postgres_shipment_data:
+  mongodb_tracking_data:
+  rabbitmq_data:

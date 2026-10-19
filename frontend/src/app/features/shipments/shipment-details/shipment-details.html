@@ -1,3 +1,11 @@
+@if (errorMessage) {
+  <p class="message error" role="alert">{{ errorMessage }}</p>
+}
+
+@if (successMessage) {
+  <p class="message success" role="status">{{ successMessage }}</p>
+}
+
 @if (shipment) {
   <div class="top-section">
     <div class="client-card">

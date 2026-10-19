@@ -32,7 +32,9 @@ public class ClientService {
 
     public ClientDto getCurrent() {
         Long currentUserId = currentUserService.getCurrentUser().userId();
-        return getById(currentUserId);
+        return repository.findById(currentUserId)
+                .map(ClientMapper::toDto)
+                .orElseGet(() -> new ClientDto(currentUserId, null, null, null));
     }
 
     public ClientDto create(ClientDto dto) {
@@ -53,9 +55,15 @@ public class ClientService {
         Long currentUserId = currentUserService.getCurrentUser().userId();
         if (!dto.userId().equals(currentUserId)) {
             throw new IllegalArgumentException(
-                    "User ID in request does not match authenticated user"
+                    "The user ID in the request does not match your account."
             );
         }
-        return update(currentUserId, dto);
+
+        ClientEntity entity = repository.findById(currentUserId)
+                .orElseGet(() -> new ClientEntity(currentUserId, null, null, null));
+        entity.setCompanyName(dto.companyName());
+        entity.setCompanyAddress(dto.companyAddress());
+        entity.setVatNumber(dto.vatNumber());
+        return ClientMapper.toDto(repository.save(entity));
     }
 }

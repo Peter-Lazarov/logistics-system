@@ -1,10 +1,11 @@
 @if (profile$ | async; as profile) {
+@if (clientProfile$ | async; as clientProfile) {
 
 <div class="profile-card">
   <div class="profile-heading">
     <h2 class="client-page-title">Profile</h2>
     @if (!isEditing) {
-      <button type="button" class="secondary-button" (click)="startEditing(profile)">
+      <button type="button" class="secondary-button" (click)="startEditing(profile, clientProfile)">
         Edit profile
       </button>
     }
@@ -12,11 +13,18 @@
 
   <hr />
 
+  @if (bannerRoleClass === "client-banner" && !isClientProfileComplete(clientProfile)) {
+    <p class="message error" role="alert">
+      Please fill in all fields. <br />
+      These fields are required before submitting a shipment request.
+    </p>
+  }
+
   @if (isEditing) {
     <form #profileForm="ngForm" (ngSubmit)="saveProfile()" class="standard-form">
       <div class="standard-field-row">
         <label for="profile-name">Name</label>
-        <input id="profile-name" name="name" type="text" [(ngModel)]="name" required />
+        <input id="profile-name" name="name" type="text" [(ngModel)]="name" [class.missing-value]="!name.trim()" required />
       </div>
 
       <div class="standard-field-row">
@@ -26,8 +34,25 @@
 
       <div class="standard-field-row">
         <label for="profile-phone">Phone</label>
-        <input id="profile-phone" name="phone" type="tel" [(ngModel)]="phone" required />
+        <input id="profile-phone" name="phone" type="tel" [(ngModel)]="phone" [class.missing-value]="!phone.trim()" required />
       </div>
+
+      @if (bannerRoleClass === "client-banner") {
+        <div class="standard-field-row">
+          <label for="profile-company">Company</label>
+          <input id="profile-company" name="companyName" type="text" [(ngModel)]="companyName" [class.missing-value]="!companyName.trim()" required />
+        </div>
+
+        <div class="standard-field-row">
+          <label for="profile-address">Address</label>
+          <input id="profile-address" name="companyAddress" type="text" [(ngModel)]="companyAddress" [class.missing-value]="!companyAddress.trim()" required />
+        </div>
+
+        <div class="standard-field-row">
+          <label for="profile-vat">VAT Number</label>
+          <input id="profile-vat" name="vatNumber" type="text" [(ngModel)]="vatNumber" [class.missing-value]="!vatNumber.trim()" required />
+        </div>
+      }
 
       <div class="standard-form-actions">
         <button type="submit" [disabled]="profileForm.invalid || isSaving">
@@ -42,6 +67,11 @@
     <p><b>Name:</b> {{ profile.name }}</p>
     <p><b>Email:</b> {{ profile.email }}</p>
     <p><b>Phone:</b> {{ profile.phone }}</p>
+    @if (bannerRoleClass === "client-banner") {
+      <p><b>Company:</b> {{ clientProfile.companyName || "Not provided" }}</p>
+      <p><b>Address:</b> {{ clientProfile.companyAddress || "Not provided" }}</p>
+      <p><b>VAT Number:</b> {{ clientProfile.vatNumber || "Not provided" }}</p>
+    }
   }
 
   @if (errorMessage) {
@@ -52,6 +82,9 @@
   }
 </div>
 
+} @else {
+  <p class="profile-loading">Loading profile...</p>
+}
 } @else {
   <p class="profile-loading">Loading profile...</p>
 }

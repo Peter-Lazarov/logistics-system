@@ -1,6 +1,7 @@
 package com.sunny.times.tracking_api.api;
 
 import com.sunny.times.contracts.tracking.TrackingPointEvent;
+import com.sunny.times.contracts.common.ApiMessage;
 import com.sunny.times.tracking_api.messaging.TrackingProducer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,13 @@ public class TrackingController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> receive(
+    public ResponseEntity<ApiMessage> receive(
             @RequestBody TrackingPointEvent event
     ) {
 
         producer.publish(event);
 
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.accepted()
+                .body(new ApiMessage("Location update accepted."));
     }
 }

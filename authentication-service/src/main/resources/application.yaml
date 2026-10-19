@@ -5,6 +5,14 @@ spring:
     url: ${AUTH_DB_URL}
     username: ${AUTH_DB_USERNAME}
     password: ${AUTH_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    open-in-view: false
 
 server:
   port: ${AUTH_SERVER_PORT}
@@ -18,3 +26,9 @@ jwt:
   refresh-secret: ${AUTH_JWT_REFRESH_SECRET}
   access-expiration: ${AUTH_JWT_ACCESS_EXPIRATION}
   refresh-expiration: ${AUTH_JWT_REFRESH_EXPIRATION}
+
+cors:
+  allowed-origins: ${AUTH_ALLOWED_ORIGINS:http://localhost:4200}
+
+common-service:
+  url: ${AUTH_COMMON_SERVICE_URL:http://localhost:8081}

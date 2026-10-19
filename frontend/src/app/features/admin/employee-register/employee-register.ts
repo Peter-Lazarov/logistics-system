@@ -25,6 +25,8 @@ export class EmployeeRegister implements OnInit {
   name = "";
   phone = "";
   password = "";
+  errorMessage = "";
+  successMessage = "";
 
   private refreshUsers$ = new BehaviorSubject<void>(undefined);
   users$!: Observable<AdminUser[]>;
@@ -40,6 +42,8 @@ export class EmployeeRegister implements OnInit {
   }
 
   toggleUserStatus(user: AdminUser): void {
+    this.errorMessage = "";
+    this.successMessage = "";
     const status = user.status === "ACTIVE" ? "DISABLED" : "ACTIVE";
 
     this.http
@@ -48,12 +52,19 @@ export class EmployeeRegister implements OnInit {
         { status }
       )
       .subscribe({
-        next: () => this.refreshUsers$.next(),
-        error: (err) => console.error(err),
+        next: () => {
+          this.successMessage = "User status updated.";
+          this.refreshUsers$.next();
+        },
+        error: (err) => {
+          this.errorMessage = err?.error?.message ?? "Could not update the user status. Please try again.";
+        },
       });
   }
 
   createEmployee(): void {
+    this.errorMessage = "";
+    this.successMessage = "";
     this.http
       .post(`${environment.authenticationUrl}${environment.auth.registerEmployee}`, {
         email: this.email,
@@ -63,7 +74,7 @@ export class EmployeeRegister implements OnInit {
       })
       .subscribe({
         next: () => {
-          alert("Employee created");
+          this.successMessage = "Employee created successfully.";
           this.email = "";
           this.name = "";
           this.phone = "";
@@ -71,7 +82,7 @@ export class EmployeeRegister implements OnInit {
           this.refreshUsers$.next();
         },
         error: (err) => {
-          console.error(err);
+          this.errorMessage = err?.error?.message ?? "Could not create the employee. Please try again.";
         },
       });
   }

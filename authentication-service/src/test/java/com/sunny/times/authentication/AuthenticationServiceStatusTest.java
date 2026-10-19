@@ -35,7 +35,8 @@ class AuthenticationServiceStatusTest {
                 userRepository,
                 passwordEncoder,
                 jwtUtil,
-                mock(WebClient.class)
+                mock(WebClient.class),
+                "http://localhost:8081"
         );
     }
 

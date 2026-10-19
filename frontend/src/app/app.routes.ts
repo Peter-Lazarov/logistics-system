@@ -11,6 +11,7 @@ import { ShipmentDetails } from "./features/shipments/shipment-details/shipment-
 import { MyShipmentsComponent } from "./features/client/my-shipments/my-shipments";
 
 import { ClientRequest } from "./features/client/client-request/client-request";
+import { clientProfileGuard } from "./core/profile/client-profile-guard";
 
 export const routes: Routes = [
   {
@@ -29,7 +30,7 @@ export const routes: Routes = [
   {
     path: "shipments/request",
     component: ClientRequest,
-    canActivate: [authGuard, roleGuard],
+    canActivate: [authGuard, roleGuard, clientProfileGuard],
     data: {
       roles: ["ROLE_CLIENT"],
     },
@@ -37,7 +38,7 @@ export const routes: Routes = [
   {
     path: "shipments/my",
     component: MyShipmentsComponent,
-    canActivate: [authGuard, roleGuard],
+    canActivate: [authGuard, roleGuard, clientProfileGuard],
     data: {
       roles: ["ROLE_CLIENT"],
     },

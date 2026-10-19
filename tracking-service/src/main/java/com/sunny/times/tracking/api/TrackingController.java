@@ -1,6 +1,7 @@
 package com.sunny.times.tracking.api;
 
 import com.sunny.times.contracts.tracking.VehicleLocationDto;
+import com.sunny.times.contracts.common.ApiResponse;
 import com.sunny.times.tracking.domain.service.VehicleLocationService;
 import com.sunny.times.tracking.persistence.entity.VehicleLocationEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class TrackingController {
     }
 
     @PostMapping
-    public VehicleLocationEntity save(
+    public ApiResponse<VehicleLocationEntity> save(
             @RequestBody VehicleLocationDto dto
     ) {
 
@@ -32,7 +33,10 @@ public class TrackingController {
                         Instant.parse(dto.timestamp())
                 );
 
-        return service.save(entity);
+        return new ApiResponse<>(
+                "Tracking location saved successfully.",
+                service.save(entity)
+        );
     }
 
     @GetMapping("/{vehicleId}/latest")

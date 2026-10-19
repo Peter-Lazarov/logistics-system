@@ -21,12 +21,12 @@ public class RabbitConfig {
 
     @Bean
     public TopicExchange trackingExchange() {
-        return new TopicExchange(TRACKING_EXCHANGE);
+        return new TopicExchange(TRACKING_EXCHANGE, true, false);
     }
 
     @Bean
     public Queue trackingQueue() {
-        return new Queue(TRACKING_QUEUE);
+        return new Queue(TRACKING_QUEUE, true);
     }
 
     @Bean

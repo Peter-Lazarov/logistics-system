@@ -36,6 +36,11 @@ export interface ShipmentHistory {
   changedAt: string;
 }
 
+export interface ApiResponse<T> {
+  message: string;
+  data: T;
+}
+
 @Injectable({
   providedIn: "root",
 })
@@ -64,14 +69,14 @@ export class ShipmentService {
     });
   }
 
-  processEvent(shipmentId: string, event: string): Observable<Shipment> {
-    return this.http.patch<Shipment>(`${this.apiUrl}/${shipmentId}/event`, {
-      event: event,
+  processEvent(shipmentId: string, event: string): Observable<ApiResponse<Shipment>> {
+    return this.http.patch<ApiResponse<Shipment>>(`${this.apiUrl}/${shipmentId}/event`, {
+      event,
     });
   }
 
-  create(request: any) {
-    return this.http.post(this.apiUrl, request);
+  create(request: any): Observable<ApiResponse<Shipment>> {
+    return this.http.post<ApiResponse<Shipment>>(this.apiUrl, request);
   }
 
   getClients() {
@@ -92,12 +97,12 @@ export class ShipmentService {
     );
   }
 
-  createRequest(request: any) {
-    return this.http.post(`${this.apiUrl}/requests`, request);
+  createRequest(request: any): Observable<ApiResponse<Shipment>> {
+    return this.http.post<ApiResponse<Shipment>>(`${this.apiUrl}/requests`, request);
   }
 
-  update(id: string, request: any) {
-    return this.http.put(`${this.apiUrl}/${id}`, request);
+  update(id: string, request: any): Observable<ApiResponse<Shipment>> {
+    return this.http.put<ApiResponse<Shipment>>(`${this.apiUrl}/${id}`, request);
   }
 
   getMyShipments() {

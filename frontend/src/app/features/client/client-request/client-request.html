@@ -3,6 +3,16 @@
     <form [formGroup]="form" (ngSubmit)="submitRequest()" class="client-form standard-form">
       <h2 class="client-page-title">Request for shipment</h2>
 
+      @if (profileIncomplete) {
+        <p class="message error" role="alert">
+          Company, address, and VAT number are required before you can request a shipment.
+          <a routerLink="/profile">Complete your profile</a>.
+        </p>
+      }
+      @if (errorMessage) {
+        <p class="message error" role="alert">{{ errorMessage }}</p>
+      }
+
       <div class="field-row standard-field-row">
         <label for="origin">Origin</label>
         <input id="origin" formControlName="origin" placeholder="Origin: City, Street, Number" />
@@ -35,7 +45,7 @@
         <input id="destination" formControlName="destination" placeholder="Destination: City, Street, Number" />
       </div>
 
-      <button type="submit">Send request</button>
+      <button type="submit" [disabled]="profileChecking || profileIncomplete">Send request</button>
     </form>
   </div>
 

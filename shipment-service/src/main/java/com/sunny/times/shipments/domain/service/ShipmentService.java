@@ -5,6 +5,7 @@ import com.sunny.times.contracts.shipments.CreateShipmentRequest;
 import com.sunny.times.contracts.shipments.ShipmentResponse;
 import com.sunny.times.contracts.shipments.UpdateShipmentRequest;
 import com.sunny.times.shipments.domain.exception.ShipmentNotFoundException;
+import com.sunny.times.shipments.domain.exception.ClientProfileIncompleteException;
 import com.sunny.times.shipments.domain.model.Shipment;
 import com.sunny.times.shipments.domain.model.ShipmentEvent;
 import com.sunny.times.shipments.domain.model.ShipmentStatus;
@@ -236,6 +237,12 @@ public class ShipmentService {
     public ShipmentResponse createRequest(ClientShipmentRequest req) {
 
         Long clientUserId = currentUserService.getCurrentUser().userId();
+                var client = commonClient.getClient(clientUserId);
+                if (client.companyName() == null || client.companyName().isBlank()
+                                || client.companyAddress() == null || client.companyAddress().isBlank()
+                                || client.vatNumber() == null || client.vatNumber().isBlank()) {
+                        throw new ClientProfileIncompleteException();
+                }
 
         Shipment shipment = new Shipment(
                 generateShipmentId(),

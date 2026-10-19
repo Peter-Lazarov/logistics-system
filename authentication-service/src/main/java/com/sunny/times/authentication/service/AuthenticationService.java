@@ -9,6 +9,7 @@ import com.sunny.times.authentication.repository.UserRepository;
 import com.sunny.times.authentication.security.JwtUtil;
 import com.sunny.times.contracts.clients.ClientDto;
 import io.jsonwebtoken.JwtException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,35 +26,46 @@ public class AuthenticationService {
     private final PasswordEncoder encoder;
     private final JwtUtil jwt;
     private final WebClient webClient;
+    private final String commonServiceUrl;
 
-    public AuthenticationService(UserRepository repo, PasswordEncoder encoder, JwtUtil jwt, WebClient webClient) {
+    public AuthenticationService(
+            UserRepository repo,
+            PasswordEncoder encoder,
+            JwtUtil jwt,
+            WebClient webClient,
+            @Value("${common-service.url:http://localhost:8081}") String commonServiceUrl
+    ) {
         this.repo = repo;
         this.encoder = encoder;
         this.jwt = jwt;
         this.webClient = webClient;
+        this.commonServiceUrl = commonServiceUrl;
     }
 
     public AuthResponse login(String username, String password) {
         User user = repo.findByEmail(username)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.UNAUTHORIZED,
-                        "Invalid credentials"
+                        "Invalid email or password."
                 ));
 
-        if (user.getStatus() != UserStatus.ACTIVE
-                || !encoder.matches(password, user.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+        ensureActive(user);
+        if (!encoder.matches(password, user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password.");
         }
 
         String access = jwt.generateAccessToken(user);
         String refresh = jwt.generateRefreshToken(user);
 
-        return new AuthResponse(access, refresh, user.getRoles().iterator().next().name());
+        return new AuthResponse(access, refresh, user.getRoles().iterator().next().name(), "Login successful.");
     }
 
     public AuthResponse register(RegisterRequest request) {
         if (repo.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("User already exists");
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "A user with this email already exists."
+            );
         }
 
         User user = new User();
@@ -65,7 +77,7 @@ public class AuthenticationService {
 
         User savedUser = repo.save(user);
         webClient.post()
-                .uri("http://localhost:8081/clients")
+                .uri(commonServiceUrl + "/clients")
                 .bodyValue(
                         new ClientDto(
                                 savedUser.getId(),
@@ -75,13 +87,18 @@ public class AuthenticationService {
                         )
                 )
                 .retrieve()
-                .bodyToMono(ClientDto.class)
+                .toBodilessEntity()
                 .block();
 
         String access = jwt.generateAccessToken(user);
         String refresh = jwt.generateRefreshToken(user);
 
-        return new AuthResponse(access, refresh, user.getRoles().iterator().next().name());
+        return new AuthResponse(
+                access,
+                refresh,
+                user.getRoles().iterator().next().name(),
+                "User registered successfully."
+        );
     }
 
     public AuthResponse refresh(String refreshToken) {
@@ -89,24 +106,32 @@ public class AuthenticationService {
         try {
             email = jwt.extractRefreshEmail(refreshToken);
         } catch (JwtException | IllegalArgumentException exception) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid refresh token");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or expired refresh token.");
         }
 
         User user = repo.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.UNAUTHORIZED,
-                        "Invalid refresh token"
+                        "Invalid or expired refresh token."
                 ));
         ensureActive(user);
         String newAccess = jwt.generateAccessToken(user);
         String newRefresh = jwt.generateRefreshToken(user); // по желание, rotation
 
-        return new AuthResponse(newAccess, newRefresh, user.getRoles().iterator().next().name());
+        return new AuthResponse(
+                newAccess,
+                newRefresh,
+                user.getRoles().iterator().next().name(),
+                "Token refreshed successfully."
+        );
     }
 
     public AuthResponse registerEmployee(RegisterRequest request) {
         if (repo.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("User already exists");
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "A user with this email already exists."
+            );
         }
 
         User user = new User();
@@ -120,7 +145,12 @@ public class AuthenticationService {
         String access = jwt.generateAccessToken(user);
         String refresh = jwt.generateRefreshToken(user);
 
-        return new AuthResponse(access, refresh, Role.ROLE_EMPLOYEE.name());
+        return new AuthResponse(
+                access,
+                refresh,
+                Role.ROLE_EMPLOYEE.name(),
+                "Employee registered successfully."
+        );
     }
 
     public List<UserResponse> getAllUsers() {
@@ -131,7 +161,7 @@ public class AuthenticationService {
 
     public UserResponse updateUserStatus(Long id, UpdateUserStatusRequest request) {
         User user = repo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
         user.setStatus(request.status());
         return UserMapper.toResponse(repo.save(user));
     }
@@ -149,9 +179,22 @@ public class AuthenticationService {
                 .orElse(false);
     }
 
+    public boolean isDisabledAccessToken(String accessToken) {
+        String email;
+        try {
+            email = jwt.extractEmail(accessToken);
+        } catch (io.jsonwebtoken.JwtException | IllegalArgumentException exception) {
+            return false;
+        }
+
+        return repo.findByEmail(email)
+                .map(user -> user.getStatus() == UserStatus.DISABLED)
+                .orElse(false);
+    }
+
     public UserProfile getUserById(Long id) {
         User user = repo.findById(id).orElseThrow(() ->
-                new RuntimeException("User not found")
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.")
         );
 
         return new UserProfile(
@@ -165,9 +208,7 @@ public class AuthenticationService {
     public UserProfile getCurrentUser(String email) {
         User user = repo.findByEmail(email)
                 .orElseThrow(() ->
-                        new RuntimeException(
-                                "User not found"
-                        )
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.")
                 );
 
         return new UserProfile(
@@ -183,7 +224,10 @@ public class AuthenticationService {
             UpdateProfileRequest request
     ) {
         User user = repo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "User not found."
+                ));
 
         user.setName(request.name());
         user.setPhone(request.phone());
@@ -200,7 +244,10 @@ public class AuthenticationService {
 
     private void ensureActive(User user) {
         if (user.getStatus() != UserStatus.ACTIVE) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User account is disabled");
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Your account has been disabled. Contact an administrator."
+            );
         }
     }
 }

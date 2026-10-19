@@ -3,6 +3,8 @@ package com.sunny.times.authentication.api;
 import com.sunny.times.authentication.api.dto.*;
 import com.sunny.times.authentication.security.JwtUtil;
 import com.sunny.times.authentication.service.AuthenticationService;
+import com.sunny.times.contracts.common.ApiMessage;
+import com.sunny.times.contracts.common.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -57,20 +59,31 @@ public class AuthenticationController {
     }
 
     @PatchMapping("/admin/users/{id}/status")
-    public ResponseEntity<UserResponse> updateUserStatus(
+    public ResponseEntity<ApiResponse<UserResponse>> updateUserStatus(
             @PathVariable Long id,
             @Valid @RequestBody UpdateUserStatusRequest request
     ) {
-        return ResponseEntity.ok(auth.updateUserStatus(id, request));
+        return ResponseEntity.ok(new ApiResponse<>(
+                "User status updated successfully.",
+                auth.updateUserStatus(id, request)
+        ));
     }
 
     @GetMapping("/token/validate")
-    public ResponseEntity<Void> validateToken(
+    public ResponseEntity<?> validateToken(
             @RequestHeader(value = "Authorization", required = false) String authorization
     ) {
-        if (authorization == null || !authorization.startsWith("Bearer ")
-                || !auth.isActiveAccessToken(authorization.substring(7))) {
-            return ResponseEntity.status(401).build();
+        if (authorization == null || !authorization.startsWith("Bearer ")) {
+        return ResponseEntity.status(401)
+                .body(new ApiMessage("Invalid or expired access token."));
+        }
+        String token = authorization.substring(7);
+        if (!auth.isActiveAccessToken(token)) {
+        int status = auth.isDisabledAccessToken(token) ? 403 : 401;
+        String message = status == 403
+                ? "Your account has been disabled. Contact an administrator."
+                : "Invalid or expired access token.";
+        return ResponseEntity.status(status).body(new ApiMessage(message));
         }
         return ResponseEntity.noContent().build();
     }

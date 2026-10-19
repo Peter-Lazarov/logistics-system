@@ -23,6 +23,11 @@ button {
   cursor: pointer;
 }
 
+.message.error {
+  margin: 0;
+  color: #b42318;
+}
+
 .banner{
     background: #A7D8FF;
     height: 15px;

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ShipmentService } from '../../shipments/shipment.service';
+import { ClientProfileService } from '../../../core/profile/client-profile.service';
 
 interface DemoLoad {
   origin: string;
@@ -18,7 +20,8 @@ interface DemoLoad {
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink,
   ],
   styleUrl: './client-request.scss',
   templateUrl: './client-request.html',
@@ -26,6 +29,9 @@ interface DemoLoad {
 export class ClientRequest implements OnInit {
 
   form;
+  profileIncomplete = false;
+  profileChecking = true;
+  errorMessage = '';
 
   demoLoads: DemoLoad[] = [
     {
@@ -57,7 +63,8 @@ export class ClientRequest implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private shipmentService: ShipmentService
+    private shipmentService: ShipmentService,
+    private clientProfileService: ClientProfileService,
   ) {
     this.form = this.fb.group({
       origin: ['', Validators.required],
@@ -69,7 +76,18 @@ export class ClientRequest implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.clientProfileService.getCurrent().subscribe({
+      next: (profile) => {
+        this.profileIncomplete = !this.clientProfileService.isComplete(profile);
+        this.profileChecking = false;
+      },
+      error: () => {
+        this.profileIncomplete = true;
+        this.profileChecking = false;
+      },
+    });
+  }
 
   loadDemo(load: DemoLoad): void {
     this.form.patchValue({
@@ -83,6 +101,13 @@ export class ClientRequest implements OnInit {
   }
 
   submitRequest(): void {
+    if (this.profileChecking || this.profileIncomplete) {
+      if (this.profileIncomplete) {
+        this.router.navigate(['/profile']);
+      }
+      return;
+    }
+
     if (this.form.invalid) {
       return;
     }
@@ -94,7 +119,8 @@ export class ClientRequest implements OnInit {
           this.router.navigate(['/shipments/my']);
         },
         error: (err) => {
-          console.error(err);
+          this.errorMessage = err?.error?.message ??
+            'Please complete your company, address, and VAT number in your profile before requesting a shipment.';
         }
       });
   }
