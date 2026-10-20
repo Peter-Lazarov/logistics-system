@@ -76,6 +76,10 @@ export class AuthService {
     return this.http.get<UserProfile>(`${this.apiUrl}/me`);
   }
 
+  getUserById(id: number): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${this.apiUrl}/users/${id}`);
+  }
+
   updateProfile(request: UpdateProfileRequest): Observable<UserProfile> {
     return this.http.put<UserProfile>(`${this.apiUrl}/me`, request);
   }

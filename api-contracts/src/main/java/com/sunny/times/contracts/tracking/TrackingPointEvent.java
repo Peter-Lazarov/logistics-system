@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public record TrackingPointEvent(
         String vehicleId,
-        double lat,
-        double lng,
+        double latitude,
+        double longitude,
         String timestamp
 ) implements Serializable {
 }

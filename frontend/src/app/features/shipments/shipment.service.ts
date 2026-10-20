@@ -16,7 +16,6 @@ export interface Shipment {
   driverUserId: number | null;
 
   vehicleId: string | null;
-  pathId: string | null;
 
   totalWeight: number;
   totalVolume: number;
@@ -88,12 +87,6 @@ export class ShipmentService {
   getDrivers() {
     return this.http.get<any[]>(
       `${environment.commonUrl}${environment.common.drivers}`,
-    );
-  }
-
-  getRoutes() {
-    return this.http.get<any[]>(
-      `${environment.commonUrl}${environment.common.routes}`,
     );
   }
 

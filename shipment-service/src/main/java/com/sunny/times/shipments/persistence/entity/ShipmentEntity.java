@@ -34,9 +34,6 @@ public class ShipmentEntity {
     @Column(nullable = true)
     private String vehicleId;
 
-    @Column(nullable = true)
-    private String pathId;
-
     @Column(nullable = false)
     private Double totalWeight;
 
@@ -66,7 +63,6 @@ public class ShipmentEntity {
                           Long clientUserId,
                           Long driverUserId,
                           String vehicleId,
-                          String pathId,
                           Double totalWeight,
                           Double totalVolume,
                           Double price,
@@ -82,7 +78,6 @@ public class ShipmentEntity {
         this.clientUserId = clientUserId;
         this.driverUserId = driverUserId;
         this.vehicleId = vehicleId;
-        this.pathId = pathId;
         this.totalWeight = totalWeight;
         this.totalVolume = totalVolume;
         this.price = price;
@@ -114,9 +109,6 @@ public class ShipmentEntity {
 
     public String getVehicleId() { return vehicleId; }
     public void setVehicleId(String vehicleId) { this.vehicleId = vehicleId; }
-
-    public String getPathId() { return pathId; }
-    public void setPathId(String pathId) { this.pathId = pathId; }
 
     public Double getTotalWeight() { return totalWeight; }
     public void setTotalWeight(Double totalWeight) { this.totalWeight = totalWeight; }

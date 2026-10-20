@@ -43,8 +43,8 @@ class GpsTrackerService {
                     TRACKING_URL,
                     {
                         vehicleId: truck.vehicleId,
-                        lat: point.lat,
-                        lng: point.lng,
+                        latitude: point.lat,
+                        longitude: point.lng,
                         timestamp: new Date().toISOString()
                     }
                 );

@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { ChangeDetectorRef } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { AuthService, UserProfile } from "../../../core/auth/auth.service";
 
 import {
   Shipment,
@@ -20,17 +21,18 @@ export class ShipmentDetails implements OnInit {
   shipment?: Shipment;
   history: ShipmentHistory[] = [];
   drivers: any[] = [];
-  routes: any[] = [];
   selectedDriverId = "";
-  selectedRouteId = "";
   stepPositions = [8, 25, 40, 68, 88, 98];
   client: any;
+  clientUser?: UserProfile;
   errorMessage = "";
   successMessage = "";
+  pendingEvent: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private shipmentService: ShipmentService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -57,6 +59,16 @@ export class ShipmentDetails implements OnInit {
     this.shipmentService.getClientById(clientUserId).subscribe({
       next: (data) => {
         this.client = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.showError(err);
+      },
+    });
+
+    this.authService.getUserById(clientUserId).subscribe({
+      next: (data) => {
+        this.clientUser = data;
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -104,13 +116,6 @@ export class ShipmentDetails implements OnInit {
       error: (err) => this.showError(err),
     });
 
-    this.shipmentService.getRoutes().subscribe({
-      next: (data) => {
-        this.routes = data;
-        this.cdr.detectChanges();
-      },
-      error: (err) => this.showError(err),
-    });
   }
 
   getAvailableActions(): string[] {
@@ -120,7 +125,7 @@ export class ShipmentDetails implements OnInit {
 
     switch (this.shipment.status) {
       case "CREATED":
-        if (this.selectedDriverId && this.selectedRouteId) {
+        if (this.selectedDriverId) {
           return ["ASSIGN", "CANCEL"];
         }
 
@@ -252,6 +257,21 @@ export class ShipmentDetails implements OnInit {
     return actions[1];
   }
 
+  requestEvent(event: string): void {
+    this.pendingEvent = event;
+    this.errorMessage = "";
+    this.successMessage = "";
+  }
+
+  confirmPendingEvent(): void {
+    const event = this.pendingEvent;
+    this.pendingEvent = null;
+
+    if (event) {
+      this.processEvent(event);
+    }
+  }
+
   processEvent(event: string): void {
     if (!this.shipment) {
       return;
@@ -271,7 +291,6 @@ export class ShipmentDetails implements OnInit {
           clientUserId: this.shipment.clientUserId,
 
           driverUserId: this.selectedDriverId,
-          pathId: this.selectedRouteId,
           vehicleId: driver?.assignedVehicleId ?? "",
 
           totalWeight: this.shipment.totalWeight,
@@ -301,12 +320,6 @@ export class ShipmentDetails implements OnInit {
       return;
     }
 
-    const confirmed = confirm(`Process event ${event}?`);
-
-    if (!confirmed) {
-      return;
-    }
-
     this.shipmentService.processEvent(this.shipment.id, event).subscribe({
       next: (response) => {
         this.successMessage = response.message;
@@ -321,7 +334,7 @@ export class ShipmentDetails implements OnInit {
   }
 
   assignShipment(): void {
-    if (!this.shipment || !this.selectedDriverId || !this.selectedRouteId) {
+    if (!this.shipment || !this.selectedDriverId) {
       return;
     }
     
@@ -337,8 +350,6 @@ export class ShipmentDetails implements OnInit {
 
         driverUserId: this.selectedDriverId,
         vehicleId: this.shipment.vehicleId ?? "",
-        pathId: this.selectedRouteId,
-
         totalWeight: this.shipment.totalWeight,
         totalVolume: this.shipment.totalVolume,
 

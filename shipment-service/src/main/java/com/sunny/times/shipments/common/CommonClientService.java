@@ -1,7 +1,6 @@
 package com.sunny.times.shipments.common;
 
 import com.sunny.times.contracts.clients.ClientDto;
-import com.sunny.times.contracts.routes.RouteDto;
 import com.sunny.times.contracts.drivers.DriverDto;
 import com.sunny.times.shipments.domain.exception.ShipmentNotFoundException;
 import org.springframework.http.HttpStatusCode;
@@ -27,18 +26,6 @@ public class CommonClientService {
                 .onStatus(HttpStatusCode::is5xxServerError,
                         response -> Mono.error(new RuntimeException("Common Service unavailable")))
                 .bodyToMono(ClientDto.class)
-                .block();
-    }
-
-    public RouteDto getRoute(String pathId) {
-        return webClient.get()
-                .uri("/routes/{id}", pathId)
-                .retrieve()
-                .onStatus(status -> status.value() == 404,
-                        response -> Mono.error(new ShipmentNotFoundException("Route not found: " + pathId)))
-                .onStatus(HttpStatusCode::is5xxServerError,
-                        response -> Mono.error(new RuntimeException("Common Service unavailable")))
-                .bodyToMono(RouteDto.class)
                 .block();
     }
 

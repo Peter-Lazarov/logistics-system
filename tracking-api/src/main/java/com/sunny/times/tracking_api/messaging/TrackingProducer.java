@@ -21,14 +21,14 @@ public class TrackingProducer {
         String json = """
                 {
                   "vehicleId":"%s",
-                  "lat":%s,
-                  "lng":%s,
+                  "latitude":%s,
+                  "longitude":%s,
                   "timestamp":"%s"
                 }
                 """.formatted(
                 event.vehicleId(),
-                event.lat(),
-                event.lng(),
+                event.latitude(),
+                event.longitude(),
                 event.timestamp()
         );
         Message message = MessageBuilder

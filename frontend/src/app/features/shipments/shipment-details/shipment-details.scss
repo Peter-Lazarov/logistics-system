@@ -283,6 +283,35 @@
   background: #ffc47a;
 }
 
+.message.confirmation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-color: #f2d1a8;
+  border-left-color: #d27a19;
+  background: #fff8ed;
+  color: #70420d;
+}
+
+.confirmation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.confirmation-actions button {
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 /* =========================
    LEGACY ACTION BUTTON */
 

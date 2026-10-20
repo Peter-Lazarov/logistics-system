@@ -17,7 +17,6 @@ export const environment = {
   common: {
     clients: '/clients',
     drivers: '/drivers',
-    routes: '/routes/summary',
   },
 
   shipment: {

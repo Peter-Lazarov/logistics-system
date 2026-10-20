@@ -60,12 +60,6 @@ public class SecurityConfig {
                                 "/drivers/**"
                         )
                         .permitAll()
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/routes/**"
-                        )
-                        .permitAll()
-
                         .anyRequest().authenticated()
                 )
 

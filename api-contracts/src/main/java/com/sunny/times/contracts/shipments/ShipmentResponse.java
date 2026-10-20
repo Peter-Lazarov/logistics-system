@@ -9,7 +9,6 @@ public record ShipmentResponse(
         Long clientUserId,
         Long driverUserId,
         String vehicleId,
-        String pathId,
         double totalWeight,
         double totalVolume,
         double price,

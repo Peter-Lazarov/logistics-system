@@ -72,13 +72,6 @@ public class ShipmentService {
             );
         }
 
-        if (req.pathId() != null &&
-                !req.pathId().isBlank()) {
-            commonClient.getRoute(
-                    req.pathId()
-            );
-        }
-
         Shipment shipment = new Shipment(
                 generateShipmentId(),
                 req.category(),
@@ -88,7 +81,6 @@ public class ShipmentService {
                 req.clientUserId(),
                 req.driverUserId(),
                 req.vehicleId(),
-                req.pathId(),
                 req.totalWeight(),
                 req.totalVolume(),
                 req.price(),
@@ -129,8 +121,6 @@ public class ShipmentService {
 
         commonClient.getClient(req.clientUserId());
         commonClient.getDriver(req.driverUserId());
-        commonClient.getRoute(req.pathId());
-
         entity.setCategory(req.category());
         entity.setDescription(req.description());
         entity.setOrigin(req.origin());
@@ -138,7 +128,6 @@ public class ShipmentService {
         entity.setClientUserId(req.clientUserId());
         entity.setDriverUserId(req.driverUserId());
         entity.setVehicleId(req.vehicleId());
-        entity.setPathId(req.pathId());
         entity.setTotalWeight(req.totalWeight());
         entity.setTotalVolume(req.totalVolume());
         entity.setPrice(req.price());
@@ -174,7 +163,6 @@ public class ShipmentService {
                 s.getClientUserId(),
                 s.getDriverUserId(),
                 s.getVehicleId(),
-                s.getPathId(),
                 s.getTotalWeight(),
                 s.getTotalVolume(),
                 s.getPrice(),
@@ -253,7 +241,6 @@ public class ShipmentService {
 
                 clientUserId,
 
-                null,
                 null,
                 null,
 

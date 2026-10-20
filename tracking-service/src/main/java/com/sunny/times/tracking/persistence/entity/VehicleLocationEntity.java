@@ -13,9 +13,9 @@ public class VehicleLocationEntity {
 
     private String vehicleId;
 
-    private Double lat;
+    private Double latitude;
 
-    private Double lng;
+    private Double longitude;
 
     private Instant timestamp;
 
@@ -25,14 +25,14 @@ public class VehicleLocationEntity {
     public VehicleLocationEntity(
             String id,
             String vehicleId,
-            Double lat,
-            Double lng,
+            Double latitude,
+            Double longitude,
             Instant timestamp
     ) {
         this.id = id;
         this.vehicleId = vehicleId;
-        this.lat = lat;
-        this.lng = lng;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.timestamp = timestamp;
     }
 
@@ -44,12 +44,12 @@ public class VehicleLocationEntity {
         return vehicleId;
     }
 
-    public Double getLat() {
-        return lat;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public Double getLng() {
-        return lng;
+    public Double getLongitude() {
+        return longitude;
     }
 
     public Instant getTimestamp() {

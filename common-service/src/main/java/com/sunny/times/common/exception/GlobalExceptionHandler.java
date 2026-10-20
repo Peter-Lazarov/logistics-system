@@ -35,12 +35,6 @@ public class GlobalExceptionHandler {
                 .body(new ApiMessage("Driver not found."));
     }
 
-    @ExceptionHandler(RouteNotFoundException.class)
-    public ResponseEntity<ApiMessage> handleRouteNotFound(RouteNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiMessage("Route not found."));
-    }
-
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ApiMessage> handleEntityNotFound(EntityNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

@@ -2,7 +2,7 @@ package com.sunny.times.contracts.tracking;
 
 public record VehicleLocationDto(
         String vehicleId,
-        double lat,
-        double lng,
+        double latitude,
+        double longitude,
         String timestamp
 ) {}

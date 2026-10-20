@@ -26,18 +26,6 @@
     </div>
 
     <div class="standard-field-row">
-      <label for="shipment-route">Route</label>
-      <select id="shipment-route" formControlName="pathId">
-        <option value="">Select Route</option>
-        @for (route of vm.routes; track route.id || route.pathId || $index) {
-          <option [value]="route.id || route.pathId">
-            {{ route.origin }} → {{ route.destination }}
-          </option>
-        }
-      </select>
-    </div>
-
-    <div class="standard-field-row">
       <label for="shipment-category">Category</label>
       <input id="shipment-category" formControlName="category" placeholder="Category">
     </div>

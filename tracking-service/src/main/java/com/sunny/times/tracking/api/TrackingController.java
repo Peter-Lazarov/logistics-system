@@ -4,6 +4,7 @@ import com.sunny.times.contracts.tracking.VehicleLocationDto;
 import com.sunny.times.contracts.common.ApiResponse;
 import com.sunny.times.tracking.domain.service.VehicleLocationService;
 import com.sunny.times.tracking.persistence.entity.VehicleLocationEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
@@ -28,8 +29,8 @@ public class TrackingController {
                 new VehicleLocationEntity(
                         null,
                         dto.vehicleId(),
-                        dto.lat(),
-                        dto.lng(),
+                        dto.latitude(),
+                        dto.longitude(),
                         Instant.parse(dto.timestamp())
                 );
 
@@ -40,10 +41,12 @@ public class TrackingController {
     }
 
     @GetMapping("/{vehicleId}/latest")
-    public VehicleLocationEntity latest(
+    public ResponseEntity<VehicleLocationEntity> latest(
             @PathVariable String vehicleId
     ) {
-        return service.getLatest(vehicleId);
+        return service.getLatest(vehicleId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{vehicleId}/history")

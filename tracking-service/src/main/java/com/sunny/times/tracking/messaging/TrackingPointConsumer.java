@@ -32,8 +32,8 @@ public class TrackingPointConsumer {
                 new VehicleLocationEntity(
                         null,
                         event.vehicleId(),
-                        event.lat(),
-                        event.lng(),
+                        event.latitude(),
+                        event.longitude(),
                         Instant.parse(event.timestamp())
                 );
 

@@ -12,7 +12,6 @@ public class Shipment {
     private Long clientUserId;
     private Long driverUserId;
     private String vehicleId;
-    private String pathId;
     private Double totalWeight;
     private Double totalVolume;
     private Double price;
@@ -30,7 +29,6 @@ public class Shipment {
                     Long clientUserId,
                     Long driverUserId,
                     String vehicleId,
-                    String pathId,
                     Double totalWeight,
                     Double totalVolume,
                     Double price,
@@ -46,7 +44,6 @@ public class Shipment {
         this.clientUserId = clientUserId;
         this.driverUserId = driverUserId;
         this.vehicleId = vehicleId;
-        this.pathId = pathId;
         this.totalWeight = totalWeight;
         this.totalVolume = totalVolume;
         this.price = price;
@@ -117,14 +114,6 @@ public class Shipment {
 
     public void setVehicleId(String vehicleId) {
         this.vehicleId = vehicleId;
-    }
-
-    public String getPathId() {
-        return pathId;
-    }
-
-    public void setPathId(String pathId) {
-        this.pathId = pathId;
     }
 
     public Double getTotalWeight() {

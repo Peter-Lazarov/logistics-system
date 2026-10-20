@@ -5,19 +5,19 @@ import java.time.Instant;
 public class VehicleLocation {
 
     private String vehicleId;
-    private Double lat;
-    private Double lng;
+    private Double latitude;
+    private Double longitude;
     private Instant timestamp;
 
     public VehicleLocation(
             String vehicleId,
-            Double lat,
-            Double lng,
+            Double latitude,
+            Double longitude,
             Instant timestamp
     ) {
         this.vehicleId = vehicleId;
-        this.lat = lat;
-        this.lng = lng;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.timestamp = timestamp;
     }
 
@@ -25,12 +25,12 @@ public class VehicleLocation {
         return vehicleId;
     }
 
-    public Double getLat() {
-        return lat;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public Double getLng() {
-        return lng;
+    public Double getLongitude() {
+        return longitude;
     }
 
     public Instant getTimestamp() {

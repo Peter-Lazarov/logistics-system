@@ -21,7 +21,7 @@ export class ShipmentCreate implements OnInit {
   form;
   errorMessage = "";
   successMessage = "";
-  data$!: Observable<{ clients: any[], drivers: any[], routes: any[] }>;
+  data$!: Observable<{ clients: any[], drivers: any[] }>;
   private rawDrivers: any[] = [];
   
   constructor(
@@ -37,7 +37,6 @@ export class ShipmentCreate implements OnInit {
       clientUserId: ['', Validators.required],
       driverUserId: ['', Validators.required],
       vehicleId: ['', Validators.required],
-      pathId: ['', Validators.required],
       totalWeight: [0, Validators.required],
       totalVolume: [0, Validators.required],
       price: [0, Validators.required]
@@ -48,7 +47,6 @@ export class ShipmentCreate implements OnInit {
     this.data$ = forkJoin({
       clients: this.shipmentService.getClients(),
       drivers: this.shipmentService.getDrivers(),
-      routes: this.shipmentService.getRoutes()
     }).pipe(
       map(res => {
         this.rawDrivers = res.drivers;

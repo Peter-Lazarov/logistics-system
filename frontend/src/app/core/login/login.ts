@@ -15,7 +15,7 @@ export class Login {
   errorMessage = "";
   // email = "peter@sunny-times.com";
   email = "georgy@sunny-times.com"
-  password = "1234";
+  password = "test1234";
 
   constructor(
     private authService: AuthService,

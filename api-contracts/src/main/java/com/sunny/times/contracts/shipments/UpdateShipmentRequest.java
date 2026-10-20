@@ -11,8 +11,6 @@ public record UpdateShipmentRequest(
         Long clientUserId,
         Long driverUserId,
         String vehicleId,
-        String pathId,
-
         double totalWeight,
         double totalVolume,
 

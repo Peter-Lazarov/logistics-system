@@ -5,6 +5,7 @@ import com.sunny.times.tracking.persistence.repository.VehicleLocationRepository
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VehicleLocationService {
@@ -23,12 +24,10 @@ public class VehicleLocationService {
         return repository.save(location);
     }
 
-    public VehicleLocationEntity getLatest(
+    public Optional<VehicleLocationEntity> getLatest(
             String vehicleId
     ) {
-        return repository
-                .findFirstByVehicleIdOrderByTimestampDesc(vehicleId)
-                .orElse(null);
+        return repository.findFirstByVehicleIdOrderByTimestampDesc(vehicleId);
     }
 
     public List<VehicleLocationEntity> getHistory(
