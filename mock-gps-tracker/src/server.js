@@ -14,7 +14,26 @@ app.get('/health', (req, res) => {
 
 const gpsTrackerService = new GpsTrackerService();
 
-gpsTrackerService.start();
+app.post('/simulations/start', async (req, res) => {
+    const result = await gpsTrackerService.startSimulation(req.body);
+    if (result.reason === 'missing-required-fields' || result.reason === 'unknown-route') {
+        return res.status(400).json({ message: 'shipmentId, vehicleId and a valid route are required.' });
+    }
+
+    return res.status(result.reason === 'already-running' ? 200 : 202).json({
+        shipmentId: req.body.shipmentId,
+        vehicleId: req.body.vehicleId,
+        status: result.reason === 'already-running' ? 'ALREADY_RUNNING' : 'STARTED'
+    });
+});
+
+app.post('/simulations/stop', (req, res) => {
+    const result = gpsTrackerService.stopSimulation(req.body.shipmentId);
+    return res.status(200).json({
+        shipmentId: req.body.shipmentId,
+        status: result.stopped ? 'STOPPED' : 'NOT_RUNNING'
+    });
+});
 
 const PORT = 3001;
 

@@ -5,6 +5,7 @@ public record ClientShipmentRequest(
         String description,
         String origin,
         String destination,
+        String simulationRoute,
         double totalWeight,
         double totalVolume
 ) {}

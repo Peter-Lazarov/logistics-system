@@ -12,8 +12,10 @@ public class Shipment {
     private Long clientUserId;
     private Long driverUserId;
     private String vehicleId;
+    private String simulationRoute;
     private Double totalWeight;
     private Double totalVolume;
+    private Double distanceKm;
     private Double price;
     private ShipmentStatus status;
     private Instant createdAt;
@@ -29,8 +31,10 @@ public class Shipment {
                     Long clientUserId,
                     Long driverUserId,
                     String vehicleId,
+                    String simulationRoute,
                     Double totalWeight,
                     Double totalVolume,
+                    Double distanceKm,
                     Double price,
                     ShipmentStatus status,
                     Instant createdAt,
@@ -44,8 +48,10 @@ public class Shipment {
         this.clientUserId = clientUserId;
         this.driverUserId = driverUserId;
         this.vehicleId = vehicleId;
+        this.simulationRoute = simulationRoute;
         this.totalWeight = totalWeight;
         this.totalVolume = totalVolume;
+        this.distanceKm = distanceKm;
         this.price = price;
         this.status = status;
         this.createdAt = createdAt;
@@ -116,6 +122,14 @@ public class Shipment {
         this.vehicleId = vehicleId;
     }
 
+    public String getSimulationRoute() {
+        return simulationRoute;
+    }
+
+    public void setSimulationRoute(String simulationRoute) {
+        this.simulationRoute = simulationRoute;
+    }
+
     public Double getTotalWeight() {
         return totalWeight;
     }
@@ -130,6 +144,14 @@ public class Shipment {
 
     public void setTotalVolume(Double totalVolume) {
         this.totalVolume = totalVolume;
+    }
+
+    public Double getDistanceKm() {
+        return distanceKm;
+    }
+
+    public void setDistanceKm(Double distanceKm) {
+        this.distanceKm = distanceKm;
     }
 
     public Double getPrice() {

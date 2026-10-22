@@ -37,6 +37,7 @@ export class ShipmentCreate implements OnInit {
       clientUserId: ['', Validators.required],
       driverUserId: ['', Validators.required],
       vehicleId: ['', Validators.required],
+      simulationRoute: [null],
       totalWeight: [0, Validators.required],
       totalVolume: [0, Validators.required],
       price: [0, Validators.required]
@@ -56,7 +57,7 @@ export class ShipmentCreate implements OnInit {
   }
 
   onDriverChange(driverId: string): void {
-    const driver = this.rawDrivers.find(d => d.id === driverId);
+    const driver = this.rawDrivers.find(d => String(d.userId) === String(driverId));
     if (!driver) {
       return;
     }

@@ -16,6 +16,8 @@ export interface Shipment {
   driverUserId: number | null;
 
   vehicleId: string | null;
+  simulationRoute?: "BOTEVGRADSKO" | "BOJURISHTE" | "KAZICHENE" | null;
+  distanceKm: number | null;
 
   totalWeight: number;
   totalVolume: number;

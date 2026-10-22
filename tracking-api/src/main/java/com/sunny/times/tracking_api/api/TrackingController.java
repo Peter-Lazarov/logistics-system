@@ -20,6 +20,10 @@ public class TrackingController {
     public ResponseEntity<ApiMessage> receive(
             @RequestBody TrackingPointEvent event
     ) {
+        if (event.shipmentId() == null || event.shipmentId().isBlank()
+                || event.vehicleId() == null || event.vehicleId().isBlank()) {
+            throw new IllegalArgumentException("shipmentId and vehicleId are required.");
+        }
 
         producer.publish(event);
 

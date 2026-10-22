@@ -39,4 +39,8 @@ public class DriverEntity {
     public String getAssignedVehicleId() {
         return assignedVehicleId;
     }
+
+    public void setAssignedVehicleId(String assignedVehicleId) {
+        this.assignedVehicleId = assignedVehicleId;
+    }
 }

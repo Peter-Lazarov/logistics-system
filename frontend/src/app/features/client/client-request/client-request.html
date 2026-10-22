@@ -15,7 +15,7 @@
 
       <div class="field-row standard-field-row">
         <label for="origin">Origin</label>
-        <input id="origin" formControlName="origin" placeholder="Origin: City, Street, Number" />
+        <input id="origin" formControlName="origin" (input)="clearPlannedRoute()" placeholder="Origin: City, Street, Number" />
       </div>
 
       <div class="field-row standard-field-row">
@@ -42,7 +42,7 @@
 
       <div class="field-row standard-field-row">
         <label for="destination"> Destination </label>
-        <input id="destination" formControlName="destination" placeholder="Destination: City, Street, Number" />
+        <input id="destination" formControlName="destination" (input)="clearPlannedRoute()" placeholder="Destination: City, Street, Number" />
       </div>
 
       <button type="submit" [disabled]="profileChecking || profileIncomplete">Send request</button>

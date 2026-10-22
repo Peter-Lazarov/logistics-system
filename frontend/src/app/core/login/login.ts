@@ -14,7 +14,7 @@ import { ClientProfileService } from "../profile/client-profile.service";
 export class Login {
   errorMessage = "";
   // email = "peter@sunny-times.com";
-  email = "georgy@sunny-times.com"
+  email = "peter@sunny-times.com"
   password = "test1234";
 
   constructor(

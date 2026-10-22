@@ -25,15 +25,15 @@ public class VehicleLocationService {
     }
 
     public Optional<VehicleLocationEntity> getLatest(
-            String vehicleId
+            String shipmentId
     ) {
-        return repository.findFirstByVehicleIdOrderByTimestampDesc(vehicleId);
+        return repository.findTopByShipmentIdOrderByTimestampDesc(shipmentId);
     }
 
     public List<VehicleLocationEntity> getHistory(
-            String vehicleId
+            String shipmentId
     ) {
         return repository
-                .findByVehicleIdOrderByTimestampAsc(vehicleId);
+                .findByShipmentIdOrderByTimestampAsc(shipmentId);
     }
 }

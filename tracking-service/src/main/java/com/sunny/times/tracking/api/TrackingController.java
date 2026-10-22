@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tracking/locations")
+@RequestMapping("/tracking")
 public class TrackingController {
 
     private final VehicleLocationService service;
@@ -20,14 +20,19 @@ public class TrackingController {
         this.service = service;
     }
 
-    @PostMapping
+        @PostMapping("/locations")
     public ApiResponse<VehicleLocationEntity> save(
             @RequestBody VehicleLocationDto dto
     ) {
+        if (dto.shipmentId() == null || dto.shipmentId().isBlank()
+                || dto.vehicleId() == null || dto.vehicleId().isBlank()) {
+            throw new IllegalArgumentException("shipmentId and vehicleId are required.");
+        }
 
         VehicleLocationEntity entity =
                 new VehicleLocationEntity(
                         null,
+                        dto.shipmentId(),
                         dto.vehicleId(),
                         dto.latitude(),
                         dto.longitude(),
@@ -40,19 +45,19 @@ public class TrackingController {
         );
     }
 
-    @GetMapping("/{vehicleId}/latest")
+    @GetMapping("/shipments/{shipmentId}/latest")
     public ResponseEntity<VehicleLocationEntity> latest(
-            @PathVariable String vehicleId
+            @PathVariable String shipmentId
     ) {
-        return service.getLatest(vehicleId)
+        return service.getLatest(shipmentId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{vehicleId}/history")
+    @GetMapping("/shipments/{shipmentId}/history")
     public List<VehicleLocationEntity> history(
-            @PathVariable String vehicleId
+            @PathVariable String shipmentId
     ) {
-        return service.getHistory(vehicleId);
+        return service.getHistory(shipmentId);
     }
 }

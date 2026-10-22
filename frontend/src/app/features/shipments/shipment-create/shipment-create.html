@@ -46,12 +46,22 @@
     </div>
 
     <div class="standard-field-row">
+      <label for="shipment-route">Planned route</label>
+      <select id="shipment-route" formControlName="simulationRoute">
+        <option [ngValue]="null">No planned route</option>
+        <option value="BOTEVGRADSKO">Botevgradsko</option>
+        <option value="BOJURISHTE">Bojurishte</option>
+        <option value="KAZICHENE">Kazichene airport</option>
+      </select>
+    </div>
+
+    <div class="standard-field-row">
       <label for="shipment-driver">Driver</label>
       <select id="shipment-driver" formControlName="driverId" (change)="onDriverChange($any($event.target).value)">
         <option value="">Select Driver</option>
-        @for (driver of vm.drivers; track driver.id || $index) {
-          <option [value]="driver.id">
-            {{ driver.id }} - {{ driver.name }}
+        @for (driver of vm.drivers; track driver.userId || $index) {
+          <option [value]="driver.userId">
+            {{ driver.userId }} - {{ driver.licenseNumber }}
           </option>
         }
       </select>

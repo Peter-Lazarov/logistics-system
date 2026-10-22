@@ -11,6 +11,8 @@ public record UpdateShipmentRequest(
         Long clientUserId,
         Long driverUserId,
         String vehicleId,
+        String simulationRoute,
+        Double distanceKm,
         double totalWeight,
         double totalVolume,
 

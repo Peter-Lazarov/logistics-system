@@ -1,9 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { ChangeDetectorRef } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AuthService, UserProfile } from "../../../core/auth/auth.service";
+import { TrackingComponent } from "../../tracking/tracking.component";
 
 import {
   Shipment,
@@ -13,21 +14,23 @@ import {
 
 @Component({
   selector: "app-shipment-details",
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TrackingComponent],
   templateUrl: "./shipment-details.html",
   styleUrl: "./shipment-details.scss",
 })
-export class ShipmentDetails implements OnInit {
+export class ShipmentDetails implements OnDestroy, OnInit {
   shipment?: Shipment;
   history: ShipmentHistory[] = [];
   drivers: any[] = [];
   selectedDriverId = "";
+  selectedDistanceKm = 0;
   stepPositions = [8, 25, 40, 68, 88, 98];
   client: any;
   clientUser?: UserProfile;
   errorMessage = "";
   successMessage = "";
   pendingEvent: string | null = null;
+  private successMessageTimeout?: ReturnType<typeof setTimeout>;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +43,7 @@ export class ShipmentDetails implements OnInit {
     this.shipmentService.getById(id).subscribe({
       next: (data) => {
         this.shipment = data;
+        this.selectedDistanceKm = data.distanceKm ?? 0;
         this.loadClient(data.clientUserId);
         this.cdr.detectChanges();
       },
@@ -87,6 +91,7 @@ export class ShipmentDetails implements OnInit {
     this.shipmentService.getById(id).subscribe({
       next: (data) => {
         this.shipment = data;
+        this.selectedDistanceKm = data.distanceKm ?? 0;
         this.loadClient(data.clientUserId);
         this.cdr.detectChanges();
       },
@@ -116,6 +121,12 @@ export class ShipmentDetails implements OnInit {
       error: (err) => this.showError(err),
     });
 
+  }
+
+  ngOnDestroy(): void {
+    if (this.successMessageTimeout) {
+      clearTimeout(this.successMessageTimeout);
+    }
   }
 
   getAvailableActions(): string[] {
@@ -197,6 +208,34 @@ export class ShipmentDetails implements OnInit {
     return this.history.find((h) => h.status === status);
   }
 
+  formatDateTime(value?: string): string {
+    if (!value) {
+      return "";
+    }
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return value;
+    }
+
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+
+    return `${year}-${month}-${day} - ${hours}:${minutes}:${seconds}`;
+  }
+
+  formatDistance(value: number | null | undefined): string {
+    return `${(value ?? 0).toFixed(1)} km`;
+  }
+
+  formatPrice(value: number | null | undefined): string {
+    return (value ?? 0).toFixed(2);
+  }
+
   formatDate(value?: string): string {
     if (!value) {
       return "";
@@ -260,6 +299,7 @@ export class ShipmentDetails implements OnInit {
   requestEvent(event: string): void {
     this.pendingEvent = event;
     this.errorMessage = "";
+    this.clearSuccessMessageTimeout();
     this.successMessage = "";
   }
 
@@ -277,7 +317,7 @@ export class ShipmentDetails implements OnInit {
       return;
     }
 
-    const driver = this.drivers.find((d) => d.id === this.selectedDriverId);
+    const driver = this.getSelectedDriver();
 
     if (event === "ASSIGN") {
       this.shipmentService
@@ -292,6 +332,8 @@ export class ShipmentDetails implements OnInit {
 
           driverUserId: this.selectedDriverId,
           vehicleId: driver?.assignedVehicleId ?? "",
+          simulationRoute: this.shipment.simulationRoute ?? null,
+          distanceKm: this.selectedDistanceKm,
 
           totalWeight: this.shipment.totalWeight,
           totalVolume: this.shipment.totalVolume,
@@ -304,7 +346,7 @@ export class ShipmentDetails implements OnInit {
               .processEvent(this.shipment!.id, event)
               .subscribe({
                 next: (response) => {
-                  this.successMessage = response.message;
+                  this.showSuccess(response.message);
                   this.errorMessage = "";
                   this.loadData(this.shipment!.id);
                 },
@@ -322,7 +364,7 @@ export class ShipmentDetails implements OnInit {
 
     this.shipmentService.processEvent(this.shipment.id, event).subscribe({
       next: (response) => {
-        this.successMessage = response.message;
+        this.showSuccess(response.message);
         this.errorMessage = "";
         this.loadData(this.shipment!.id);
       },
@@ -349,7 +391,9 @@ export class ShipmentDetails implements OnInit {
         clientUserId: this.shipment.clientUserId,
 
         driverUserId: this.selectedDriverId,
-        vehicleId: this.shipment.vehicleId ?? "",
+        vehicleId: this.getSelectedDriver()?.assignedVehicleId ?? "",
+        simulationRoute: this.shipment.simulationRoute ?? null,
+        distanceKm: this.selectedDistanceKm,
         totalWeight: this.shipment.totalWeight,
         totalVolume: this.shipment.totalVolume,
 
@@ -357,7 +401,7 @@ export class ShipmentDetails implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.successMessage = response.message;
+          this.showSuccess(response.message);
           this.errorMessage = "";
           this.processEvent("ASSIGN");
         },
@@ -368,10 +412,34 @@ export class ShipmentDetails implements OnInit {
       });
   }
 
+  private getSelectedDriver(): any | undefined {
+    return this.drivers.find(
+      (driver) => String(driver.userId) === String(this.selectedDriverId),
+    );
+  }
+
+  private showSuccess(message: string): void {
+    this.clearSuccessMessageTimeout();
+
+    this.successMessage = message;
+    this.successMessageTimeout = setTimeout(() => {
+      this.successMessage = "";
+      this.cdr.detectChanges();
+    }, 10_000);
+  }
+
   private showError(error: { error?: { message?: string } }): void {
+    this.clearSuccessMessageTimeout();
     this.errorMessage =
       error?.error?.message ?? "We could not complete this shipment action. Please try again.";
     this.successMessage = "";
     this.cdr.detectChanges();
+  }
+
+  private clearSuccessMessageTimeout(): void {
+    if (this.successMessageTimeout) {
+      clearTimeout(this.successMessageTimeout);
+      this.successMessageTimeout = undefined;
+    }
   }
 }

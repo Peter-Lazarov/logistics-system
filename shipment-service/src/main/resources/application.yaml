@@ -21,6 +21,11 @@ common:
   service:
     url: ${SHIPMENT_COMMON_SERVICE_URL}
 
+mock:
+  gps:
+    tracker:
+      url: ${MOCK_GPS_TRACKER_URL:http://localhost:3001}
+
 jwt:
   access-secret: ${SHIPMENT_JWT_ACCESS_SECRET}
   refresh-secret: ${SHIPMENT_JWT_REFRESH_SECRET}

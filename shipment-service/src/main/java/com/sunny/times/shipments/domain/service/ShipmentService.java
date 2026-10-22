@@ -4,6 +4,8 @@ import com.sunny.times.contracts.shipments.ClientShipmentRequest;
 import com.sunny.times.contracts.shipments.CreateShipmentRequest;
 import com.sunny.times.contracts.shipments.ShipmentResponse;
 import com.sunny.times.contracts.shipments.UpdateShipmentRequest;
+import com.sunny.times.contracts.tracking.StartSimulationRequest;
+import com.sunny.times.contracts.tracking.StopSimulationRequest;
 import com.sunny.times.shipments.domain.exception.ShipmentNotFoundException;
 import com.sunny.times.shipments.domain.exception.ClientProfileIncompleteException;
 import com.sunny.times.shipments.domain.model.Shipment;
@@ -33,19 +35,25 @@ public class ShipmentService {
     private final CommonClientService commonClient;
     private final ShipmentStatusHistoryRepository historyRepository;
     private final CurrentUserService currentUserService;
+        private final MockGpsTrackerClient mockGpsTrackerClient;
+        private final ShipmentPricingService shipmentPricingService;
 
     public ShipmentService(
             ShipmentRepository repository,
             ShipmentMapper mapper,
             CommonClientService commonClient,
             ShipmentStatusHistoryRepository historyRepository,
-            CurrentUserService currentUserService
+            CurrentUserService currentUserService,
+            MockGpsTrackerClient mockGpsTrackerClient,
+            ShipmentPricingService shipmentPricingService
     ) {
         this.repository = repository;
         this.mapper = mapper;
         this.commonClient = commonClient;
         this.historyRepository = historyRepository;
         this.currentUserService = currentUserService;
+        this.mockGpsTrackerClient = mockGpsTrackerClient;
+        this.shipmentPricingService = shipmentPricingService;
     }
 
     public List<ShipmentResponse> getAll() {
@@ -81,8 +89,10 @@ public class ShipmentService {
                 req.clientUserId(),
                 req.driverUserId(),
                 req.vehicleId(),
+                req.simulationRoute(),
                 req.totalWeight(),
                 req.totalVolume(),
+                null,
                 req.price(),
                 ShipmentStatus.CREATED,
                 Instant.now(),
@@ -121,6 +131,11 @@ public class ShipmentService {
 
         commonClient.getClient(req.clientUserId());
         commonClient.getDriver(req.driverUserId());
+        boolean calculateMissingAssignedPrice = entity.getStatus() == ShipmentStatus.ASSIGNED
+                && (entity.getSimulationRoute() == null || entity.getSimulationRoute().isBlank())
+                && (entity.getDistanceKm() == null || entity.getDistanceKm() == 0.0)
+                                && ((req.simulationRoute() != null && !req.simulationRoute().isBlank())
+                                        || req.distanceKm() != null);
         entity.setCategory(req.category());
         entity.setDescription(req.description());
         entity.setOrigin(req.origin());
@@ -128,9 +143,18 @@ public class ShipmentService {
         entity.setClientUserId(req.clientUserId());
         entity.setDriverUserId(req.driverUserId());
         entity.setVehicleId(req.vehicleId());
+        entity.setSimulationRoute(req.simulationRoute());
+                if (req.distanceKm() != null) {
+                        if (req.distanceKm() < 0) {
+                                throw new IllegalArgumentException("Distance cannot be negative.");
+                        }
+                        entity.setDistanceKm(req.distanceKm());
+                }
         entity.setTotalWeight(req.totalWeight());
         entity.setTotalVolume(req.totalVolume());
-        entity.setPrice(req.price());
+                if (calculateMissingAssignedPrice) {
+                        shipmentPricingService.calculateAndStore(entity);
+                }
 
         entity.setUpdatedAt(Instant.now());
 
@@ -163,8 +187,10 @@ public class ShipmentService {
                 s.getClientUserId(),
                 s.getDriverUserId(),
                 s.getVehicleId(),
+                s.getSimulationRoute(),
                 s.getTotalWeight(),
                 s.getTotalVolume(),
+                s.getDistanceKm(),
                 s.getPrice(),
                 s.getStatus().name(),
                 s.getCreatedAt().toString(),
@@ -188,15 +214,21 @@ public class ShipmentService {
 
         ShipmentEntity entity = repository.findById(id)
                 .orElseThrow(() -> new ShipmentNotFoundException(id));
+        ShipmentStatus currentStatus = entity.getStatus();
 
         ShipmentEvent event =
                 ShipmentEvent.valueOf(eventName);
 
         ShipmentStatus nextStatus =
                 ShipmentStatusFlow.nextStatus(
-                        entity.getStatus(),
+                        currentStatus,
                         event
                 );
+
+        if (currentStatus == ShipmentStatus.CREATED
+                && nextStatus == ShipmentStatus.ASSIGNED) {
+                        shipmentPricingService.calculateAndStore(entity);
+        }
 
         entity.setStatus(nextStatus);
 
@@ -216,6 +248,23 @@ public class ShipmentService {
 
         ShipmentEntity saved =
                 repository.save(entity);
+
+        if (nextStatus == ShipmentStatus.IN_TRANSIT
+                && (currentStatus == ShipmentStatus.LOADED
+                    || currentStatus == ShipmentStatus.DELAYED)
+                && entity.getVehicleId() != null
+                && !entity.getVehicleId().isBlank()) {
+            mockGpsTrackerClient.startSimulation(new StartSimulationRequest(
+                    entity.getId(),
+                    entity.getVehicleId(),
+                    entity.getSimulationRoute()
+            ));
+        }
+
+        if (currentStatus == ShipmentStatus.IN_TRANSIT
+                && nextStatus == ShipmentStatus.ARRIVED) {
+            mockGpsTrackerClient.stopSimulation(new StopSimulationRequest(entity.getId()));
+        }
 
         return toResponse(
                 mapper.toDomain(saved)
@@ -243,9 +292,11 @@ public class ShipmentService {
 
                 null,
                 null,
+                req.simulationRoute(),
 
                 req.totalWeight(),
                 req.totalVolume(),
+                null,
 
                 0.0,
 

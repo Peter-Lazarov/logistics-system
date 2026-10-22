@@ -3,7 +3,6 @@ package com.sunny.times.tracking.messaging;
 import com.sunny.times.contracts.tracking.TrackingPointEvent;
 import com.sunny.times.tracking.domain.service.VehicleLocationService;
 import com.sunny.times.tracking.persistence.entity.VehicleLocationEntity;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +12,6 @@ import java.time.Instant;
 public class TrackingPointConsumer {
 
     private final VehicleLocationService service;
-
-    private final ObjectMapper objectMapper =
-            new ObjectMapper();
 
     public TrackingPointConsumer(
             VehicleLocationService service
@@ -27,10 +23,14 @@ public class TrackingPointConsumer {
     public void consume(
             TrackingPointEvent event
     ) {
+                if (event.shipmentId() == null || event.shipmentId().isBlank()) {
+                        throw new IllegalArgumentException("Tracking points must belong to a shipment.");
+                }
 
         VehicleLocationEntity entity =
                 new VehicleLocationEntity(
                         null,
+                        event.shipmentId(),
                         event.vehicleId(),
                         event.latitude(),
                         event.longitude(),
@@ -40,8 +40,7 @@ public class TrackingPointConsumer {
         service.save(entity);
 
         System.out.println(
-                "GPS point saved for vehicle: "
-                        + event.vehicleId()
+                "GPS point saved for shipment: " + event.shipmentId()
         );
     }
 }

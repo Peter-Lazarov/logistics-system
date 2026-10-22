@@ -4,89 +4,123 @@ const truck1Route = require('../data/botevgradsko-route.json');
 const truck2Route = require('../data/bojurishte-route.json');
 const truck3Route = require('../data/kazichene-airport-route.json');
 
-const TRACKING_URL = "http://localhost:8082/tracking/locations";
+const TRACKING_URL = process.env.TRACKING_URL || "http://localhost:8083/gps";
+
+const ROUTES = {
+    BOTEVGRADSKO: truck1Route,
+    BOJURISHTE: truck2Route,
+    KAZICHENE: truck3Route
+};
 
 class GpsTrackerService {
 
     constructor() {
-        this.trucks = [
-            {
-                vehicleId: 'CB1234AB',
-                route: truck1Route,
-                index: 0,
-                direction: 1
-            },
-            {
-                vehicleId: 'CB5678CD',
-                route: truck2Route,
-                index: 0,
-                direction: 1
-            },
-            {
-                vehicleId: 'CB9999EF',
-                route: truck3Route,
-                index: 0,
-                direction: 1
-            }
-        ];
+        this.activeSimulations = new Map();
     }
 
-    startTruck(truck, intervalMs) {
+    async startSimulation({ shipmentId, vehicleId, route }) {
+        if (!shipmentId || !vehicleId) {
+            return { started: false, reason: 'missing-required-fields' };
+        }
 
-        setInterval(async () => {
+        if (this.activeSimulations.has(shipmentId)) {
+            return { started: false, reason: 'already-running' };
+        }
 
-            const point = truck.route[truck.index];
+        const routeKey = (route || '').trim().toUpperCase();
+        const points = ROUTES[routeKey];
+        if (!points) {
+            return { started: false, reason: 'unknown-route' };
+        }
 
-            try {
+        const simulation = {
+            shipmentId,
+            vehicleId,
+            points,
+            index: 0,
+            direction: 1,
+            timer: null,
+            stopped: false,
+            sending: false,
+            requestController: null
+        };
+        this.activeSimulations.set(shipmentId, simulation);
 
-                await axios.post(
-                    TRACKING_URL,
-                    {
-                        vehicleId: truck.vehicleId,
-                        latitude: point.lat,
-                        longitude: point.lng,
-                        timestamp: new Date().toISOString()
-                    }
-                );
-
-                console.log(
-                    `[${truck.vehicleId}] ${point.lat}, ${point.lng}`
-                );
-
-            } catch (error) {
-
-                console.error(
-                    `[${truck.vehicleId}] ${error.message}`
-                );
-            }
-
-            if (truck.index === truck.route.length - 1) {
-                truck.direction = -1;
-            }
-
-            if (truck.index === 0) {
-                truck.direction = 1;
-            }
-
-            truck.index += truck.direction;
-
-        }, intervalMs);
+        await this.sendCurrentPoint(simulation);
+        if (this.activeSimulations.get(shipmentId) !== simulation) {
+            return { started: false, reason: 'stopped' };
+        }
+        this.advanceRoute(simulation);
+        simulation.timer = setInterval(() => this.tick(simulation), 5000);
+        return { started: true };
     }
 
-    sleep(ms) {
-        return new Promise(resolve =>
-            setTimeout(resolve, ms)
-        );
+    stopSimulation(shipmentId) {
+        const simulation = this.activeSimulations.get(shipmentId);
+        if (!simulation) {
+            return { stopped: false, reason: 'not-running' };
+        }
+
+        simulation.stopped = true;
+        clearInterval(simulation.timer);
+        simulation.requestController?.abort();
+        this.activeSimulations.delete(shipmentId);
+        return { stopped: true };
     }
 
-    async start() {
-        this.startTruck(this.trucks[0], 5000);
-        
-        await this.sleep(1000);
-        this.startTruck(this.trucks[1], 5000);
-        
-        await this.sleep(1000);
-        this.startTruck(this.trucks[2], 5000);
+    async tick(simulation) {
+        if (simulation.sending || this.activeSimulations.get(simulation.shipmentId) !== simulation) {
+            return;
+        }
+
+        await this.sendCurrentPoint(simulation);
+        if (this.activeSimulations.get(simulation.shipmentId) === simulation) {
+            this.advanceRoute(simulation);
+        }
+    }
+
+    async sendCurrentPoint(simulation) {
+        if (simulation.stopped || this.activeSimulations.get(simulation.shipmentId) !== simulation) {
+            return;
+        }
+
+        const point = simulation.points[simulation.index];
+        const requestController = new AbortController();
+        simulation.requestController = requestController;
+        simulation.sending = true;
+        try {
+            await axios.post(TRACKING_URL, {
+                shipmentId: simulation.shipmentId,
+                vehicleId: simulation.vehicleId,
+                latitude: point.lat,
+                longitude: point.lng,
+                timestamp: new Date().toISOString()
+            }, {
+                signal: requestController.signal
+            });
+            if (!simulation.stopped) {
+                console.log(`[${simulation.shipmentId} / ${simulation.vehicleId}] ${point.lat}, ${point.lng}`);
+            }
+        } catch (error) {
+            if (!requestController.signal.aborted) {
+                console.error(`[${simulation.shipmentId} / ${simulation.vehicleId}] ${error.message}`);
+            }
+        } finally {
+            simulation.sending = false;
+            simulation.requestController = null;
+        }
+    }
+
+    advanceRoute(simulation) {
+        if (simulation.index === simulation.points.length - 1) {
+            simulation.direction = -1;
+        }
+
+        if (simulation.index === 0) {
+            simulation.direction = 1;
+        }
+
+        simulation.index += simulation.direction;
     }
 }
 

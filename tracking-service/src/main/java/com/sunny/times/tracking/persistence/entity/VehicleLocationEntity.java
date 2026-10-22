@@ -1,6 +1,7 @@
 package com.sunny.times.tracking.persistence.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -10,6 +11,9 @@ public class VehicleLocationEntity {
 
     @Id
     private String id;
+
+    @Indexed
+    private String shipmentId;
 
     private String vehicleId;
 
@@ -24,12 +28,14 @@ public class VehicleLocationEntity {
 
     public VehicleLocationEntity(
             String id,
+            String shipmentId,
             String vehicleId,
             Double latitude,
             Double longitude,
             Instant timestamp
     ) {
         this.id = id;
+        this.shipmentId = shipmentId;
         this.vehicleId = vehicleId;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -38,6 +44,10 @@ public class VehicleLocationEntity {
 
     public String getId() {
         return id;
+    }
+
+    public String getShipmentId() {
+        return shipmentId;
     }
 
     public String getVehicleId() {

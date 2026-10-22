@@ -12,6 +12,7 @@ import { MyShipmentsComponent } from "./features/client/my-shipments/my-shipment
 
 import { ClientRequest } from "./features/client/client-request/client-request";
 import { clientProfileGuard } from "./core/profile/client-profile-guard";
+import { TrackingComponent } from "./features/tracking/tracking.component";
 
 export const routes: Routes = [
   {
@@ -81,6 +82,14 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard],
     data: {
       roles: ["ROLE_CLIENT", "ROLE_EMPLOYEE", "ROLE_ADMIN"],
+    },
+  },
+  {
+    path: "tracking/:shipmentId",
+    component: TrackingComponent,
+    canActivate: [authGuard, roleGuard],
+    data: {
+      roles: ["ROLE_EMPLOYEE", "ROLE_ADMIN"],
     },
   },
 ];

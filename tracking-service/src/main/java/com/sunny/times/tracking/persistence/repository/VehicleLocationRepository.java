@@ -10,9 +10,9 @@ public interface VehicleLocationRepository
         extends MongoRepository<VehicleLocationEntity, String> {
 
     Optional<VehicleLocationEntity>
-    findFirstByVehicleIdOrderByTimestampDesc(String vehicleId);
+    findTopByShipmentIdOrderByTimestampDesc(String shipmentId);
 
     List<VehicleLocationEntity>
-    findByVehicleIdOrderByTimestampAsc(String vehicleId);
+    findByShipmentIdOrderByTimestampAsc(String shipmentId);
 }
 

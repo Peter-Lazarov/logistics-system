@@ -1,0 +1,47 @@
+<section #trackingContainer class="tracking-page" [class.embedded]="embedded">
+  @if (!embedded) {
+    <header class="tracking-toolbar">
+    <div class="shipment-heading">
+      <div class="tracking-title">
+        <span class="eyebrow">LIVE TRACKING</span>
+        <h1>Shipment {{ shipment?.id ?? '...' }}</h1>
+      </div>
+      <dl class="shipment-meta">
+        <div><dt>Vehicle</dt><dd>{{ vehicleId ?? 'Not assigned' }}</dd></div>
+        <div><dt>Status</dt><dd>{{ shipment?.status ?? 'Loading' }}</dd></div>
+        <div><dt>Origin</dt><dd>{{ shipment?.origin ?? '...' }}</dd></div>
+        <div><dt>Destination</dt><dd>{{ shipment?.destination ?? '...' }}</dd></div>
+      </dl>
+    </div>
+    <a class="back-link" routerLink="/shipments">Back to shipments</a>
+    </header>
+  }
+
+  <div class="tracking-map-frame" [hidden]="noVehicleAssigned">
+    <div #mapContainer class="tracking-map" role="application" aria-label="Vehicle route map"></div>
+  </div>
+
+  @if (embedded && !noVehicleAssigned) {
+    <button
+      class="fullscreen-toggle"
+      type="button"
+      (click)="toggleFullscreen()"
+      [attr.aria-label]="isFullscreen ? 'Exit fullscreen map' : 'Open map fullscreen'"
+      [title]="isFullscreen ? 'Exit fullscreen' : 'Fullscreen'"
+    >
+      {{ isFullscreen ? 'Exit fullscreen' : 'Fullscreen' }}
+    </button>
+  }
+
+  @if (noTrackingData) {
+    <p class="tracking-empty tracking-empty-overlay" role="status">No tracking data available.</p>
+  }
+
+  @if (noVehicleAssigned) {
+    <p class="tracking-empty tracking-empty-overlay" role="status">No vehicle assigned.</p>
+  }
+
+  @if (errorMessage) {
+    <p class="tracking-error" role="alert">{{ errorMessage }}</p>
+  }
+</section>

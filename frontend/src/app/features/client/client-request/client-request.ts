@@ -9,6 +9,7 @@ import { ClientProfileService } from '../../../core/profile/client-profile.servi
 interface DemoLoad {
   origin: string;
   destination: string;
+  simulationRoute: "BOTEVGRADSKO" | "BOJURISHTE" | "KAZICHENE";
   category: string;
   description: string;
   totalWeight: number;
@@ -37,6 +38,7 @@ export class ClientRequest implements OnInit {
     {
       origin: 'Божурище',
       destination: 'Логистичен парк',
+      simulationRoute: 'BOJURISHTE',
       category: 'Furniture',
       description: 'Office furniture',
       totalWeight: 12000,
@@ -45,6 +47,7 @@ export class ClientRequest implements OnInit {
     {
       origin: 'Карго терминал',
       destination: 'Гимназия Неофит Бозвели',
+      simulationRoute: 'BOTEVGRADSKO',
       category: 'Food',
       description: 'School supplies',
       totalWeight: 8000,
@@ -53,6 +56,7 @@ export class ClientRequest implements OnInit {
     {
       origin: 'Казичене склад',
       destination: 'Карго терминал',
+      simulationRoute: 'KAZICHENE',
       category: 'Electronics',
       description: 'Electronic equipment',
       totalWeight: 3500,
@@ -73,6 +77,7 @@ export class ClientRequest implements OnInit {
       description: ['', Validators.required],
       totalWeight: [0, Validators.required],
       totalVolume: [0, Validators.required],
+      simulationRoute: [null as string | null],
     });
   }
 
@@ -93,11 +98,16 @@ export class ClientRequest implements OnInit {
     this.form.patchValue({
       origin: load.origin,
       destination: load.destination,
+      simulationRoute: load.simulationRoute,
       category: load.category,
       description: load.description,
       totalWeight: load.totalWeight,
       totalVolume: load.totalVolume
     });
+  }
+
+  clearPlannedRoute(): void {
+    this.form.controls.simulationRoute.setValue(null);
   }
 
   submitRequest(): void {

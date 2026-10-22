@@ -5,39 +5,97 @@
    TOP SECTION */
 
 .top-section {
-  width: 80%;
+  width: min(96%, 1500px);
   margin: 0 auto 32px auto;
-
-  display: flex;
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: minmax(220px, 0.9fr) minmax(320px, 1.3fr) minmax(320px, 1.3fr);
+  gap: 1.25rem;
   align-items: stretch;
 }
 
 .client-card {
-  width: 350px;
-  padding: 20px;
-  margin-bottom: 20px;
+  box-sizing: border-box;
+  width: auto;
+  min-width: 0;
+  height: 100%;
+  padding: 24px;
   border: 2px solid #7dc4f4;
 }
 
-.client-card hr {
-  margin: 10px 0;
-}
-
 .details-card {
-  flex: 7;
+  box-sizing: border-box;
+  min-width: 0;
+  height: 100%;
   background: white;
   padding: 24px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  max-width: 900px;
+  max-width: none;
 }
 
-.details-card h2 {
+.client-card h2,
+.details-card .page-title {
+  margin: 0;
   color: #2f4858;
-  margin-top: 0;
+  font-size: 24px;
+  line-height: 1.25;
 }
 
+.client-card hr,
+.details-card hr {
+  margin: 18px 0;
+  border: 0;
+  border-top: 1px solid #d8e1e8;
+}
+
+.tracking-card {
+  min-width: 0;
+  min-height: 320px;
+  overflow: hidden;
+  border: 1px solid #cbd8d2;
+  border-radius: 4px;
+  background: #e8efeb;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tracking-card app-tracking {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 1100px) {
+  .top-section {
+    grid-template-columns: minmax(220px, 0.8fr) minmax(320px, 1.2fr);
+  }
+
+  .tracking-card {
+    grid-column: 1 / -1;
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 700px) {
+  .top-section {
+    width: calc(100% - 24px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .client-card,
+  .details-card {
+    width: 100%;
+    height: auto;
+    padding: 16px;
+  }
+
+  .tracking-card {
+    grid-column: auto;
+    min-height: 340px;
+  }
+}
+
+.client-card p,
 .details-card p {
   margin: 12px 0;
   color: #475569;
@@ -62,10 +120,38 @@
   min-width: 180px;
 }
 
-.details-card hr {
-  border: none;
-  border-top: 1px solid #e5e7eb;
-  margin: 20px 0;
+.assign-distance-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 4px;
+}
+
+.assign-distance-control input {
+  box-sizing: border-box;
+  width: min(100%, 150px);
+  height: 28px;
+  padding: 2px 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font: inherit;
+}
+.distance-estimate {
+  color: #8a5c23;
+  font-size: 11px;
+}
+
+.route-save-btn {
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 4px;
+  background: #087f8c;
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 /* =========================
@@ -287,8 +373,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
+  gap: 14px;
   border-color: #f2d1a8;
   border-left-color: #d27a19;
   background: #fff8ed;
@@ -297,8 +383,15 @@
 
 .confirmation-actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: center;
   gap: 8px;
+}
+
+@media (max-width: 480px) {
+  .message.confirmation {
+    gap: 10px;
+  }
 }
 
 .confirmation-actions button {

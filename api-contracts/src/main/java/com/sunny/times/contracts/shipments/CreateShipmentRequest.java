@@ -8,6 +8,7 @@ public record CreateShipmentRequest(
         Long clientUserId,
         Long driverUserId,
         String vehicleId,
+        String simulationRoute,
         double totalWeight,
         double totalVolume,
         double price

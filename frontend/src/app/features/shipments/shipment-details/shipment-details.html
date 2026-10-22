@@ -2,11 +2,6 @@
   <p class="message error" role="alert">{{ errorMessage }}</p>
 }
 
-@if (successMessage) {
-  <p class="message success" role="status">{{ successMessage }}</p>
-}
-
-
 @if (shipment) {
   <div class="top-section">
     <div class="client-card">
@@ -25,31 +20,44 @@
       <hr />
       <p><b>Category:</b> {{ shipment.category }}</p>
       <p><b>Description:</b> {{ shipment.description }}</p>
-      <p><b>Volume:</b> {{ shipment.totalVolume }}</p>
-      <p><b>Weight:</b> {{ shipment.totalWeight }}</p>
+      <p><b>Volume:</b> {{ shipment.totalVolume }} m3</p>
+      <p><b>Weight:</b> {{ shipment.totalWeight }} kg</p>
+      <p>
+        <b>Distance:</b>
+        @if (shipment.distanceKm === null) {
+          Not calculated
+        } @else {
+          {{ formatDistance(shipment.distanceKm) }}
+          @if (!shipment.simulationRoute) {
+            <span class="distance-estimate">+ distance</span>
+          }
+        }
+      </p>
       <p>
         <b>Status:</b>
         <span class="status-badge" [ngClass]="'status-' + shipment.status">
           {{ shipment.status }}
         </span>
       </p>
-      <p><b>Created:</b> {{ shipment.createdAt }}</p>
-      <p><b>Updated:</b> {{ shipment.updatedAt }}</p>
+      <p><b>Created:</b> {{ formatDateTime(shipment.createdAt) }}</p>
+      <p><b>Updated:</b> {{ formatDateTime(shipment.updatedAt) }}</p>
       <p class="price-field">
         <b>Price:</b>
-        @if (shipment.status === 'CREATED') {
-          <input
-          id="shipment-price"
-          type="number"
-          min="0"
-          step="0.01"
-          [(ngModel)]="shipment.price"
-          aria-label="Shipment price"
-          />
+        @if (shipment.distanceKm === null) {
+          Not calculated
         } @else {
-          {{ shipment.price }}
+          {{ formatPrice(shipment.price) }} €
         }
       </p>
+    </div>
+
+    <div class="tracking-card">
+      <app-tracking
+        [shipmentId]="shipment.id"
+        [assignedVehicleId]="shipment.vehicleId"
+        [shipmentStatus]="shipment.status"
+        [embedded]="true"
+      />
     </div>
   </div>
   
@@ -90,6 +98,19 @@
     
   </div>
 
+  @if (successMessage) {
+    <p class="message success" role="status">{{ successMessage }}</p>
+  }
+  @if (pendingEvent) {
+    <div class="message confirmation" role="alertdialog" aria-label="Confirm shipment action">
+      <span>Process event {{ pendingEvent }}?</span>
+      <div class="confirmation-actions">
+        <button type="button" class="primary-action-btn" (click)="confirmPendingEvent()">Confirm</button>
+        <button type="button" class="secondary-action-btn" (click)="pendingEvent = null">Cancel</button>
+      </div>
+    </div>
+  }
+
   <div class="journey">
     <div class="journey-track">
       <div class="journey-progress" [style.width.%]="stepPositions[getCurrentStep()]"></div>
@@ -103,8 +124,22 @@
     <span>{{ step }}</span>
     <div class="dot"></div>
     
+
     @if (getCurrentStep() === i) {
       <div class="step-actions">
+        @if (shipment.status === 'CREATED' && getPrimaryAction() === 'ASSIGN' && !shipment.simulationRoute) {
+          <div class="assign-distance-control">
+            <label for="shipment-distance-km"><b>Distance (km)</b></label>
+            <input
+              id="shipment-distance-km"
+              type="number"
+              min="0"
+              step="0.1"
+              [(ngModel)]="selectedDistanceKm"
+              aria-label="Shipment distance in kilometers"
+            />
+          </div>
+        }
         @if (getPrimaryAction()) {
           <button class="primary-action-btn" (click)="requestEvent(getPrimaryAction()!)">
             {{ getPrimaryAction() }}
@@ -129,15 +164,7 @@
     </div>
   </div>
 
-  @if (pendingEvent) {
-    <div class="message confirmation" role="alertdialog" aria-label="Confirm shipment action">
-      <span>Process event {{ pendingEvent }}?</span>
-      <div class="confirmation-actions">
-        <button type="button" class="primary-action-btn" (click)="confirmPendingEvent()">Confirm</button>
-        <button type="button" class="secondary-action-btn" (click)="pendingEvent = null">Cancel</button>
-      </div>
-    </div>
-  }
+  
 }
 
 

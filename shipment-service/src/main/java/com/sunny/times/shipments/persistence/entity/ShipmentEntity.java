@@ -34,11 +34,17 @@ public class ShipmentEntity {
     @Column(nullable = true)
     private String vehicleId;
 
+    @Column(nullable = true)
+    private String simulationRoute;
+
     @Column(nullable = false)
     private Double totalWeight;
 
     @Column(nullable = false)
     private Double totalVolume;
+
+    @Column
+    private Double distanceKm;
 
     @Column(nullable = false)
     private Double price;
@@ -63,8 +69,10 @@ public class ShipmentEntity {
                           Long clientUserId,
                           Long driverUserId,
                           String vehicleId,
+                          String simulationRoute,
                           Double totalWeight,
                           Double totalVolume,
+                          Double distanceKm,
                           Double price,
                           ShipmentStatus status,
                           Instant createdAt,
@@ -78,8 +86,10 @@ public class ShipmentEntity {
         this.clientUserId = clientUserId;
         this.driverUserId = driverUserId;
         this.vehicleId = vehicleId;
+        this.simulationRoute = simulationRoute;
         this.totalWeight = totalWeight;
         this.totalVolume = totalVolume;
+        this.distanceKm = distanceKm;
         this.price = price;
         this.status = status;
         this.createdAt = createdAt;
@@ -110,11 +120,17 @@ public class ShipmentEntity {
     public String getVehicleId() { return vehicleId; }
     public void setVehicleId(String vehicleId) { this.vehicleId = vehicleId; }
 
+    public String getSimulationRoute() { return simulationRoute; }
+    public void setSimulationRoute(String simulationRoute) { this.simulationRoute = simulationRoute; }
+
     public Double getTotalWeight() { return totalWeight; }
     public void setTotalWeight(Double totalWeight) { this.totalWeight = totalWeight; }
 
     public Double getTotalVolume() { return totalVolume; }
     public void setTotalVolume(Double totalVolume) { this.totalVolume = totalVolume; }
+
+    public Double getDistanceKm() { return distanceKm; }
+    public void setDistanceKm(Double distanceKm) { this.distanceKm = distanceKm; }
 
     public Double getPrice() { return price; }
     public void setPrice(Double price) { this.price = price; }
