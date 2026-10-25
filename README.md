@@ -1,528 +1,254 @@
-# Architecture
+# Sunny Times Logistics
 
-## authentication-service
-Service responsible for authentication and user management.
+![Shipment Management](docs/screenshots/manage-shipment.png)
 
-Responsibilities:
-- User registration
-- User login
-- JWT access token generation
-- JWT refresh token generation
-- User profile management
-- User status management (ACTIVE / DISABLED)
-- Token validation for downstream services
----
+A microservice-based logistics application for shipment requests and processing, user and driver management, and vehicle tracking. The project includes Spring Boot services, an Angular frontend, and a Docker Compose setup for local use.
 
-## common-service
-Service responsible for shared business entities.
+## Highlights
 
-Domains:
-- Clients
-- Drivers
-- Routes
+- Role-based workflows for clients, employees and administrators
+- Shipment processing with driver/vehicle assignment, distance-based pricing and status history
+- Event-driven GPS ingestion through RabbitMQ, with tracking history stored in MongoDB
+- Interactive vehicle map showing current position and traveled path
+- Docker Compose setup that runs the application and its supporting infrastructure locally
 
-Provides reference data used by shipment processing.
----
+## Screenshots
 
-## shipment-service
-Core logistics service.
+### Login and Demo Guide
 
-Responsibilities:
-- Shipment creation
-- Shipment lifecycle management
-- Driver assignment
-- Route assignment
-- Shipment history
-- Shipment workflow execution
+![Login](docs/screenshots/login-guide.png)
 
-Shipment lifecycle:
-```text
-CREATED
-→ ASSIGNED
-→ LOADED
-→ IN_TRANSIT
-→ ARRIVED
-→ DELIVERED
-```
----
+Landing page with integrated Demo Guide describing the complete shipment lifecycle.
 
-## mock-gps-tracker
-Utility application used for GPS simulation.
+### Client Shipment Request
 
-Responsibilities:
-- Generate vehicle position data
-- Simulate moving vehicles
-- Send GPS coordinates to tracking-api
----
+![Client Request](docs/screenshots/create-shipment.png)
 
-## tracking-api
-Ingress service for GPS data.
-Responsibilities:
-- Receive location updates
-- Validate incoming tracking data
-- Normalize GPS payloads
-- Forward data to tracking-service
----
+Clients can submit shipment requests by providing shipment details including origin, destination, weight and volume.
 
-## tracking-service
-Tracking storage and visualization backend.
+### Shipment List
 
-Responsibilities:
-- Store GPS coordinates
-- Maintain tracking history
-- Provide tracking data for map visualization
-- Serve vehicle movement information
+![Shipment List](docs/screenshots/shipment-list.png)
 
+Employees can review and manage shipments across the system.
 
+### Shipment Management and Tracking
 
-# Logistics System
-Microservice-based logistics platform for shipment management, route assignment, driver management and vehicle tracking.
+![Tracking](docs/screenshots/manage-shipment.png)
+
+Employees assign drivers, track shipment progress, review shipment history, and monitor vehicle location on an OpenStreetMap map.
+
+### Administration
+
+![Administration](docs/screenshots/admin-users.png)
+
+Administrators can register employees, manage users and enable or disable accounts.
 
 ## Architecture
-### authentication-service
 
-Service responsible for authentication and user management.
+| Component | Responsibility |
+|----------|----------------|
+| `authentication-service` | Registration, login, JWT access/refresh tokens, profiles, user status and token validation |
+| `common-service` | Client and driver reference data |
+| `shipment-service` | Client shipment requests, operational shipment management, driver/vehicle assignment, pricing, workflow and status history |
+| `tracking-api` | Validates GPS events and publishes them to RabbitMQ |
+| `tracking-service` | Consumes GPS events, stores locations in MongoDB, and serves tracking history and latest positions |
+| `mock-gps-tracker` | Simulates vehicle movement and sends GPS points to `tracking-api` |
+| `frontend` | Angular application for clients, employees and administrators; includes a Leaflet/OpenStreetMap tracking map |
+| `api-contracts` | Shared request, response and event types |
+| `shared-security` | Shared JWT and security components |
 
-Responsibilities:
-- User registration
-- User login
-- JWT access token generation
-- JWT refresh token generation
-- User profile management
-- User status management (ACTIVE / DISABLED)
-- Token validation for downstream services
+Tracking data flow:
 
----
-
-### common-service
-Service responsible for shared business entities.
-
-Domains:
-- Clients
-- Drivers
-- Routes
-
-Provides reference data used by shipment processing.
-
----
-
-### shipment-service
-Core logistics service.
-
-Responsibilities:
-- Shipment creation
-- Shipment lifecycle management
-- Driver assignment
-- Route assignment
-- Shipment history
-- Shipment workflow execution
-
-Shipment lifecycle:
-```text
-CREATED
-→ ASSIGNED
-→ LOADED
-→ IN_TRANSIT
-→ ARRIVED
-→ DELIVERED
-```
-
----
-### mock-gps-tracker
-Utility application used for GPS simulation.
-
-Responsibilities:
-- Generate vehicle position data
-- Simulate moving vehicles
-- Send GPS coordinates to tracking-api
----
-
-### tracking-api
-Ingress service for GPS data.
-
-Responsibilities:
-- Receive location updates
-- Validate incoming tracking data
-- Normalize GPS payloads
-- Forward data to tracking-service
-
----
-
-### tracking-service
-Tracking storage and visualization backend.
-
-Responsibilities:
-- Store GPS coordinates
-- Maintain tracking history
-- Provide tracking data for map visualization
-- Serve vehicle movement information
-
-## Technologies
-- Java 21
-- Spring Boot
-- Spring Security
-- Spring Data JPA
-- Angular
-- PostgreSQL
-- MongoDB
-- RabbitMQ
-- Docker
-- AWS
-
-## Databases
-| Service | Database |
-|----------|----------|
-| authentication-service | PostgreSQL |
-| common-service | PostgreSQL |
-| shipment-service | PostgreSQL |
-| tracking-service | MongoDB |
-
-## User Roles
-### CLIENT
-- Create shipments
-- View personal shipments
-- Manage profile
-
-### EMPLOYEE
-- Manage shipments
-- Assign drivers
-- Assign routes
-- Process shipment workflow
-
-### ADMIN
-- Manage users
-- Create employees
-- Enable / Disable users
-- Full system access
-
-## Shipment Workflow
-```text
-CREATED
-→ ASSIGNED
-→ LOADED
-→ IN_TRANSIT
-→ ARRIVED
-→ DELIVERED
-```
-
-Additional transitions:
-```text
-DELAYED
-CANCELLED
-```
-
-## Tracking Flow
 ```text
 mock-gps-tracker
-        ↓
+       ↓
 tracking-api
-        ↓
+       ↓ publishes GPS events
+RabbitMQ
+       ↓ consumes events
 tracking-service
-        ↓
+       ↓
 MongoDB
-        ↓
-Map Visualization
+       ↓
+Leaflet / OpenStreetMap vehicle map
 ```
 
-## Local Development
-### Prerequisites
-- Java 21
-- Node.js
-- PostgreSQL
-- MongoDB
-- RabbitMQ
-- Maven
+The map shows the vehicle's current position, traveled path and tracking history. Latest-position data is polled while tracking is active; this is not WebSocket-based live streaming or road-route planning.
 
-### Environment Variables
-Configuration is provided through environment variables.
+## User Workflows
 
-Load variables from the project root:
-```bash
-set -a
-source .env
-set +a
+### Client
+
+Clients register, complete their profile, submit shipment requests and view their own shipments. A complete profile is required before submitting a request. Operational shipment creation and processing are handled by employees and administrators.
+
+### Employee
+
+Employees view and manage shipments, assign drivers and vehicles, and process shipment workflow events. The system calculates route distance and shipment price. GPS simulation starts when the shipment departs and stops when delivery is completed.
+
+### Administrator
+
+Administrators manage users, create employee accounts, and enable or disable accounts. They can also access shipment operations.
+
+### Shipment workflow
+
+```text
+CREATED → ASSIGNED → LOADED → IN_TRANSIT → ARRIVED → DELIVERED
 ```
 
-### Running Services
-Authentication Service
-```bash
-cd authentication-service
-mvn spring-boot:run
-```
+`DELAYED` and `CANCELLED` are additional shipment statuses.
 
-Common Service
-```bash
-cd common-service
-mvn spring-boot:run
-```
+## Demo Scenario
+1. Open **Register** and create a client account.
+2. Sign in as the client and create a shipment request with category, weight, volume, origin and destination.
+3. Sign in as the administrator (`admin@sunny-times.com` / `test1234`, if these are the credentials configured for the deployment) and open **Register Employee**.
+4. Create an employee account and note its login credentials.
+5. Sign in as the employee, open the shipment and assign an available driver. Distance and transport price are calculated automatically during assignment.
+6. Process the shipment until it reaches `IN_TRANSIT`:
 
-Shipment Service
-```bash
-cd shipment-service
-mvn spring-boot:run
-```
+       ```text
+       CREATED → ASSIGNED → LOADED → IN_TRANSIT
+       ```
 
-Tracking API
-```bash
-cd tracking-api
-mvn spring-boot:run
-```
+       GPS simulation starts automatically when the shipment enters `IN_TRANSIT`.
+7. Open **View Tracking** from Shipment Details. Review the current vehicle position, traveled route and tracking history. Wait 15–20 seconds to observe new tracking points.
+8. Complete delivery:
 
-Tracking Service
-```bash
-cd tracking-service
-mvn spring-boot:run
-```
+       ```text
+       ARRIVED → DELIVERED
+       ```
 
-Frontend
-```bash
-cd frontend
-npm install
-ng serve
-```
+       GPS simulation stops after delivery, while the tracking history remains available.
 
+## Technology and Data Stores
 
-## Docker Deployment
+- Java 21, Spring Boot, Spring Security and Spring Data
+- Angular, TypeScript and Leaflet
+- PostgreSQL for authentication, common and shipment data
+- MongoDB for tracking locations
+- RabbitMQ for GPS event delivery
+- Docker and Docker Compose
 
-Build and start all services:
+## Run with Docker Compose
+
+Prerequisites: Docker Engine and the Docker Compose plugin.
+
+From the repository root, build and start the full application:
+
 ```bash
 docker compose up --build
 ```
-Run in background:
+
+To run it in the background:
+
 ```bash
-docker compose up -d
-```
-Stop all services:
-```bash
-docker compose down
+docker compose up --build -d
 ```
 
-Rebuild containers:
-```bash
-docker compose build
+Open the frontend at <http://localhost:4200>. The default demo administrator is `admin@sunny-times.com` with password `test1234`. Set `AUTH_ADMIN_EMAIL` and `AUTH_ADMIN_PASSWORD` to override these values. The seeder creates the admin only when that email is not already present in the database; existing database volumes retain their users and data.
+
+Stop the application with `docker compose down`. This keeps database volumes. To remove the containers and their persisted data, use `docker compose down -v`.
+
+Compose supplies development defaults for database credentials and JWT secrets. These defaults are for local demonstration only; replace them and restrict network access before any shared or production deployment. The Compose file publishes service and database ports on the host.
+
+### Optional Compose environment file
+
+The repository does not include a `.env` file; it is ignored by Git. Compose can run with its built-in defaults. To override settings, create a root `.env` file with `KEY=value` entries. Common variables include:
+
+```dotenv
+AUTH_ADMIN_EMAIL=admin@sunny-times.com
+AUTH_ADMIN_PASSWORD=change-this-demo-password
+AUTH_ALLOWED_ORIGINS=http://localhost:4200
+AUTH_DB_USERNAME=authentication
+AUTH_DB_PASSWORD=change-this-database-password
+COMMON_DB_USERNAME=common
+COMMON_DB_PASSWORD=change-this-database-password
+SHIPMENT_DB_USERNAME=shipment
+SHIPMENT_DB_PASSWORD=change-this-database-password
+TRACKING_MONGODB_DATABASE=trackingdb
+TRACKING_API_RABBITMQ_USERNAME=rabbit
+TRACKING_API_RABBITMQ_PASSWORD=change-this-rabbitmq-password
+TRACKING_RABBITMQ_USERNAME=rabbit
+TRACKING_RABBITMQ_PASSWORD=change-this-rabbitmq-password
 ```
 
-## AWS Deployment
+Do not commit real credentials or secrets. Compose reads the file automatically; it does not need to be sourced into the shell.
+
+## Local Development
+
+### Prerequisites
+
+- Java 21 and Maven
+- Node.js 22 and npm
+- Docker and Docker Compose for local databases and RabbitMQ
+
+The simplest local development setup is to run infrastructure and backend services with Compose, then run Angular using its development server:
+
 ```bash
-git clone <repository-url>
-cd logistics-system
-docker compose up -d
+docker compose up --build -d
+docker compose stop frontend
+cd frontend
+npm ci
+npm start
 ```
 
-Configuration is provided through environment variables.
+The frontend development server uses the same `http://localhost` API addresses as the Docker-hosted services. Open <http://localhost:4200>. The Compose frontend container is stopped to free that port.
+
+To run Spring services directly from Maven instead, build the shared modules first:
+
+```bash
+mvn -f api-contracts/pom.xml -DskipTests install
+mvn -f shared-security/pom.xml -DskipTests install
+```
+
+Then start each service from its module directory with `mvn spring-boot:run`. Provide the environment variables referenced by that service's `src/main/resources/application.yaml`; Compose does not export its `.env` values into separately launched Maven processes. Local Java processes need host database and RabbitMQ addresses, and the services' inter-service URLs must point to `localhost` rather than Compose service names. The corresponding infrastructure ports are listed below.
 
 ## Default Ports
-| Service | Port |
-|----------|----------|
+
+| Component | Host port |
+|----------|-----------|
 | Frontend | 4200 |
-| Authentication Service | 8080 |
-| Common Service | 8081 |
-| Shipment Service | 8082 |
+| Authentication service | 8080 |
+| Common service | 8081 |
+| Shipment service | 8082 |
 | Tracking API | 8083 |
-| Tracking Service | 8084 |
-| RabbitMQ Management | 15672 |
+| Tracking service | 8084 |
+| Mock GPS tracker | 3001 |
+| PostgreSQL shipment | 5432 |
+| PostgreSQL authentication | 5433 |
+| PostgreSQL common | 5434 |
+| MongoDB tracking | 27017 |
+| RabbitMQ | 5672 |
+| RabbitMQ management UI | 15672 |
 
-## Future Improvements
-- OpenStreetMap shipment tracking
-- WebSocket live vehicle tracking
-- Automated CI/CD pipeline
-- Docker image registry
-- AWS infrastructure automation
-- Tracking dashboard
-- Notifications
+## Deployment Status
 
+Docker Compose is configured for local development and demonstration. An AWS production deployment is not documented or provisioned by this repository. The frontend currently targets `localhost` API URLs, and the default CORS origin is `http://localhost:4200`; a remote deployment requires environment-specific API addressing, CORS configuration, secrets management, network restrictions and infrastructure setup. Do not use the Compose defaults as production settings.
 
-## Access
-### Frontend
-```text
-http://localhost:4200
-```
+## Current Features
 
-### Default Admin Account
-```text
-Email: admin@sunny-times.com
-Password: 1234
-```
-
-### User Roles
-| Role | Permissions |
-|--------|--------|
-| CLIENT | Create and view shipments |
-| EMPLOYEE | Manage shipments, assign drivers and routes |
-| ADMIN | Full system administration and user management |
-
-## Main Features
-### Authentication
-- User registration
-- User login
-- JWT authentication
-- Refresh token support
-- Profile management
-- User activation and deactivation
-- Role-based authorization
-
-### Client Management
-- Create clients
-- Manage client information
-- View client details
-
-### Driver Management
-- Create drivers
-- Assign vehicles
-- Manage driver information
-- View driver details
-
-### Route Management
-- Create routes
-- Manage route information
-- View route details
-
-### Shipment Management
-- Create shipments
-- Assign drivers
-- Assign routes
-- View shipment details
-- Track shipment history
-
-### Shipment Workflow
-```text
-CREATED
-→ ASSIGNED
-→ LOADED
-→ IN_TRANSIT
-→ ARRIVED
-→ DELIVERED
-```
-
-Additional states:
-```text
-DELAYED
-CANCELLED
-```
-
-### Tracking
-- GPS tracking simulation
-- Coordinate collection
-- Tracking history storage
-- Vehicle movement visualization (planned)
-
-### Administration
-- Create employees
-- Manage users
-- Activate users
-- Disable users
-- View system users
-
-## Project Goals
-The purpose of the project is to simulate a modern logistics platform built with a microservice architecture.
-
-The system supports:
-- User authentication and authorization
-- Shipment creation and management
-- Driver and route assignment
-- Shipment lifecycle processing
-- GPS tracking integration
-- Role-based access control
-- Containerized deployment with Docker
-- Cloud deployment with AWS
-
-## System Flow
-### Authentication Flow
-```text
-Client
-    ↓
-Authentication Service
-    ↓
-JWT Access Token
-    ↓
-Protected Services
-```
-
-### Shipment Flow
-```text
-Create Shipment
-       ↓
-Assign Driver
-       ↓
-Load Shipment
-       ↓
-Start Route
-       ↓
-Arrive
-       ↓
-Deliver
-```
-
-### Tracking Flow
-```text
-Mock GPS Tracker
-        ↓
-Tracking API
-        ↓
-Tracking Service
-        ↓
-MongoDB
-        ↓
-Map Visualization
-```
+- Role-based authentication, JWT refresh, profile management and account status controls
+- Client shipment requests and shipment listing
+- Employee/admin shipment processing, vehicle and driver assignment, pricing and status history
+- GPS simulation, RabbitMQ event transport and MongoDB tracking history
+- Vehicle position and traveled-path visualization on a Leaflet/OpenStreetMap map
+- Docker Compose setup for the full local application
 
 ## Project Structure
+
 ```text
-logistics-system
-│
-├── api-contracts
-├── authentication-service
-├── common-service
-├── shipment-service
-├── tracking-api
-├── tracking-service
-├── mock-gps-tracker
-├── frontend
-├── shared-security
-│
-├── docker-compose.yml
-├── .env
-└── README.md
+logistics-system/
+├── api-contracts/
+├── authentication-service/
+├── common-service/
+├── shipment-service/
+├── tracking-api/
+├── tracking-service/
+├── mock-gps-tracker/
+├── frontend/
+├── shared-security/
+├── Dockerfile.java
+└── docker-compose.yml
 ```
 
-## Current Status
-Implemented:
-- Authentication
-- Authorization
-- JWT Security
-- User Management
-- Client Management
-- Driver Management
-- Route Management
-- Shipment Workflow
-- Shipment History
-- Tracking Infrastructure
-- Angular Frontend
-- Role-Based Access Control
-- Docker Configuration
-
-Planned:
-- OpenStreetMap Tracking Visualization
-- Live Tracking Dashboard
-- AWS Deployment
-- CI/CD Pipeline
-
-## Notes
-This project was developed as a learning and portfolio project focused on:
-
-- Microservice architecture
-- Spring Boot ecosystem
-- Angular frontend development
-- JWT authentication and authorization
-- Event-driven communication
-- GPS tracking integration
-- Docker containerization
-- AWS deployment
-
-The goal was to build a realistic logistics platform covering the complete shipment lifecycle, from shipment creation to delivery and vehicle tracking.
-
-## Author
-Peter
-Assisted by Copilot
-
-Technologies and architectural decisions were implemented for learning purposes while following common industry practices for microservice-based applications.
+An optional root `.env` file can override Compose defaults; it is not tracked in the repository.

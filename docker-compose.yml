@@ -100,7 +100,7 @@ services:
       AUTH_DB_USERNAME: ${AUTH_DB_USERNAME:-authentication}
       AUTH_DB_PASSWORD: ${AUTH_DB_PASSWORD:-authentication}
       AUTH_ADMIN_EMAIL: ${AUTH_ADMIN_EMAIL:-admin@sunny-times.com}
-      AUTH_ADMIN_PASSWORD: ${AUTH_ADMIN_PASSWORD:-1234}
+      AUTH_ADMIN_PASSWORD: ${AUTH_ADMIN_PASSWORD:-test1234}
       AUTH_JWT_ACCESS_SECRET: ${AUTH_JWT_ACCESS_SECRET:-super-access-secret-key-super-access-secret-key}
       AUTH_JWT_REFRESH_SECRET: ${AUTH_JWT_REFRESH_SECRET:-super-refresh-secret-key-super-refresh-secret-key}
       AUTH_JWT_ACCESS_EXPIRATION: ${AUTH_JWT_ACCESS_EXPIRATION:-900000}

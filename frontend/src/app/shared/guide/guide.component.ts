@@ -12,55 +12,82 @@ export class GuideComponent {
   protected readonly steps = [
     {
       number: 1,
-      title: "Register a Client Account",
+      title: "Register a Client",
       description:
-        "Registration is available for everyone. Create a new client account using the Register page.",
+        "Open Register and create a new client account."
     },
     {
       number: 2,
-      title: "Log In and Create a Shipment",
-      description: "Log in with the client account and create a shipment with:",
-      items: ["Category", "Weight and volume", "Origin and destination"],
-      note: "New shipments start with status CREATED.",
+      title: "Create a Shipment Request",
+      description:
+        "Log in as the client and create a shipment request.",
+      items: [
+        "Category",
+        "Weight",
+        "Volume",
+        "Origin",
+        "Destination"
+      ]
     },
     {
       number: 3,
-      title: "Log In as Administrator",
-      description: "Administrators can manage users, create employees, and enable or disable accounts.",
-      note: "Username: admin@sunny-times.com, Password: 1234",
+      title: "Log in as Administrator",
+      description: "The administrator can create employee account.",
+      note: "username: admin@sunny-times.com / password: test1234"
     },
     {
       number: 4,
-      title: "Log In as Employee",
+      title: "Register an Employee",
       description:
-        "Employees can view all shipments, assign drivers and vehicles, and manage the shipment workflow.",
+        "Create an employee account and remember the login credentials."
     },
     {
       number: 5,
-      title: "Prepare the Shipment",
+      title: "Manage a shipment",
       description:
-        "Assign a vehicle and a driver. The system automatically calculates the route distance and shipment price.",
+        "Log in as the employee, open the shipment and assign a driver.",
+      note:
+        "Distance and transport price are calculated automatically during assignment."
     },
     {
       number: 6,
       title: "Start Transportation",
-      description: "Move the shipment through the workflow:",
-      workflow: ["CREATED", "ASSIGNED", "LOADED", "IN_TRANSIT"],
-      note: "Executing DEPART starts GPS simulation, generates tracking points, and makes truck movement visible.",
+      description:
+        "Process the shipment until it reaches IN_TRANSIT.",
+      workflow: [
+        "CREATED",
+        "ASSIGNED",
+        "LOADED",
+        "IN_TRANSIT"
+      ],
+      note:
+        "GPS simulation starts automatically when the shipment enters IN_TRANSIT."
     },
     {
       number: 7,
-      title: "Track the Vehicle",
-      description: "Open View Tracking from Shipment Details to see:",
-      items: ["Current vehicle position", "Traveled route", "Tracking history"],
+      title: "View Tracking",
+      description:
+        "Open View Tracking from Shipment Details.",
+      items: [
+        "Current vehicle position",
+        "Traveled route",
+        "Tracking history"
+      ],
+      note:
+        "Wait 15-20 seconds to observe new tracking points."
     },
     {
       number: 8,
       title: "Complete Delivery",
-      description: "Complete the delivery workflow:",
-      workflow: ["IN_TRANSIT", "ARRIVED", "DELIVERED"],
-      note: "When DELIVERED is executed, GPS simulation stops. Route history and tracking data remain available.",
-    },
+      description:
+        "Finish the transport process.",
+      workflow: [
+        "ARRIVED",
+        "DELIVERED"
+      ],
+      note:
+        "GPS simulation stops after delivery. Tracking history remains available."
+    }
   ];
 
   protected open(): void {

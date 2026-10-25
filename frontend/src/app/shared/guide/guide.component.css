@@ -78,9 +78,9 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
-  padding: 24px 28px 20px;
+  padding: 19px 28px;
   border-bottom: 1px solid #dbe5eb;
-  background: linear-gradient(110deg, #e7f2f8, #f4f9fb 68%, #fff8d8);
+  background: #e3f1fe;
 }
 
 .guide-eyebrow {
@@ -130,7 +130,7 @@
 
 .guide-content {
   overflow-y: auto;
-  padding: 4px 28px;
+  padding: 4px 19px;
   overscroll-behavior: contain;
 }
 
@@ -151,13 +151,11 @@
   place-items: center;
   width: 30px;
   height: 30px;
-  border-radius: 50%;
-  background: #fff28e;
-  color: #6b5a00;
+  color: #29394b;
   font-size: 14px;
   font-weight: 750;
+  border-bottom: #fff28e 7px solid;
 }
-
 .step-copy h2 {
   margin: 3px 0 5px;
   color: #2f4858;
