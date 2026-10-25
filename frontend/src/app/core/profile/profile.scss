@@ -26,7 +26,12 @@
   color: #59646a;
 }
 
-.profile-card input.missing-value {
+.profile-card input.missing-value-info {
+  background: #f0f7ff;
+  border-color: #bad6f9;
+}
+
+.profile-card input.missing-value-error {
   background: #fff0f0;
   border-color: #d98a8a;
 }
@@ -36,9 +41,22 @@
   opacity: 0.6;
 }
 
-.message.error {
+.message {
   margin: 20px 0;
+  padding: 12px 16px;
+  border-radius: 4px;
+}
+
+.message.info {
+  color: #1e4e79;
+  background-color: #f0f7ff;
+  border-left: 4px solid #3b82f6;
+}
+
+.message.error {
   color: #a32626;
+  background-color: #fff0f0;
+  border-left: 4px solid #d98a8a;
 }
 
 .message.success {
@@ -74,6 +92,10 @@
 .banner.admin-banner {
   margin: 15px auto;
   background: #5877B9;
+}
+
+.standard-form-actions span {
+  display: inline-block;
 }
 
 @media (max-width: 480px) {

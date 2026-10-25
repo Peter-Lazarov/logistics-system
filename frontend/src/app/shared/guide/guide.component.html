@@ -1,0 +1,70 @@
+<button
+  class="guide-trigger"
+  type="button"
+  aria-haspopup="dialog"
+  [attr.aria-expanded]="isOpen()"
+  (click)="open()"
+>Guide</button>
+
+@if (isOpen()) {
+  <div class="guide-backdrop">
+    <section
+      class="guide-dialog"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="guide-title"
+      aria-describedby="guide-subtitle"
+    >
+      <header class="guide-header">
+        <div>
+          <p class="guide-eyebrow">Sunny Times Logistics</p>
+          <h1 id="guide-title">Suggested Flow</h1>
+          <p id="guide-subtitle" class="guide-intro">
+            Follow these steps to test the complete shipment journey.
+          </p>
+        </div>
+        <button
+          class="guide-close-icon"
+          type="button"
+          aria-label="Close guide"
+          (click)="close()"
+        >
+          <span aria-hidden="true">X</span>
+        </button>
+      </header>
+
+      <div class="guide-content">
+        @for (step of steps; track step.number) {
+          <article class="guide-step">
+            <span class="step-number">{{ step.number }}</span>
+            <div class="step-copy">
+              <h2>{{ step.title }}</h2>
+              <p>{{ step.description }}</p>
+              @if (step.items) {
+                <ul>
+                  @for (item of step.items; track item) {
+                    <li>{{ item }}</li>
+                  }
+                </ul>
+              }
+              @if (step.workflow) {
+                <div class="workflow" aria-label="Shipment status workflow">
+                  @for (status of step.workflow; track status; let last = $last) {
+                    <span class="workflow-status">{{ status }}</span>
+                    @if (!last) {
+                      <span class="workflow-arrow" aria-hidden="true">→</span>
+                    }
+                  }
+                </div>
+              }
+              @if (step.note) {
+                <p class="step-note">{{ step.note }}</p>
+              }
+            </div>
+          </article>
+        }
+      </div>
+
+    </section>
+  </div>
+}

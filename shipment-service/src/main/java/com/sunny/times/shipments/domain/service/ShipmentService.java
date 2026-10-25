@@ -35,8 +35,8 @@ public class ShipmentService {
     private final CommonClientService commonClient;
     private final ShipmentStatusHistoryRepository historyRepository;
     private final CurrentUserService currentUserService;
-        private final MockGpsTrackerClient mockGpsTrackerClient;
-        private final ShipmentPricingService shipmentPricingService;
+    private final MockGpsTrackerClient mockGpsTrackerClient;
+    private final ShipmentPricingService shipmentPricingService;
 
     public ShipmentService(
             ShipmentRepository repository,

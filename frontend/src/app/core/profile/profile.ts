@@ -20,6 +20,7 @@ export class Profile implements OnInit {
   clientProfile$!: Observable<ClientProfile>;
   isEditing = false;
   isSaving = false;
+  wasSubmitAttempted = false;
   name = "";
   phone = "";
   companyName = "";
@@ -27,6 +28,14 @@ export class Profile implements OnInit {
   vatNumber = "";
   errorMessage = "";
   successMessage = "";
+
+  get isFormInvalid(): boolean {
+    return !this.name.trim() || 
+           !this.phone.trim() || 
+           !this.companyName.trim() || 
+           !this.companyAddress.trim() || 
+           !this.vatNumber.trim();
+  }
 
   get bannerRoleClass(): string {
     switch (this.authService.getRole()) {
@@ -80,15 +89,31 @@ export class Profile implements OnInit {
     this.vatNumber = clientProfile.vatNumber ?? "";
     this.errorMessage = "";
     this.successMessage = "";
+    this.wasSubmitAttempted = false;
     this.isEditing = true;
   }
 
   cancelEditing(): void {
     this.isEditing = false;
     this.errorMessage = "";
+    this.wasSubmitAttempted = false;
+  }
+
+  showValidationError(): void {
+    if (this.isFormInvalid) {
+      this.wasSubmitAttempted = true;
+    }
+  }
+
+  hideValidationError(): void {
+    this.wasSubmitAttempted = false;
   }
 
   saveProfile(): void {
+    if (this.isFormInvalid) {
+      return;
+    }
+
     this.isSaving = true;
     this.errorMessage = "";
     this.successMessage = "";
@@ -117,6 +142,7 @@ export class Profile implements OnInit {
         this.refreshClientProfile$.next();
         this.isEditing = false;
         this.isSaving = false;
+        this.wasSubmitAttempted = false;
         this.successMessage = "Profile updated successfully.";
       },
       error: () => this.handleSaveError(),

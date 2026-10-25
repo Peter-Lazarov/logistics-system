@@ -8,6 +8,7 @@ import com.sunny.times.contracts.shipments.ClientShipmentRequest;
 import com.sunny.times.contracts.common.ApiMessage;
 import com.sunny.times.contracts.common.ApiResponse;
 import com.sunny.times.security.CurrentUserService;
+import com.sunny.times.shipments.domain.service.ShipmentResetService;
 import com.sunny.times.shipments.domain.service.ShipmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +21,12 @@ public class ShipmentController {
 
     private final ShipmentService service;
     private final CurrentUserService currentUserService;
+    private final ShipmentResetService shipmentResetService;
 
-    public ShipmentController(ShipmentService service, CurrentUserService currentUserService) {
+    public ShipmentController(ShipmentService service, CurrentUserService currentUserService, ShipmentResetService shipmentResetService) {
         this.service = service;
         this.currentUserService = currentUserService;
+        this.shipmentResetService = shipmentResetService;
     }
 
     @GetMapping
@@ -103,6 +106,17 @@ public class ShipmentController {
 
         return ResponseEntity.ok(
                 service.getMyShipments(userId)
+        );
+    }
+
+    @PostMapping("/admin/reset")
+    public ApiResponse<Void> reset() {
+
+        shipmentResetService.reset();
+
+        return new ApiResponse<>(
+                "Shipment data reset successfully.",
+                null
         );
     }
 

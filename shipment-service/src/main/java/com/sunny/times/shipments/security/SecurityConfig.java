@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/shipments/admin/reset").permitAll()
                         .requestMatchers("/shipments/requests")
                         .hasRole("CLIENT")
                         .requestMatchers("/shipments/my")
@@ -43,6 +44,7 @@ public class SecurityConfig {
                                 "ADMIN"
                         )
                         .anyRequest().authenticated()
+
                 )
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint(new JsonAuthenticationEntryPoint())

@@ -1,14 +1,63 @@
 .login-container {
-  margin: 100px auto;
-  padding: 20px;
-  width: 350px;
-  text-align: center;
+  width: min(680px, 92vw);
+
+  margin: 0 auto;
+  padding: clamp(10px, 2vw, 20px);
+
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  text-align: center;
+}
+
+.intro {
+  margin-bottom: 8px;
+}
+
+.intro h1 {
+  margin: 0 0 8px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  color: #24364a;
+}
+
+.subtitle {
+  margin: 0 auto 12px;
+  max-width: 600px;
+  color: #555;
+  line-height: 1.4;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+}
+
+.features {
+  width: 100%;
+  max-width: 520px;
+
+  margin: 0 auto 12px;
+
+  padding: clamp(10px, 2vw, 18px);
+
+  background: #f2f5f8;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.features div {
+  font-size: clamp(0.9rem, 1.4vw, 1.1rem);
 }
 
 form {
+  width: 100%;
+
+  max-width: 520px;
+
+  margin: 0 auto;
+
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -16,6 +65,8 @@ form {
 
 input {
   padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 button {
@@ -24,11 +75,77 @@ button {
 }
 
 .message.error {
-  margin: 0;
   color: #b42318;
+  margin: 0;
 }
 
-.banner{
-    background: #A7D8FF;
-    height: 15px;
+.banner {
+  background: #A7D8FF;
+  height: 15px;
+  margin-top: 8px;
+}
+
+.register-hint {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #707070;
+}
+
+.register-hint a {
+  color: #FFB3B3;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-hint a:hover {
+  text-decoration: underline;
+}
+
+/* Smaller laptops */
+@media (max-height: 800px) {
+
+  .intro h1 {
+    font-size: 2.2rem;
+  }
+
+  .features {
+    gap: 6px;
+    padding: 12px;
+  }
+
+  .features div {
+    font-size: 0.95rem;
+  }
+
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .login-container {
+    width: 96vw;
+    padding: 10px;
+  }
+
+  .features {
+    max-width: 100%;
+  }
+
+}
+
+/* Very small mobile */
+@media (max-width: 480px) {
+
+  .intro h1 {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .features div {
+    font-size: 0.85rem;
+  }
+
 }

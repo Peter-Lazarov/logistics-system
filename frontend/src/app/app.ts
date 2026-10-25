@@ -1,8 +1,9 @@
 import { Component, signal } from "@angular/core";
 import { RouterOutlet, Router, RouterLink } from "@angular/router";
+import { GuideComponent } from "./shared/guide/guide.component";
 
 @Component({
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, GuideComponent],
   selector: "app-root",
   styleUrl: "./app.scss",
   templateUrl: "./app.html",

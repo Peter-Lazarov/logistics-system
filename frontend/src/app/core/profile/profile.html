@@ -1,92 +1,91 @@
-@if (profile$ | async; as profile) {
-@if (clientProfile$ | async; as clientProfile) {
-
-<div class="profile-card">
-  <div class="profile-heading">
-    <h2 class="client-page-title">Profile</h2>
-    @if (!isEditing) {
-      <button type="button" class="secondary-button" (click)="startEditing(profile, clientProfile)">
-        Edit profile
-      </button>
-    }
-  </div>
-
-  <hr />
-
-  @if (bannerRoleClass === "client-banner" && !isClientProfileComplete(clientProfile)) {
-    <p class="message error" role="alert">
-      Please fill in all fields. <br />
-      These fields are required before submitting a shipment request.
-    </p>
-  }
-
-  @if (isEditing) {
-    <form #profileForm="ngForm" (ngSubmit)="saveProfile()" class="standard-form">
-      <div class="standard-field-row">
-        <label for="profile-name">Name</label>
-        <input id="profile-name" name="name" type="text" [(ngModel)]="name" [class.missing-value]="!name.trim()" required />
-      </div>
-
-      <div class="standard-field-row">
-        <label for="profile-email">Email</label>
-        <input id="profile-email" type="email" [value]="profile.email" readonly />
-      </div>
-
-      <div class="standard-field-row">
-        <label for="profile-phone">Phone</label>
-        <input id="profile-phone" name="phone" type="tel" [(ngModel)]="phone" [class.missing-value]="!phone.trim()" required />
-      </div>
-
-      @if (bannerRoleClass === "client-banner") {
-        <div class="standard-field-row">
-          <label for="profile-company">Company</label>
-          <input id="profile-company" name="companyName" type="text" [(ngModel)]="companyName" [class.missing-value]="!companyName.trim()" required />
-        </div>
-
-        <div class="standard-field-row">
-          <label for="profile-address">Address</label>
-          <input id="profile-address" name="companyAddress" type="text" [(ngModel)]="companyAddress" [class.missing-value]="!companyAddress.trim()" required />
-        </div>
-
-        <div class="standard-field-row">
-          <label for="profile-vat">VAT Number</label>
-          <input id="profile-vat" name="vatNumber" type="text" [(ngModel)]="vatNumber" [class.missing-value]="!vatNumber.trim()" required />
-        </div>
-      }
-
-      <div class="standard-form-actions">
-        <button type="submit" [disabled]="profileForm.invalid || isSaving">
-          {{ isSaving ? "Saving..." : "Save changes" }}
-        </button>
-        <button type="button" class="secondary-button" [disabled]="isSaving" (click)="cancelEditing()">
-          Cancel
-        </button>
-      </div>
-    </form>
-  } @else {
-    <p><b>Name:</b> {{ profile.name }}</p>
-    <p><b>Email:</b> {{ profile.email }}</p>
-    <p><b>Phone:</b> {{ profile.phone }}</p>
-    @if (bannerRoleClass === "client-banner") {
-      <p><b>Company:</b> {{ clientProfile.companyName || "Not provided" }}</p>
-      <p><b>Address:</b> {{ clientProfile.companyAddress || "Not provided" }}</p>
-      <p><b>VAT Number:</b> {{ clientProfile.vatNumber || "Not provided" }}</p>
-    }
-  }
-
-  @if (errorMessage) {
-    <p class="message error" role="alert">{{ errorMessage }}</p>
-  }
-  @if (successMessage) {
-    <p class="message success" role="status">{{ successMessage }}</p>
-  }
-</div>
-
-} @else {
-  <p class="profile-loading">Loading profile...</p>
-}
-} @else {
-  <p class="profile-loading">Loading profile...</p>
-}
-
+@if (profile$ | async; as profile) { 
+  @if (clientProfile$ | async; as clientProfile) { 
+    <div class="profile-card"> 
+      <div class="profile-heading"> 
+        <h2 class="client-page-title">Profile</h2> 
+        @if (!isEditing) { 
+          <button type="button" class="secondary-button" (click)="startEditing(profile, clientProfile)"> Edit profile </button> 
+        } 
+      </div> 
+      <hr /> 
+      
+      @if (bannerRoleClass === "client-banner" && !isClientProfileComplete(clientProfile)) { 
+        <p class="message" [ngClass]="wasSubmitAttempted ? 'error' : 'info'" role="alert">
+          @if (!wasSubmitAttempted) {
+            Please fill in your company details to enable shipping requests.
+          } @else {
+            Please fill in all fields. These fields are required before submitting a shipment request.
+          }
+        </p> 
+      } 
+      
+      @if (isEditing) { 
+        <form #profileForm="ngForm" (ngSubmit)="saveProfile()" class="standard-form"> 
+          <div class="standard-field-row"> 
+            <label for="profile-name">Name</label> 
+            <input id="profile-name" name="name" type="text" [(ngModel)]="name" 
+                   [class.missing-value-error]="wasSubmitAttempted && !name.trim()" 
+                   [class.missing-value-info]="!wasSubmitAttempted && !name.trim()" required /> 
+          </div> 
+          
+          <div class="standard-field-row"> 
+            <label for="profile-email">Email</label> 
+            <input id="profile-email" type="email" [value]="profile.email" readonly /> 
+          </div> 
+          
+          <div class="standard-field-row"> 
+            <label for="profile-phone">Phone</label> 
+            <input id="profile-phone" name="phone" type="tel" [(ngModel)]="phone" 
+                   [class.missing-value-error]="wasSubmitAttempted && !phone.trim()" 
+                   [class.missing-value-info]="!wasSubmitAttempted && !phone.trim()" required /> 
+          </div> 
+          
+          @if (bannerRoleClass === "client-banner") { 
+            <div class="standard-field-row"> 
+              <label for="profile-company">Company</label> 
+              <input id="profile-company" name="companyName" type="text" [(ngModel)]="companyName" 
+                     [class.missing-value-error]="wasSubmitAttempted && !companyName.trim()" 
+                     [class.missing-value-info]="!wasSubmitAttempted && !companyName.trim()" required /> 
+            </div> 
+            
+            <div class="standard-field-row"> 
+              <label for="profile-address">Address</label> 
+              <input id="profile-address" name="companyAddress" type="text" [(ngModel)]="companyAddress" 
+                     [class.missing-value-error]="wasSubmitAttempted && !companyAddress.trim()" 
+                     [class.missing-value-info]="!wasSubmitAttempted && !companyAddress.trim()" required /> 
+            </div> 
+            
+            <div class="standard-field-row"> 
+              <label for="profile-vat">VAT Number</label> 
+              <input id="profile-vat" name="vatNumber" type="text" [(ngModel)]="vatNumber" 
+                     [class.missing-value-error]="wasSubmitAttempted && !vatNumber.trim()" 
+                     [class.missing-value-info]="!wasSubmitAttempted && !vatNumber.trim()" required /> 
+            </div> 
+          } 
+          
+          <div class="standard-form-actions" (mouseleave)="hideValidationError()"> 
+            <span (mouseenter)="showValidationError()">
+              <button type="submit" [disabled]="isSaving || isFormInvalid"> 
+                {{ isSaving ? "Saving..." : "Save changes" }} 
+              </button>
+            </span>
+            <button type="button" class="secondary-button" [disabled]="isSaving" (click)="cancelEditing()"> Cancel </button> 
+          </div> 
+        </form> 
+      } @else { 
+        <p><b>Name:</b> {{ profile.name }}</p> 
+        <p><b>Email:</b> {{ profile.email }}</p> 
+        <p><b>Phone:</b> {{ profile.phone }}</p> 
+        @if (bannerRoleClass === "client-banner") { 
+          <p><b>Company:</b> {{ clientProfile.companyName || "Not provided" }}</p> 
+          <p><b>Address:</b> {{ clientProfile.companyAddress || "Not provided" }}</p> 
+          <p><b>VAT Number:</b> {{ clientProfile.vatNumber || "Not provided" }}</p> 
+        } 
+      } 
+      
+      @if (errorMessage) { <p class="message error" role="alert">{{ errorMessage }}</p> } 
+      @if (successMessage) { <p class="message success" role="status">{{ successMessage }}</p> } 
+    </div> 
+  } @else { <p class="profile-loading">Loading profile...</p> } 
+} @else { <p class="profile-loading">Loading profile...</p> } 
 <div class="banner" [class]="'banner ' + bannerRoleClass"></div>

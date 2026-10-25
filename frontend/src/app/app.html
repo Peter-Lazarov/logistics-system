@@ -1,5 +1,5 @@
 <header class="topbar">
-  <div class="logo">Logistics System</div>
+  <div class="logo">Sunny Times Logistics</div>
 
   <nav>
     @if (!isClient() && !isEmployee() && !isAdmin()) {
@@ -23,6 +23,7 @@
       <button class="logout-btn" (click)="logout()">Logout</button>
     </div>
     }
+    <app-guide></app-guide>
   </nav>
 </header>
 <div class="banner"></div>

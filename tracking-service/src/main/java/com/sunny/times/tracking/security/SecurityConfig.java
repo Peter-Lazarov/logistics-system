@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/tracking/**").permitAll()
+                        .requestMatchers("/tracking/admin/reset").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

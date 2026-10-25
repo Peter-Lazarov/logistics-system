@@ -1,21 +1,23 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 
 import { AuthService } from "../auth/auth.service";
 import { ClientProfileService } from "../profile/client-profile.service";
 
 @Component({
   selector: "app-login",
-  imports: [FormsModule],
+  imports: [
+    FormsModule,
+    RouterLink
+  ],
   templateUrl: "./login.html",
   styleUrl: "./login.scss",
 })
 export class Login {
   errorMessage = "";
-  // email = "peter@sunny-times.com";
-  email = "peter@sunny-times.com"
-  password = "test1234";
+  email = "";
+  password = "";
 
   constructor(
     private authService: AuthService,

@@ -1,25 +1,42 @@
 <div class="login-container">
-    <h2>Login</h2>
+  <div class="intro">
+    <h1>Sunny Times Logistics</h1>
 
-    <form (ngSubmit)="login()">
-        <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            [(ngModel)]="email">
+    <p class="subtitle">
+      Modern microservice-based logistics platform for shipment management, driver assignment and
+      real-time vehicle tracking.
+    </p>
 
-        <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            [(ngModel)]="password">
+    <div class="features">
+      <div>✅ Shipment Lifecycle Management</div>
+      <div>✅ Driver & Vehicle Assignment</div>
+      <div>✅ GPS Tracking with OpenStreetMap</div>
+      <div>✅ RabbitMQ Event Processing</div>
+      <div>✅ PostgreSQL & MongoDB</div>
+      <div>✅ Dockerized Microservices</div>
+    </div>
+  </div>
 
-        <button type="submit">Login</button>
-    </form>
+  <h2>Login</h2>
 
-    @if (errorMessage) {
-        <p class="message error" role="alert">{{ errorMessage }}</p>
-    }
+  <form (ngSubmit)="login()">
+    <input type="email" name="email" placeholder="Email" [(ngModel)]="email" />
 
-    <div class="banner"></div>
+    <input type="password" name="password" placeholder="Password" [(ngModel)]="password" />
+
+    <button type="submit">Login</button>
+
+    <p class="register-hint">
+      New customer?
+    <a routerLink="/register">Create an account</a> to submit and track shipments.
+    </p>
+  </form>
+
+  @if (errorMessage) {
+    <p class="message error" role="alert">
+      {{ errorMessage }}
+    </p>
+  }
+
+  <div class="banner"></div>
 </div>

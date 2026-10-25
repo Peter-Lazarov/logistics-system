@@ -2,6 +2,7 @@ package com.sunny.times.tracking.api;
 
 import com.sunny.times.contracts.tracking.VehicleLocationDto;
 import com.sunny.times.contracts.common.ApiResponse;
+import com.sunny.times.tracking.domain.service.TrackingResetService;
 import com.sunny.times.tracking.domain.service.VehicleLocationService;
 import com.sunny.times.tracking.persistence.entity.VehicleLocationEntity;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,11 @@ import java.util.List;
 public class TrackingController {
 
     private final VehicleLocationService service;
+    private final TrackingResetService trackingResetService;
 
-    public TrackingController(VehicleLocationService service) {
+    public TrackingController(VehicleLocationService service, TrackingResetService trackingResetService) {
         this.service = service;
+        this.trackingResetService = trackingResetService;
     }
 
         @PostMapping("/locations")
@@ -60,4 +63,16 @@ public class TrackingController {
     ) {
         return service.getHistory(shipmentId);
     }
+
+    @PostMapping("/admin/reset")
+    public ApiResponse<Void> reset() {
+
+        trackingResetService.reset();
+
+        return new ApiResponse<>(
+                "Tracking data reset successfully.",
+                null
+        );
+    }
+
 }
