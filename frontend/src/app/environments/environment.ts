@@ -1,17 +1,17 @@
 export const environment = {
 
-  authenticationUrl: 'http://localhost:8080',
-  commonUrl: 'http://localhost:8081',
-  shipmentUrl: 'http://localhost:8082',
-  trackingUrl: 'http://localhost:8084',
+  authenticationUrl: '/api/auth',
+  commonUrl: '/api/common',
+  shipmentUrl: '/api/shipments',
+  trackingUrl: '/api/tracking',
 
   auth: {
-    login: '/auth/login',
-    register: '/auth/register',
-    refresh: '/auth/refresh',
+    login: '/login',
+    register: '/register',
+    refresh: '/refresh',
 
-    registerEmployee: '/auth/admin/register-employee',
-    users: '/auth/admin/users'
+    registerEmployee: '/admin/register-employee',
+    users: '/admin/users'
   },
 
   common: {
@@ -27,5 +27,4 @@ export const environment = {
   tracking: {
     locations: '/tracking/shipments'
   }
-
 };
