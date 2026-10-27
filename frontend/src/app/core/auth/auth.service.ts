@@ -38,7 +38,7 @@ export interface UpdateProfileRequest {
   providedIn: "root",
 })
 export class AuthService {
-  private readonly apiUrl = `${environment.authenticationUrl}/auth`;
+  private readonly apiUrl = `${environment.authenticationUrl}`;
 
   constructor(private http: HttpClient) {}
 
