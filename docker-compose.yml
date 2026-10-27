@@ -95,6 +95,7 @@ services:
       args:
         SERVICE_MODULE: authentication-service
     environment:
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:4200}
       AUTH_SERVER_PORT: ${AUTH_SERVER_PORT:-8080}
       AUTH_DB_URL: jdbc:postgresql://postgres_authentication:5432/authenticationdb
       AUTH_DB_USERNAME: ${AUTH_DB_USERNAME:-authentication}
@@ -105,7 +106,6 @@ services:
       AUTH_JWT_REFRESH_SECRET: ${AUTH_JWT_REFRESH_SECRET:-super-refresh-secret-key-super-refresh-secret-key}
       AUTH_JWT_ACCESS_EXPIRATION: ${AUTH_JWT_ACCESS_EXPIRATION:-900000}
       AUTH_JWT_REFRESH_EXPIRATION: ${AUTH_JWT_REFRESH_EXPIRATION:-604800000}
-      AUTH_ALLOWED_ORIGINS: ${AUTH_ALLOWED_ORIGINS:-http://localhost:4200}
       AUTH_COMMON_SERVICE_URL: http://common-service:8081
     ports:
       - "${AUTH_SERVER_PORT:-8080}:${AUTH_SERVER_PORT:-8080}"
@@ -121,6 +121,7 @@ services:
       args:
         SERVICE_MODULE: common-service
     environment:
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:4200}
       COMMON_SERVER_PORT: ${COMMON_SERVER_PORT:-8081}
       COMMON_DB_URL: jdbc:postgresql://postgres_common:5432/commondb
       COMMON_DB_USERNAME: ${COMMON_DB_USERNAME:-common}

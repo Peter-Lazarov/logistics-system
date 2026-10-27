@@ -156,9 +156,9 @@ Compose supplies development defaults for database credentials and JWT secrets. 
 The repository does not include a `.env` file; it is ignored by Git. Compose can run with its built-in defaults. To override settings, create a root `.env` file with `KEY=value` entries. Common variables include:
 
 ```dotenv
+ALLOWED_ORIGINS=http://localhost:4200
 AUTH_ADMIN_EMAIL=admin@sunny-times.com
 AUTH_ADMIN_PASSWORD=change-this-demo-password
-AUTH_ALLOWED_ORIGINS=http://localhost:4200
 AUTH_DB_USERNAME=authentication
 AUTH_DB_PASSWORD=change-this-database-password
 COMMON_DB_USERNAME=common
