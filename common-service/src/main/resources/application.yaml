@@ -24,3 +24,6 @@ server:
 jwt:
   access-secret: ${COMMON_JWT_ACCESS_SECRET}
   refresh-secret: ${COMMON_JWT_REFRESH_SECRET}
+
+cors:
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:4200}
