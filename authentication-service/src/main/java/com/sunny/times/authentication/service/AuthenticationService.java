@@ -60,97 +60,46 @@ public class AuthenticationService {
         return new AuthResponse(access, refresh, user.getRoles().iterator().next().name(), "Login successful.");
     }
 
-//     public AuthResponse register(RegisterRequest request) {
-//         if (repo.findByEmail(request.getEmail()).isPresent()) {
-//             throw new ResponseStatusException(
-//                     HttpStatus.CONFLICT,
-//                     "A user with this email already exists."
-//             );
-//         }
-
-//         User user = new User();
-//         user.setEmail(request.getEmail());
-//         user.setPassword(encoder.encode(request.getPassword()));
-//         user.setName(request.getName());
-//         user.setPhone(request.getPhone());
-//         user.setRoles(Set.of(Role.ROLE_CLIENT));
-
-//         User savedUser = repo.save(user);
-//         webClient.post()
-//                 .uri(commonServiceUrl + "/clients")
-//                 .bodyValue(
-//                         new ClientDto(
-//                                 savedUser.getId(),
-//                                 null,
-//                                 null,
-//                                 null
-//                         )
-//                 )
-//                 .retrieve()
-//                 .toBodilessEntity()
-//                 .block();
-
-//         String access = jwt.generateAccessToken(user);
-//         String refresh = jwt.generateRefreshToken(user);
-
-//         return new AuthResponse(
-//                 access,
-//                 refresh,
-//                 user.getRoles().iterator().next().name(),
-//                 "User registered successfully."
-//         );
-//     }
-
-        public AuthResponse register(RegisterRequest request) {
-
-                System.out.println("REGISTER START: " + request.getEmail());
-
-                if (repo.findByEmail(request.getEmail()).isPresent()) {
-                        throw new ResponseStatusException(
-                                HttpStatus.CONFLICT,
-                                "A user with this email already exists."
-                        );
-                }
-
-                User user = new User();
-                user.setEmail(request.getEmail());
-                user.setPassword(encoder.encode(request.getPassword()));
-                user.setName(request.getName());
-                user.setPhone(request.getPhone());
-                user.setRoles(Set.of(Role.ROLE_CLIENT));
-
-                User savedUser = repo.save(user);
-
-                System.out.println("USER SAVED: " + savedUser.getId());
-
-                webClient.post()
-                        .uri(commonServiceUrl + "/clients")
-                        .bodyValue(
-                                new ClientDto(
-                                        savedUser.getId(),
-                                        null,
-                                        null,
-                                        null
-                                )
-                        )
-                        .retrieve()
-                        .toBodilessEntity()
-                        .block();
-
-                System.out.println("CLIENT CREATED");
-
-                String access = jwt.generateAccessToken(user);
-                String refresh = jwt.generateRefreshToken(user);
-
-                System.out.println("REGISTER SUCCESS");
-
-                return new AuthResponse(
-                        access,
-                        refresh,
-                        user.getRoles().iterator().next().name(),
-                        "User registered successfully."
-                );
+    public AuthResponse register(RegisterRequest request) {
+        if (repo.findByEmail(request.getEmail()).isPresent()) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "A user with this email already exists."
+            );
         }
+
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setPassword(encoder.encode(request.getPassword()));
+        user.setName(request.getName());
+        user.setPhone(request.getPhone());
+        user.setRoles(Set.of(Role.ROLE_CLIENT));
+
+        User savedUser = repo.save(user);
+        webClient.post()
+                .uri(commonServiceUrl + "/clients")
+                .bodyValue(
+                        new ClientDto(
+                                savedUser.getId(),
+                                null,
+                                null,
+                                null
+                        )
+                )
+                .retrieve()
+                .toBodilessEntity()
+                .block();
+
+        String access = jwt.generateAccessToken(user);
+        String refresh = jwt.generateRefreshToken(user);
+
+        return new AuthResponse(
+                access,
+                refresh,
+                user.getRoles().iterator().next().name(),
+                "User registered successfully."
+        );
+    }
 
     public AuthResponse refresh(String refreshToken) {
         String email;
@@ -177,67 +126,32 @@ public class AuthenticationService {
         );
     }
 
-//     public AuthResponse registerEmployee(RegisterRequest request) {
-//         if (repo.findByEmail(request.getEmail()).isPresent()) {
-//             throw new ResponseStatusException(
-//                     HttpStatus.CONFLICT,
-//                     "A user with this email already exists."
-//             );
-//         }
-
-//         User user = new User();
-//         user.setEmail(request.getEmail());
-//         user.setPassword(encoder.encode(request.getPassword()));
-//         user.setName(request.getName());
-//         user.setPhone(request.getPhone());
-//         user.setRoles(Set.of(Role.ROLE_EMPLOYEE));
-//         repo.save(user);
-
-//         String access = jwt.generateAccessToken(user);
-//         String refresh = jwt.generateRefreshToken(user);
-
-//         return new AuthResponse(
-//                 access,
-//                 refresh,
-//                 Role.ROLE_EMPLOYEE.name(),
-//                 "Employee registered successfully."
-//         );
-//     }
-        public AuthResponse registerEmployee(RegisterRequest request) {
-
-                System.out.println("EMPLOYEE REGISTER START: " + request.getEmail());
-
-                if (repo.findByEmail(request.getEmail()).isPresent()) {
-                        throw new ResponseStatusException(
-                                HttpStatus.CONFLICT,
-                                "A user with this email already exists."
-                        );
-                }
-
-                User user = new User();
-                user.setEmail(request.getEmail());
-                user.setPassword(encoder.encode(request.getPassword()));
-                user.setName(request.getName());
-                user.setPhone(request.getPhone());
-                user.setRoles(Set.of(Role.ROLE_EMPLOYEE));
-
-                repo.save(user);
-
-                System.out.println("EMPLOYEE SAVED");
-
-                String access = jwt.generateAccessToken(user);
-                String refresh = jwt.generateRefreshToken(user);
-
-                System.out.println("EMPLOYEE REGISTER SUCCESS");
-
-                return new AuthResponse(
-                        access,
-                        refresh,
-                        Role.ROLE_EMPLOYEE.name(),
-                        "Employee registered successfully."
-                );
+    public AuthResponse registerEmployee(RegisterRequest request) {
+        if (repo.findByEmail(request.getEmail()).isPresent()) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "A user with this email already exists."
+            );
         }
 
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setPassword(encoder.encode(request.getPassword()));
+        user.setName(request.getName());
+        user.setPhone(request.getPhone());
+        user.setRoles(Set.of(Role.ROLE_EMPLOYEE));
+        repo.save(user);
+
+        String access = jwt.generateAccessToken(user);
+        String refresh = jwt.generateRefreshToken(user);
+
+        return new AuthResponse(
+                access,
+                refresh,
+                Role.ROLE_EMPLOYEE.name(),
+                "Employee registered successfully."
+        );
+    }
 
     public List<UserResponse> getAllUsers() {
         return repo.findAll().stream()
