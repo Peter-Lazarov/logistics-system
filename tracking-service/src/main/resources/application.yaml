@@ -28,3 +28,5 @@ logging:
     root: INFO
     org.springframework.web: DEBUG
 
+cors:
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:4200}
