@@ -230,7 +230,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "4200:80"
+      - "80:80"
     depends_on:
       - authentication-service
       - common-service
