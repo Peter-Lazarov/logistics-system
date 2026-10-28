@@ -35,3 +35,6 @@ shipment-service:
 
 common-service:
   url: ${AUTH_COMMON_SERVICE_URL:http://localhost:8081}
+
+tracking-service:
+  url: ${AUTH_TRACKING_SERVICE_URL:http://localhost:8084}
