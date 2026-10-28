@@ -20,8 +20,8 @@ export const environment = {
   },
 
   shipment: {
-    root: '/shipments',
-    requests: '/shipments/requests'
+    root: '',
+    requests: '/requests'
   },
 
   tracking: {

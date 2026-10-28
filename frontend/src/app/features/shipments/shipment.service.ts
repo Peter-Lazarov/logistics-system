@@ -101,7 +101,7 @@ export class ShipmentService {
   }
 
   getMyShipments() {
-    return this.http.get<any[]>(`${environment.shipmentUrl}/shipments/my`);
+    return this.http.get<any[]>(`${environment.shipmentUrl}/my`);
   }
 
   getClientById(id: number) {
