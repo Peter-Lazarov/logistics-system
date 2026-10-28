@@ -30,5 +30,8 @@ jwt:
 cors:
   allowed-origins: ${ALLOWED_ORIGINS:http://localhost:4200}
 
+shipment-service:
+  url: ${AUTH_SHIPMENT_SERVICE_URL:http://localhost:8082}
+
 common-service:
   url: ${AUTH_COMMON_SERVICE_URL:http://localhost:8081}
