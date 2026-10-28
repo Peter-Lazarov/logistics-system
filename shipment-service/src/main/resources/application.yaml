@@ -29,3 +29,6 @@ mock:
 jwt:
   access-secret: ${SHIPMENT_JWT_ACCESS_SECRET}
   refresh-secret: ${SHIPMENT_JWT_REFRESH_SECRET}
+
+cors:
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:4200}
