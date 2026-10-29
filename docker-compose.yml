@@ -233,14 +233,22 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+
     ports:
       - "80:80"
+      - "443:443"
+
+    volumes:
+      - /home/admin/certbot/conf:/etc/letsencrypt:ro
+
     depends_on:
       - authentication-service
       - common-service
       - shipment-service
       - tracking-service
+
     restart: unless-stopped
+
 
 volumes:
   postgres_authentication_data:
