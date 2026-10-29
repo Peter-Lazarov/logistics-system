@@ -25,6 +25,6 @@ export const environment = {
   },
 
   tracking: {
-    locations: '/tracking/shipments'
+    locations: '/shipments'
   }
 };

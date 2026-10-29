@@ -47,11 +47,11 @@ export interface ApiResponse<T> {
 })
 export class ShipmentService {
   private readonly apiUrl = `${environment.shipmentUrl}${environment.shipment.root}`;
-
+  
   constructor(private http: HttpClient) {}
-
+  
   getAll(): Observable<Shipment[]> {
-    return this.http.get<Shipment[]>(this.apiUrl);
+    return this.http.get<Shipment[]>(this.apiUrl + "/all");
   }
 
   getById(id: string): Observable<Shipment> {

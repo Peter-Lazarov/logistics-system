@@ -30,11 +30,17 @@ export class Profile implements OnInit {
   successMessage = "";
 
   get isFormInvalid(): boolean {
-    return !this.name.trim() || 
-           !this.phone.trim() || 
-           !this.companyName.trim() || 
-           !this.companyAddress.trim() || 
-           !this.vatNumber.trim();
+    if (!this.name.trim() || !this.phone.trim()) {
+      return true;
+    }
+
+    if (this.authService.isClient()) {
+      return !this.companyName.trim() ||
+            !this.companyAddress.trim() ||
+            !this.vatNumber.trim();
+    }
+
+    return false;
   }
 
   get bannerRoleClass(): string {
@@ -122,7 +128,16 @@ export class Profile implements OnInit {
       name: this.name.trim(),
       phone: this.phone.trim(),
     }).subscribe({
-      next: () => this.saveClientProfile(),
+      next: () => {
+        if (this.authService.isClient()) {
+          this.saveClientProfile();
+        } else {
+          this.refreshProfile$.next();
+          this.isEditing = false;
+          this.isSaving = false;
+          this.successMessage = "Profile updated successfully.";
+        }
+      },
       error: () => this.handleSaveError(),
     });
   }

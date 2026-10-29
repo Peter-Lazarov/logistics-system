@@ -29,9 +29,15 @@ public class ShipmentController {
         this.shipmentResetService = shipmentResetService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<ShipmentResponse>> getAll() {
         return ResponseEntity.ok(service.getAll());
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<ShipmentResponse>> getMyShipments() {
+        Long userId = currentUserService.getCurrentUser().userId();
+        return ResponseEntity.ok(service.getMyShipments(userId));
     }
 
     @GetMapping("/{id}")
@@ -39,23 +45,35 @@ public class ShipmentController {
         return ResponseEntity.ok(service.getById(id));
     }
 
+    @GetMapping("/{id}/history")
+    public ResponseEntity<?> history(@PathVariable String id) {
+        return ResponseEntity.ok(service.getHistory(id));
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponse<ShipmentResponse>> create(@RequestBody CreateShipmentRequest req) {
-        return ResponseEntity.ok(new ApiResponse<>(
-                "Shipment created successfully.",
-                service.create(req)
-        ));
+        return ResponseEntity.ok(new ApiResponse<>("Shipment created successfully.", service.create(req)));
+    }
+
+    @PostMapping("/requests")
+    public ResponseEntity<ApiResponse<ShipmentResponse>> createRequest(@RequestBody ClientShipmentRequest req) {
+        return ResponseEntity.ok(new ApiResponse<>("Shipment created successfully.", service.createRequest(req)));
+    }
+
+    @PostMapping("/admin/reset")
+    public ApiResponse<Void> reset() {
+        shipmentResetService.reset();
+        return new ApiResponse<>("Shipment data reset successfully.", null);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<ShipmentResponse>> update(
-            @PathVariable String id,
-            @RequestBody UpdateShipmentRequest req
-    ) {
-        return ResponseEntity.ok(new ApiResponse<>(
-                "Shipment updated successfully.",
-                service.update(id, req)
-        ));
+    public ResponseEntity<ApiResponse<ShipmentResponse>> update(@PathVariable String id, @RequestBody UpdateShipmentRequest req) {
+        return ResponseEntity.ok(new ApiResponse<>("Shipment updated successfully.", service.update(id, req)));
+    }
+
+    @PatchMapping("/{id}/event")
+    public ResponseEntity<ApiResponse<ShipmentResponse>> processEvent(@PathVariable String id, @RequestBody ProcessShipmentEventRequest req) {
+        return ResponseEntity.ok(new ApiResponse<>("Shipment status updated successfully.", service.processEvent(id, req.event())));
     }
 
     @DeleteMapping("/{id}")
@@ -63,61 +81,4 @@ public class ShipmentController {
         service.delete(id);
         return ResponseEntity.ok(new ApiMessage("Shipment deleted successfully."));
     }
-
-    @PatchMapping("/{id}/event")
-    public ResponseEntity<ApiResponse<ShipmentResponse>> processEvent(
-            @PathVariable String id,
-            @RequestBody ProcessShipmentEventRequest req
-    ) {
-
-        return ResponseEntity.ok(new ApiResponse<>(
-                "Shipment status updated successfully.",
-                service.processEvent(id, req.event())
-        ));
-    }
-
-    @GetMapping("/{id}/history")
-    public ResponseEntity<?> history(
-            @PathVariable String id
-    ) {
-        return ResponseEntity.ok(
-                service.getHistory(id)
-        );
-    }
-
-    @PostMapping("/requests")
-    public ResponseEntity<ApiResponse<ShipmentResponse>> createRequest(
-            @RequestBody ClientShipmentRequest req
-    ) {
-
-        return ResponseEntity.ok(new ApiResponse<>(
-                "Shipment created successfully.",
-                service.createRequest(req)
-        ));
-    }
-
-    @GetMapping("/my")
-    public ResponseEntity<List<ShipmentResponse>> getMyShipments() {
-
-        Long userId =
-                currentUserService
-                        .getCurrentUser()
-                        .userId();
-
-        return ResponseEntity.ok(
-                service.getMyShipments(userId)
-        );
-    }
-
-    @PostMapping("/admin/reset")
-    public ApiResponse<Void> reset() {
-
-        shipmentResetService.reset();
-
-        return new ApiResponse<>(
-                "Shipment data reset successfully.",
-                null
-        );
-    }
-
 }
