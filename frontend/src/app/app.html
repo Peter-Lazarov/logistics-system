@@ -1,31 +1,50 @@
 <header class="topbar">
-  <div class="logo">Sunny Times Logistics</div>
-
-  <nav>
+  <a class="logo" routerLink="/" (click)="menuOpen = false"> Sunny Times Logistics </a>
+  <app-guide></app-guide>
+  <div class="mobile-actions">
+    <button class="menu-toggle" (click)="menuOpen = !menuOpen">☰</button>
+  </div>
+  <nav [class.mobile-open]="menuOpen">
     @if (!isClient() && !isEmployee() && !isAdmin()) {
-    <a class="create-btn" routerLink="/login">Login</a>
-    <a class="create-btn" routerLink="/register">Register</a>
-    } @if (isClient()) {
-    <a class="create-btn" routerLink="/shipments/my"> My Shipments </a>
-    <a class="create-btn" routerLink="/shipments/request"> Shipment Request </a>
-    } @if (isEmployee()) {
-    <a class="create-btn" routerLink="/shipments"> Shipments </a>
-    <!-- <a class="create-btn" routerLink="/shipments/create"> Create Shipment </a> -->
-    } @if (isAdmin()) {
-    <a class="create-btn" routerLink="/shipments"> Shipments </a>
-    <a class="create-btn" routerLink="/admin/register-employee">
-      Register Employee
-    </a>
-    } @if (isClient() || isEmployee() || isAdmin()) {
-    <a class="create-btn" routerLink="/profile"> Profile </a>
-    <div class="user-info">
-      <span class="user-email">{{ email }}</span>
-      <button class="logout-btn" (click)="logout()">Logout</button>
-    </div>
+      <a class="create-btn" routerLink="/login" (click)="menuOpen = false"> Login </a>
+
+      <a class="create-btn" routerLink="/register" (click)="menuOpen = false"> Register </a>
     }
-    <app-guide></app-guide>
+
+    @if (isClient()) {
+      <a class="create-btn" routerLink="/shipments/my" (click)="menuOpen = false"> My Shipments </a>
+
+      <a class="create-btn" routerLink="/shipments/request" (click)="menuOpen = false">
+        Shipment Request
+      </a>
+    }
+
+    @if (isEmployee()) {
+      <a class="create-btn" routerLink="/shipments" (click)="menuOpen = false"> Shipments </a>
+    }
+
+    @if (isAdmin()) {
+      <a class="create-btn" routerLink="/shipments" (click)="menuOpen = false"> Shipments </a>
+
+      <a class="create-btn" routerLink="/admin/register-employee" (click)="menuOpen = false">
+        Register Employee
+      </a>
+    }
+
+    @if (isClient() || isEmployee() || isAdmin()) {
+      <a class="create-btn" routerLink="/profile" (click)="menuOpen = false"> Profile </a>
+
+      <div class="user-info">
+        <span class="user-email">
+          {{ email }}
+        </span>
+
+        <button class="logout-btn" (click)="logout(); menuOpen = false">Logout</button>
+      </div>
+    }
   </nav>
 </header>
+
 <div class="banner"></div>
 
 <main class="content">

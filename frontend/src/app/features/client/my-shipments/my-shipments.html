@@ -1,6 +1,9 @@
 <h2 class="client-page-title">My Shipments</h2>
+
 @if (shipments$ | async; as resolvedShipments) {
   <p class="shipment-count">Count: {{ resolvedShipments.length }}</p>
+
+  <!-- Desktop / Tablet -->
 
   <table class="shipment-table">
     <thead>
@@ -23,18 +26,70 @@
           <td>{{ shipment.destination }}</td>
           <td>{{ shipment.driverUserId }}</td>
           <td>
-            <span class="status-badge" [ngClass]="'status-' + shipment.status">
+            <span
+              class="status-badge"
+              [ngClass]="'status-' + shipment.status"
+            >
               {{ shipment.status }}
             </span>
           </td>
         </tr>
       } @empty {
         <tr>
-          <td colspan="6" class="empty-state">No shipments found.</td>
+          <td colspan="6" class="empty-state">
+            No shipments found.
+          </td>
         </tr>
       }
     </tbody>
   </table>
+
+  <!-- Mobile -->
+
+  <div class="shipment-cards">
+
+    @for (shipment of resolvedShipments; track shipment.id) {
+
+      <div class="shipment-card">
+
+        <div class="card-id">
+          {{ shipment.id }}
+        </div>
+
+        <div class="card-category">
+          {{ shipment.category }}
+        </div>
+
+        <div>
+          <strong>Origin:</strong>
+          {{ shipment.origin }}
+        </div>
+
+        <div>
+          <strong>Destination:</strong>
+          {{ shipment.destination }}
+        </div>
+
+        <div>
+          <strong>Driver:</strong>
+          {{ shipment.driverUserId || 'Not assigned' }}
+        </div>
+
+        <div>
+          <span
+            class="status-badge"
+            [ngClass]="'status-' + shipment.status"
+          >
+            {{ shipment.status }}
+          </span>
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
 } @else {
   <p>Loading shipments...</p>
 }

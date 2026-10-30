@@ -75,20 +75,43 @@
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
+
+  .journey {
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    justify-content: flex-start;
+
+    gap: 24px;
+
+    padding-bottom: 12px;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .journey-track {
+    min-width: 900px;
+  }
+
+  .step {
+    min-width: 140px;
+    flex: 0 0 140px;
+  }
+
   .top-section {
     width: calc(100% - 24px);
     grid-template-columns: minmax(0, 1fr);
     gap: 12px;
   }
-
+  
   .client-card,
   .details-card {
     width: 100%;
     height: auto;
     padding: 16px;
   }
-
+  
   .tracking-card {
     grid-column: auto;
     min-height: 340px;

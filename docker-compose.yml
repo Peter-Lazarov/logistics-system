@@ -233,13 +233,11 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        NGINX_CONF: nginx.local.conf
 
     ports:
       - "80:80"
-      - "443:443"
-
-    volumes:
-      - /home/admin/certbot/conf:/etc/letsencrypt:ro
 
     depends_on:
       - authentication-service

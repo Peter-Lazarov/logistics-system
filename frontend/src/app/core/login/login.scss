@@ -1,40 +1,46 @@
 .login-container {
-  width: min(680px, 92vw);
+  width: min(560px, 94vw);
 
   margin: 0 auto;
-  padding: clamp(10px, 2vw, 20px);
+  padding: 16px;
 
   display: flex;
   flex-direction: column;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .intro {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .intro h1 {
   margin: 0 0 8px;
-  font-size: clamp(2rem, 4vw, 3rem);
-  line-height: 1.1;
+
   color: #24364a;
+  line-height: 1.1;
+
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
 }
 
 .subtitle {
   margin: 0 auto 12px;
-  max-width: 600px;
+
+  max-width: 520px;
+
   color: #555;
-  line-height: 1.4;
-  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  line-height: 1.45;
+
+  font-size: clamp(0.95rem, 1.3vw, 1rem);
 }
 
 .features {
   width: 100%;
   max-width: 520px;
 
-  margin: 0 auto 12px;
+  margin: 0 auto 16px;
 
-  padding: clamp(10px, 2vw, 18px);
+  padding: 14px;
 
   background: #f2f5f8;
   border-radius: 10px;
@@ -48,12 +54,15 @@
 }
 
 .features div {
-  font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+  font-size: 0.95rem;
+}
+
+h2 {
+  margin: 8px 0 16px;
 }
 
 form {
   width: 100%;
-
   max-width: 520px;
 
   margin: 0 auto;
@@ -64,14 +73,34 @@ form {
 }
 
 input {
-  padding: 10px;
   width: 100%;
+
+  padding: 12px;
+
   box-sizing: border-box;
 }
 
 button {
-  padding: 10px;
+  padding: 12px;
   cursor: pointer;
+}
+
+.register-hint {
+  margin: 4px 0 0;
+
+  font-size: 0.9rem;
+  color: #707070;
+  line-height: 1.4;
+}
+
+.register-hint a {
+  color: #ffb3b3;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-hint a:hover {
+  text-decoration: underline;
 }
 
 .message.error {
@@ -82,59 +111,43 @@ button {
 .banner {
   background: #A7D8FF;
   height: 15px;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
-.register-hint {
-  margin: 4px 0 0;
-  font-size: 0.9rem;
-  color: #707070;
-}
 
-.register-hint a {
-  color: #FFB3B3;
-  text-decoration: none;
-  font-weight: 600;
-}
+/* Tablet */
+@media (max-width: 768px) {
 
-.register-hint a:hover {
-  text-decoration: underline;
-}
-
-/* Smaller laptops */
-@media (max-height: 800px) {
+  .login-container {
+    width: 95vw;
+    padding: 12px;
+  }
 
   .intro h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
   }
 
   .features {
-    gap: 6px;
     padding: 12px;
   }
 
   .features div {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
-
 }
 
-/* Mobile */
-@media (max-width: 768px) {
+
+/* Phone */
+@media (max-width: 600px) {
 
   .login-container {
     width: 96vw;
     padding: 10px;
   }
-
-  .features {
-    max-width: 100%;
-  }
-
-}
-
-/* Very small mobile */
-@media (max-width: 480px) {
 
   .intro h1 {
     font-size: 1.8rem;
@@ -144,8 +157,68 @@ button {
     font-size: 0.9rem;
   }
 
-  .features div {
+  .features {
+    display: none;
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  input {
+    padding: 11px;
+  }
+}
+
+
+/* Small phones */
+@media (max-width: 400px) {
+
+  .intro h1 {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
     font-size: 0.85rem;
   }
 
+  .register-hint {
+    font-size: 0.85rem;
+  }
+
+  input,
+  button {
+    padding: 10px;
+  }
+}
+
+
+/* Small laptops */
+@media (max-height: 800px) {
+
+  .features {
+    gap: 6px;
+    padding: 12px;
+  }
+
+  .intro h1 {
+    font-size: 2rem;
+  }
+}
+
+
+/* Very small height screens */
+@media (max-height: 700px) {
+
+  .features {
+    display: none;
+  }
+
+  .subtitle {
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    margin: 4px 0 10px;
+  }
 }

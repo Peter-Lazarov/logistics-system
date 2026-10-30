@@ -113,3 +113,52 @@
     background: #5877b9;
     height: 15px;
 }
+
+.user-cards {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    .users-table-wrap {
+        display: none;
+    }
+
+    .user-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .user-card {
+        background: white;
+
+        padding: 16px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 4px 12px rgba(0,0,0,.08);
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+    .card-user-id {
+        font-weight: 700;
+        color: #647b88;
+    }
+
+    .card-user-email {
+        font-weight: 600;
+        word-break: break-word;
+    }
+
+    .user-card .status-action {
+        width: 100%;
+        margin-top: 8px;
+    }
+}
+
+

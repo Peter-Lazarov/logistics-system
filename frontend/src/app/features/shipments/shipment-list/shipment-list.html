@@ -3,6 +3,8 @@
 @if (shipments$ | async; as resolvedShipments) {
   <p class="shipment-count">Count: {{ resolvedShipments.length }}</p>
 
+  <!-- Desktop / Tablet -->
+
   <table class="shipment-table">
     <thead>
       <tr>
@@ -39,7 +41,53 @@
       }
     </tbody>
   </table>
+
+  <!-- Mobile -->
+
+  <div class="shipment-cards">
+    @for (shipment of resolvedShipments; track shipment.id) {
+
+      <div
+        class="shipment-card"
+        [routerLink]="['/shipments', shipment.id]"
+      >
+
+        <div class="card-id">
+          {{ shipment.id }}
+        </div>
+
+        <div class="card-category">
+          {{ shipment.category }}
+        </div>
+
+        <div>
+          <strong>Origin:</strong>
+          {{ shipment.origin }}
+        </div>
+
+        <div>
+          <strong>Destination:</strong>
+          {{ shipment.destination }}
+        </div>
+
+        <div>
+          <strong>Driver:</strong>
+          {{ shipment.driverUserId }}
+        </div>
+
+        <div>
+          <span class="status-badge" [ngClass]="'status-' + shipment.status">
+            {{ shipment.status }}
+          </span>
+        </div>
+
+      </div>
+
+    }
+  </div>
+
 } @else {
   <p>Loading shipments...</p>
 }
+
 <div class="banner" [class.admin-banner]="isAdmin()"></div>

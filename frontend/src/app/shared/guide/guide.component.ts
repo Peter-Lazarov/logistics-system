@@ -91,7 +91,7 @@ export class GuideComponent {
   ];
 
   protected open(): void {
-    this.isOpen.set(true);
+    this.isOpen.update(value => !value);
   }
 
   protected close(): void {

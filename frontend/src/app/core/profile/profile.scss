@@ -99,9 +99,16 @@
 }
 
 @media (max-width: 480px) {
-  .profile-heading,
   .standard-form-actions {
-    align-items: stretch;
+    display: flex;
     flex-direction: column;
+    gap: 12px;
   }
+
+  .standard-form-actions > button,
+  .standard-form-actions > span,
+  .standard-form-actions > span > button {
+    width: 100%;
+  }
+
 }

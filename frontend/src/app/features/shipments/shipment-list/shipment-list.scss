@@ -48,3 +48,53 @@
 .banner.admin-banner {
   background: #5877b9;
 }
+
+
+.shipment-cards {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .shipment-table {
+    display: none;
+  }
+
+  .shipment-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .shipment-card {
+    background: white;
+
+    border-radius: 10px;
+
+    padding: 14px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    cursor: pointer;
+  }
+
+  .shipment-card:hover {
+    background: #e8f4fb;
+  }
+
+  .card-id {
+    font-weight: 700;
+    color: #2f4858;
+  }
+
+  .card-category {
+    color: #64748b;
+    font-size: 0.95rem;
+  }
+
+}

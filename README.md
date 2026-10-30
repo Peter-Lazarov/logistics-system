@@ -16,7 +16,7 @@ A microservice-based logistics application for shipment requests and processing,
 
 ### Login and Demo Guide
 
-![Login](docs/screenshots/login-guide.png)
+![Login](docs/screenshots/guide.png)
 
 Landing page with integrated Demo Guide describing the complete shipment lifecycle.
 

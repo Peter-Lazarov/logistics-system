@@ -11,6 +11,8 @@ import { GuideComponent } from "./shared/guide/guide.component";
 export class App {
   protected readonly title = signal("frontend");
 
+  menuOpen = false;
+
   constructor(private router: Router) {}
 
   get email(): string {

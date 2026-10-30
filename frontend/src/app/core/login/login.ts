@@ -60,7 +60,7 @@ export class Login {
               break;
 
             case "ROLE_ADMIN":
-              this.router.navigate(["/shipments"]);
+              this.router.navigate(["/admin/register-employee"]);
               break;
 
             default:
