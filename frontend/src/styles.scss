@@ -1,6 +1,5 @@
 :root {
 	--form-border: #bfd1e5;
-	--form-focus: #5a9be6;
 	--form-control-height: 36px;
 }
 
@@ -13,6 +12,20 @@ input,
 select,
 textarea {
 	font-family: inherit;
+}
+
+:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea).ng-invalid.ng-touched:not(:focus) {
+	border-color: #FFB3B3;
+	outline: 1px solid #FFB3B3;
+	outline-offset: 0;
+}
+
+
+.field-error {
+	margin: 0;
+	color: #b42318;
+	font-size: 0.84rem;
+	text-align: left;
 }
 
 .page-title,
@@ -88,13 +101,6 @@ textarea {
 	border: 1px solid var(--form-border);
 	border-radius: 6px;
 	font: inherit;
-}
-
-.standard-form input:focus,
-.standard-form select:focus {
-	border-color: var(--form-focus);
-	outline: 2px solid color-mix(in srgb, var(--form-focus) 25%, transparent);
-	outline-offset: 1px;
 }
 
 .standard-form button {

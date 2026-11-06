@@ -39,7 +39,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(auth.register(request));
     }
 
@@ -50,7 +50,7 @@ public class AuthenticationController {
 
     @PostMapping("/admin/register-employee")
     public ResponseEntity<?> registerEmployee(
-            @RequestBody RegisterRequest request
+            @Valid @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(
                 auth.registerEmployee(request)

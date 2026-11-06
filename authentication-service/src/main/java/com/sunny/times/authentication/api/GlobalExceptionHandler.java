@@ -18,11 +18,50 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.validation.FieldError;
+
+import java.time.Instant;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    public record ValidationErrorResponse(Instant timestamp, int status, Map<String, String> errors) {
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationErrorResponse> handleValidation(MethodArgumentNotValidException exception) {
+        Map<String, String> errors = new LinkedHashMap<>();
+        for (FieldError error : exception.getBindingResult().getFieldErrors()) {
+            String existing = errors.get(error.getField());
+            if (existing == null || validationPriority(error.getDefaultMessage()) < validationPriority(existing)) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+        }
+        exception.getBindingResult().getGlobalErrors().forEach(error ->
+                errors.putIfAbsent("request", error.getDefaultMessage())
+        );
+        return ResponseEntity.badRequest()
+                .body(new ValidationErrorResponse(Instant.now(), HttpStatus.BAD_REQUEST.value(), errors));
+    }
+
+    private int validationPriority(String message) {
+        if (message.endsWith("is required")) return 0;
+        if (message.toLowerCase().contains("invalid") || message.contains("invalid characters")) return 1;
+        return 2;
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ValidationErrorResponse> handleUnreadableRequest(HttpMessageNotReadableException exception) {
+        return ResponseEntity.badRequest().body(new ValidationErrorResponse(
+                Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                Map.of("request", "Malformed JSON request")
+        ));
+    }
 
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ApiMessage> handleResponseStatus(ResponseStatusException exception) {
@@ -72,9 +111,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             IllegalArgumentException.class,
-            MethodArgumentNotValidException.class,
-            MethodArgumentTypeMismatchException.class,
-            HttpMessageNotReadableException.class
+            MethodArgumentTypeMismatchException.class
     })
     public ResponseEntity<ApiMessage> handleInvalidRequest(Exception exception) {
         return ResponseEntity.badRequest()

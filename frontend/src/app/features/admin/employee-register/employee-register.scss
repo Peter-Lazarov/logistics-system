@@ -1,3 +1,30 @@
+.employee-create-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
+}
+
+.validation-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 16px;
+}
+
+.validation-slot {
+    display: flex;
+    align-items: center;
+    min-height: var(--form-control-height);
+}
+
+.validation-message {
+    margin: 0;
+    color: #b42318;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
 .register-card h3 {
     margin: 24px 0 12px;
     color: #2f4858;
@@ -119,6 +146,17 @@
 }
 
 @media (max-width: 768px) {
+
+    .employee-create-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .validation-panel {
+        padding: 0;
+        border-top: 1px solid #dbe5eb;
+        border-left: 0;
+    }
 
     .users-table-wrap {
         display: none;

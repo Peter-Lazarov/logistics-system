@@ -23,24 +23,57 @@ form {
   gap: 12px;
 }
 
+.field {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
 input {
   width: 100%;
   padding: 12px;
   box-sizing: border-box;
+  border: 1px solid #767676;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.field-hint {
+  margin: 2px 0 0;
+  color: #52616d;
+  font-size: 0.78rem;
+  line-height: 1.45;
 }
 
 button {
   padding: 12px;
   cursor: pointer;
+  border: 1px solid #767676;
+  border-radius: 4px;
+  background: #efefef;
+  color: #222;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  border-color: #d6d6d6;
+  background: #f7f7f7;
+  color: #a7a7a7;
+}
+
+.submitting-message {
+  margin: -8px 0 0;
+  color: #2f4858;
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 .message.error {
-  margin: 0;
+  margin: 10px 0 0 0;
   color: #b42318;
 }
 
 .message.success {
-  margin: 0;
+  margin: 10px 0 0 0;
   color: #0f7b3e;
 }
 

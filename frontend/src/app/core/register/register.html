@@ -1,13 +1,44 @@
 <div class="register-container">
   <h2>Client Registration</h2>
 
-  <form (ngSubmit)="register()">
-    <input type="email" name="email" placeholder="Email" [(ngModel)]="email" />
-    <input type="password" name="password" placeholder="Password" [(ngModel)]="password" />
-    <input type="text" name="name" placeholder="Full Name" [(ngModel)]="name" />
-    <input type="text" name="phone" placeholder="Phone" [(ngModel)]="phone" />
+  <form [formGroup]="form" (ngSubmit)="register()" novalidate>
+    <div class="field">
+      <input id="email" type="email" formControlName="email" placeholder="Email" aria-label="Email" autocomplete="email" [attr.aria-invalid]="!!fieldError('email')" aria-describedby="email-error" />
+      @if (fieldError('email'); as error) {
+        <p id="email-error" class="field-error" role="alert">{{ error }}</p>
+      }
+    </div>
 
-    <button type="submit">Register</button>
+    <div class="field">
+      <input id="password" type="password" formControlName="password" placeholder="Password" aria-label="Password" autocomplete="new-password" [attr.aria-invalid]="!!fieldError('password')" aria-describedby="password-error" (focus)="passwordFocused = true" (blur)="passwordFocused = false" />
+      @if (fieldError('password'); as error) {
+        <p id="password-error" class="field-error" role="alert">{{ error }}</p>
+      }
+      @if (passwordFocused) {
+        <p id="password-hint" class="field-hint">For easier testing, the password minimum length is intentionally set to 4 characters.<br /><br />For production, it will be set to:<br />• 8-12+ characters<br />• Uppercase letter<br />• Lowercase letter<br />• Number<br />• Special character</p>
+      }
+    </div>
+
+    <div class="field">
+      <input id="name" type="text" formControlName="name" placeholder="Full Name" aria-label="Full name" autocomplete="name" [attr.aria-invalid]="!!fieldError('name')" aria-describedby="name-error" />
+      @if (fieldError('name'); as error) {
+        <p id="name-error" class="field-error" role="alert">{{ error }}</p>
+      }
+    </div>
+
+    <div class="field">
+      <input id="phone" type="tel" formControlName="phone" placeholder="Phone number" aria-label="Phone number" autocomplete="tel" [attr.aria-invalid]="!!fieldError('phone')" aria-describedby="phone-error" />
+      @if (fieldError('phone'); as error) {
+        <p id="phone-error" class="field-error" role="alert">{{ error }}</p>
+      }
+    </div>
+
+    <button type="submit" [disabled]="form.invalid || isSubmitting">
+      {{ isSubmitting ? "Registering..." : "Register" }}
+    </button>
+    @if (isSubmitting) {
+      <p class="submitting-message" role="status" aria-live="polite">Your account is being created...</p>
+    }
   </form>
 
   @if (errorMessage) {
